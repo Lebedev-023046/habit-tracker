@@ -1,0 +1,68 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: habit_postgres
+    restart: unless-stopped
+
+    env_file:
+      - ../backend/.env.dev
+
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - habit-net
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile.dev
+    container_name: habit_backend
+    restart: unless-stopped
+    env_file:
+      - ../backend/.env.dev
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../backend:/app
+      - /app/node_modules
+    networks:
+      - habit-net
+
+  # frontend:
+  #   build:
+  #     context: ../frontend
+  #     dockerfile: Dockerfile.dev
+  #   container_name: habit_frontend
+  #   restart: unless-stopped
+  #   env_file:
+  #     - ../frontend/.env.dev
+  #   depends_on:
+  #     - backend
+  #   ports:
+  #     - "5173:5173"
+  #   volumes:
+  #     - ../frontend:/app
+  #     - /app/node_modules
+  #   networks:
+  #     - habit-net
+
+  adminer:
+    image: adminer
+    container_name: habit_adminer
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    networks:
+      - habit-net
+
+networks:
+  habit-net:
+
+volumes:
+  postgres_data:
