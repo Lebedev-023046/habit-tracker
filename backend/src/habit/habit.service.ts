@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { throwError } from 'src/helper/error-handling';
+import { throwError } from 'src/common/helper/error-handling';
+import { ResponseUtil } from 'src/common/utils/response';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateHabitDto, UpdateHabitDto } from './habit.dto';
 
@@ -11,7 +12,7 @@ export class HabitService {
     try {
       const habits = await this.prisma.habit.findMany();
       console.log(`Found ${habits.length} habits`);
-      return habits;
+      return ResponseUtil.success(habits);
     } catch (error) {
       throwError({ error, errorMessage: 'Error getting all habits' });
     }
@@ -27,7 +28,7 @@ export class HabitService {
         throw new Error(`Habit with id ${id} not found`);
       }
       console.log(` Habit with id: ${habit?.id} found`);
-      return habit;
+      return ResponseUtil.success(habit);
     } catch (error) {
       throwError({ error, errorMessage: 'Error getting habit:' });
     }
@@ -52,7 +53,7 @@ export class HabitService {
       console.log(
         `New Habit "${newHabit.title}" with id: ${newHabit.id} Created`,
       );
-      return newHabit;
+      return ResponseUtil.success(newHabit);
     } catch (error) {
       throwError({ error, errorMessage: 'Error creating habit:' });
     }
@@ -66,7 +67,7 @@ export class HabitService {
       });
 
       console.log(`Habit with id: ${updatedHabit.id} updated`);
-      return updatedHabit;
+      return ResponseUtil.success(updatedHabit);
     } catch (error) {
       throwError({ error, errorMessage: 'Error updating habit:' });
     }
@@ -76,7 +77,7 @@ export class HabitService {
     try {
       const deletedHabit = await this.prisma.habit.delete({ where: { id } });
       console.log(`Habit with id: ${deletedHabit.id} deleted`);
-      return deletedHabit.id;
+      return ResponseUtil.success(deletedHabit.id);
     } catch (error) {
       throwError({ error, errorMessage: 'Error deleting habit:' });
     }
