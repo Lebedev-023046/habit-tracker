@@ -10,7 +10,7 @@ import {
 import { CreateHabitDto, UpdateHabitDto } from './habit.dto';
 import { HabitService } from './habit.service';
 
-@Controller('habit')
+@Controller('habits')
 export class HabitController {
   constructor(private readonly habitService: HabitService) {}
 
