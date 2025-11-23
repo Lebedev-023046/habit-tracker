@@ -11,8 +11,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    # networks:
-    #   - habit-net
+    networks:
+      - habit-net
 
   backend:
     build:
@@ -28,8 +28,8 @@ services:
       - postgres
     volumes:
       - ../backend:/app
-    # networks:
-    #   - habit-net
+    networks:
+      - habit-net
 
   # frontend:
   #   build:
@@ -60,8 +60,8 @@ services:
   #   networks:
   #     - habit-net
 
-# networks:
-#   habit-net:
+networks:
+  habit-net:
 
 volumes:
   postgres_data:
