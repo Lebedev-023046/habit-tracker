@@ -1,11 +1,12 @@
 import type { AxiosInstance } from 'axios';
+import type { CreateHabitPayload, UpdateHabitPayload } from '../model/types';
 
 const ENDPOINTS = {
   getAllHabits: () => `/habits`,
-  getHabit: (id: number) => `/habits/${id}`,
+  getHabit: (id: string) => `/habits/${id}`,
   createHabit: () => '/habits/create',
-  updateHabit: (id: number) => `/habits/update/${id}`,
-  deleteHabit: (id: number) => `/habits/delete/${id}`,
+  updateHabit: (id: string) => `/habits/update/${id}`,
+  deleteHabit: (id: string) => `/habits/delete/${id}`,
 };
 
 export class HabitRepo {
@@ -22,14 +23,14 @@ export class HabitRepo {
       throw error;
     }
   }
-  async getHabit(id: number) {
+  async getHabit(id: string) {
     try {
       return this.api.get(ENDPOINTS.getHabit(id)).then(res => res.data);
     } catch (error) {
       throw error;
     }
   }
-  async createHabit(payload: any) {
+  async createHabit(payload: CreateHabitPayload) {
     try {
       return this.api
         .post(ENDPOINTS.createHabit(), payload)
@@ -38,16 +39,21 @@ export class HabitRepo {
       throw error;
     }
   }
-  async updateHabit(id: number, payload: any) {
+  async updateHabit(payload: UpdateHabitPayload) {
+    if (!payload.id) {
+      throw new Error('Habit id is required');
+    }
     try {
+      const { id, ...data } = payload;
+
       return this.api
-        .put(ENDPOINTS.updateHabit(id), payload)
+        .put(ENDPOINTS.updateHabit(id), data)
         .then(res => res.data);
     } catch (error) {
       throw error;
     }
   }
-  async deleteHabit(id: number) {
+  async deleteHabit(id: string) {
     try {
       return this.api.delete(ENDPOINTS.deleteHabit(id)).then(res => res.data);
     } catch (error) {
