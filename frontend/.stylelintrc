@@ -9,7 +9,8 @@
   ],
   "rules": {
     "order/properties-order": [],
-    "at-rule-no-unknown": null
+    "at-rule-no-unknown": null,
+    "selector-class-pattern": null
   },
   "ignoreFiles": [
     "**/.next/**",
