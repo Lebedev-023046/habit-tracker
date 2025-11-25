@@ -1,0 +1,36 @@
+/* Styles for Header */
+
+.wrapper {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-color-primary);
+  border-radius: var(--border-block);
+  padding: 1rem 1.5rem;
+  font-size: 2.5rem;
+}
+
+.subtitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.titleContainer {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 600;
+}
+
+.controls {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
