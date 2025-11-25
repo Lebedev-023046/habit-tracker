@@ -15,6 +15,14 @@ ul {
   all: unset;
 }
 
+ul {
+  list-style-type: none;
+}
+
+a {
+  cursor: pointer;
+}
+
 button {
   cursor: pointer;
   align-items: inherit;

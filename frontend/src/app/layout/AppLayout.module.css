@@ -1,7 +1,7 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: calc(100vh - 5rem);
   max-width: 95%;
   margin: 2.5rem auto;
 }

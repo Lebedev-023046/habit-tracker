@@ -11,9 +11,10 @@ html {
 
 :root {
   --bg-color-primary: #fff;
-  --bg-color-secondary: '';
-  --text-color-primary: '';
-  --text-color-secondary: '';
+  --bg-color-secondary: #b5e5bb;
+  --bg-dark-green: #2eae39;
+  --text-color-primary: #363636;
+  --text-color-secondary: #a2a6a9;
   --border-block: 1.5rem;
   --border-md: 1rem;
 }
