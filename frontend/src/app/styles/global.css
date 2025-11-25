@@ -1,0 +1,19 @@
+body {
+  line-height: 1.5;
+}
+
+html {
+  font-family: Archivo, sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  background-color: #ececec;
+}
+
+:root {
+  --bg-color-primary: #fff;
+  --bg-color-secondary: '';
+  --text-color-primary: '';
+  --text-color-secondary: '';
+  --border-block: 1.5rem;
+  --border-md: 1rem;
+}
