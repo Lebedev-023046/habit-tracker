@@ -1,0 +1,27 @@
+/* Styles for Footer */
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-color-primary);
+  border-radius: var(--border-block);
+  padding: 1rem 1.5rem;
+  font-size: 1.5rem;
+}
+
+.navList {
+  display: flex;
+  gap: 4rem;
+}
+
+.navLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: color 0.2s ease-in-out;
+}
+
+.navLinkActive {
+  color: var(--bg-dark-green);
+}
