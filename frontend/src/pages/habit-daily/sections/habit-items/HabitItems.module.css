@@ -1,5 +1,8 @@
 /* Styles for HabitItems */
 
-.HabitItemsWrapper > div + div {
-  margin-top: 2.5rem;
+.HabitItemsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  margin-top: 2.5rem 0;
 }

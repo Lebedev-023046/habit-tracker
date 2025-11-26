@@ -1,4 +1,4 @@
-import { Section } from '@/shared/ui/section';
+import { Container } from '@/shared/ui/container';
 import styles from './Overview.module.css';
 
 export function Overview() {
@@ -9,7 +9,7 @@ export function Overview() {
   const progressBarWidth = `${(completedCount / totalCount) * 100}%`;
 
   return (
-    <Section className={styles.overviewWrapper}>
+    <Container className={styles.overviewWrapper}>
       <h3 className={styles.title}>Today's habits</h3>
       <div className={styles.completedInfo}>
         <p className={styles.subtitle}>Stay consistent small wins add up.</p>
@@ -28,6 +28,6 @@ export function Overview() {
       <span className={styles.span}>
         Nice start! Complete {restCount} more to close your rings!
       </span>
-    </Section>
+    </Container>
   );
 }

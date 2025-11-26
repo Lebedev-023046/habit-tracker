@@ -1,4 +1,4 @@
-import styles from './Section.module.css';
+import styles from './Container.module.css';
 
 // tag type for as prop
 type TagType = 'section' | 'div' | 'article' | 'header' | 'footer';
@@ -8,7 +8,7 @@ interface SectionProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
-export function Section({
+export function Container({
   as: As = 'section',
   children,
   ...props
@@ -17,7 +17,7 @@ export function Section({
   const { className, ...rest } = props;
 
   return (
-    <As className={`${styles.sectionWrapper} ${className}`} {...rest}>
+    <As className={`${styles.containerWrapper} ${className}`} {...rest}>
       {children}
     </As>
   );

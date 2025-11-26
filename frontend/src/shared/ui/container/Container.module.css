@@ -1,6 +1,6 @@
 /* Styles for Section */
 
-.sectionWrapper {
+.containerWrapper {
   padding: 2rem 1.5rem;
   font-size: 1.6rem;
   background-color: var(--bg-color-primary);
