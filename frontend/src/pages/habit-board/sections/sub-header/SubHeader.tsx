@@ -1,3 +1,4 @@
+import { Button } from '@/shared/ui/button';
 import { Container } from '@/shared/ui/container';
 import { GoPlus } from 'react-icons/go';
 import styles from './SubHeader.module.css';
@@ -7,9 +8,10 @@ export function SubHeader() {
     <Container className={styles.subHeaderWrapper}>
       <h3 className={styles.title}>Habit Management</h3>
       <div className={styles.controls}>
-        <button className={`${styles.addButton}`}>
-          <GoPlus /> Add Habit
-        </button>
+        <Button>
+          <GoPlus size="2.5rem" />
+          Add Habit
+        </Button>
       </div>
     </Container>
   );
