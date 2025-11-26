@@ -1,4 +1,5 @@
 /* Styles for HabitItems */
 
-/* .HabitItemsWrapper {
-} */
+.HabitItemsWrapper > div + div {
+  margin-top: 2.5rem;
+}

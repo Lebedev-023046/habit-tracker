@@ -38,7 +38,7 @@ const Link = ({
 
 export function Footer() {
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper}`}>
       <nav className={styles.nav}>
         <ul className={styles.navList}>
           {navItems.map(item => (

@@ -11,7 +11,7 @@ export function HabitItem() {
   const persentage = Math.ceil((currentDay / totalDays) * 100); // или можно считать сколько процентов выполнено (кол-во выполненых / кол-во дней которые ты прошел)
 
   return (
-    <section className={styles.habitItemWrapper}>
+    <div className="section">
       <Diagram progress={12}>
         <p className={styles.subtitle}>
           Day {currentDay} of {totalDays}
@@ -21,6 +21,6 @@ export function HabitItem() {
       </Diagram>
       <HabitActions />
       <DailyCalendarProgress />
-    </section>
+    </div>
   );
 }

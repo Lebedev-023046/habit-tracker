@@ -8,7 +8,7 @@ export function Overview() {
   const progressBarWidth = `${(completedCount / totalCount) * 100}%`;
 
   return (
-    <section className={styles.overviewWrapper}>
+    <section className={`${styles.overviewWrapper} section`}>
       <h3 className={styles.title}>Today's habits</h3>
       <div className={styles.completedInfo}>
         <p className={styles.subtitle}>Stay consistent small wins add up.</p>

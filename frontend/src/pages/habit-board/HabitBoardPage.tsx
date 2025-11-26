@@ -1,3 +1,9 @@
+import { SubHeader } from './sections/sub-header';
+
 export default function HabitBoardPage() {
-  return <div>HabitBoardPage</div>;
+  return (
+    <>
+      <SubHeader />
+    </>
+  );
 }
