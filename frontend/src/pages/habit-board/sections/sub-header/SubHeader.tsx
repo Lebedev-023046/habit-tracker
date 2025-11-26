@@ -1,9 +1,16 @@
+import { Section } from '@/shared/ui/section';
+import { GoPlus } from 'react-icons/go';
 import styles from './SubHeader.module.css';
 
 export function SubHeader() {
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.main}>SubHeader works!</div>
-    </div>
+    <Section className={styles.subHeaderWrapper}>
+      <h3 className={styles.title}>Habit Management</h3>
+      <div className={styles.controls}>
+        <button className={`${styles.addButton}`}>
+          <GoPlus /> Add Habit
+        </button>
+      </div>
+    </Section>
   );
 }

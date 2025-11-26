@@ -1,1 +1,17 @@
 /* Styles for SubHeader */
+
+.subHeaderWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 2.5rem;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+}
