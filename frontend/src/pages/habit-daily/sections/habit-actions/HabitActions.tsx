@@ -1,13 +1,14 @@
 import { Button } from '@/shared/ui/button';
+import { Subtitle } from '@/shared/ui/subtitle';
 import styles from './HabitActions.module.css';
 
 export function HabitActions() {
   return (
     <div className={styles.habitActionsWrapper}>
       <h3 className={styles.title}>Morning Run</h3>
-      <p className={styles.subtitle}>
+      <Subtitle>
         You marked this as done. Keep the streak alive tomorrow.
-      </p>
+      </Subtitle>
       <div className={styles.controls}>
         <Button disabled variant="primary">
           Completed today

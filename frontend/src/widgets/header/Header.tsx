@@ -9,7 +9,7 @@ export function Header() {
   const title = usePageTitle();
   return (
     <div className={styles.wrapper}>
-      <div className={styles.subtitle}>
+      <div className={styles.logo}>
         <GiProgression size="2.5rem" color="var(--bg-color-secondary)" />
         <Link to="/">Habit Flow</Link>
       </div>

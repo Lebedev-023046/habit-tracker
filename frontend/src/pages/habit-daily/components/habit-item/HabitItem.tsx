@@ -1,5 +1,6 @@
 import { Container } from '@/shared/ui/container';
 import { Diagram } from '@/shared/ui/diagram/Diagram';
+import { Subtitle } from '@/shared/ui/subtitle';
 import { HabitActions } from '../../sections/habit-actions';
 import { DailyCalendarProgress } from '../daily-calendar-progress';
 import styles from './HabitItem.module.css';
@@ -14,11 +15,11 @@ export function HabitItem() {
   return (
     <Container as="div" className={styles.habitItemWrapper}>
       <Diagram progress={12}>
-        <p className={styles.subtitle}>
+        <Subtitle>
           Day {currentDay} of {totalDays}
-        </p>
+        </Subtitle>
         <p className={styles.percentage}>{persentage}%</p>
-        <p className={styles.subtitle}>Streak: {streak}</p>
+        <Subtitle>Streak: {streak}</Subtitle>
       </Diagram>
       <HabitActions />
       <DailyCalendarProgress />

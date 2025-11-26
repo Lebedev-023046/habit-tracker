@@ -1,4 +1,5 @@
 import { Container } from '@/shared/ui/container';
+import { Subtitle } from '@/shared/ui/subtitle';
 import styles from './Overview.module.css';
 
 export function Overview() {
@@ -12,10 +13,10 @@ export function Overview() {
     <Container className={styles.overviewWrapper}>
       <h3 className={styles.title}>Today's habits</h3>
       <div className={styles.completedInfo}>
-        <p className={styles.subtitle}>Stay consistent small wins add up.</p>
-        <p className={styles.subtitle}>
+        <Subtitle>Stay consistent small wins add up.</Subtitle>
+        <Subtitle>
           {completedCount} / {totalCount} completed
-        </p>
+        </Subtitle>
       </div>
       <div className={styles.progressBarWrapper}>
         <div className={styles.progressBar}>

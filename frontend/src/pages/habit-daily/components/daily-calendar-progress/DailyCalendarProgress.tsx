@@ -18,8 +18,8 @@ export function DailyCalendarProgress() {
   return (
     <div className={styles.calendarPointsWrapper}>
       <div className={styles.calendarHeader}>
-        <p className={styles.subtitle}>7-day actifity</p>
-        <p className={styles.subtitle}>Best Steak: 12 days</p>
+        <p>7-day actifity</p>
+        <p>Best Steak: 12 days</p>
       </div>
       <div className={styles.calendarContent}>
         {/* {DAYS.map(day => renderDayStatus({ isDone: Math.random() > 0.5, day }))} */}
