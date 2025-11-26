@@ -4,14 +4,18 @@
 
   "folderNameStyle": "kebab-case",
   "fileNameStyle": "PascalCase",
+
   "createStyleFile": true,
-  "styleFileNameStyle": "camelCase",
+  "styleFileNameStyle": "PascalCase",
   "styleExtension": "module.css",
-  "generateIndexFile": false,
-  "indexTemplate": "export { componentBaseFileName } from './${componentFolderName}/${componentBaseFileName}';\n",
+
+  "generateIndexFile": true,
   "indexInComponentFolder": true,
+  "indexTemplate": "export { ${componentName} } from './${componentName}';\n",
+
   "generateTypesFile": false,
-  "typesTemplate": "export interface ${componentName}Props {\n}\n",
   "generateTestFile": false,
+
+  "typesTemplate": "export interface ${componentName}Props {\n}\n",
   "testTemplate": "import { render } from '@testing-library/react';\nimport ${componentName} from './${componentFolderName}/${componentFileName}';\n\ndescribe('${componentName}', () => {\n  it('renders correctly', () => {\n    render(<${componentName} />);\n  });\n});"
 }
