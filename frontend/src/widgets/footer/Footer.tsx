@@ -10,7 +10,7 @@ const navItems = [
   { to: ROUTES.habitBoard, label: 'Board', Icon: HiOutlineViewBoards },
 ];
 
-const renderLink = ({
+const Link = ({
   to,
   label,
   Icon,
@@ -41,25 +41,9 @@ export function Footer() {
     <div className={styles.wrapper}>
       <nav className={styles.nav}>
         <ul className={styles.navList}>
-          {navItems.map(item => renderLink(item))}
-          {/* <li className={styles.navItem}>
-            <Link className={styles.navLink} to="/">
-              <PiStarFour size="2rem" />
-              Daily
-            </Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link className={styles.navLink} to="/">
-              <HiOutlineViewBoards size="2rem" />
-              Board
-            </Link>
-          </li> */}
-          {/* <li className={styles.navItem}>
-            <Link className={styles.navLink} to="/">
-              <TbLayoutDashboard size="2rem" />
-              Dashboard
-            </Link>
-          </li> */}
+          {navItems.map(item => (
+            <Link key={item.to()} {...item} />
+          ))}
         </ul>
       </nav>
     </div>
