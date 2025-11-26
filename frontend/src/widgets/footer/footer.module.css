@@ -23,5 +23,5 @@
 }
 
 .navLinkActive {
-  color: var(--bg-dark-green);
+  color: var(--bg-color-secondary);
 }

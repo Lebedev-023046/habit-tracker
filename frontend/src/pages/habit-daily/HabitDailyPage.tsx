@@ -1,3 +1,11 @@
+import { HabitItems } from './sections/habit-items';
+import { Overview } from './sections/overview/Overview';
+
 export default function HabitDailyPage() {
-  return <div>HabitDailyPage</div>;
+  return (
+    <>
+      <Overview />
+      <HabitItems />
+    </>
+  );
 }

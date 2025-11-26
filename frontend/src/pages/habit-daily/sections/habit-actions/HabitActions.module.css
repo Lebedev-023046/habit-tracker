@@ -1,0 +1,43 @@
+/* Styles for HabitActions */
+
+.habitActionsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: var(--border-md);
+  background-color: var(--bg-accent);
+}
+
+.title {
+  font-size: 2rem;
+}
+
+.subtitle {
+  font-weight: 100;
+  color: var(--text-color-secondary);
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.controls > button {
+  padding: 1rem 2rem;
+  border-radius: var(--border-md);
+}
+
+.primary {
+  background-color: var(--bg-color-secondary);
+  color: var(--bg-color-primary);
+}
+
+.primary:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.ghost {
+  background-color: var(--bg-color-primary);
+}

@@ -10,7 +10,7 @@ export function Header() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.subtitle}>
-        <GiProgression size="2.5rem" color="#9cc5a1" />
+        <GiProgression size="2.5rem" color="var(--bg-color-secondary)" />
         <Link to="/">Habit Flow</Link>
       </div>
       <div className={styles.titleContainer}>
