@@ -1,1 +1,20 @@
 /* Styles for Button */
+
+.buttonWrapper {
+  padding: 1rem 2rem;
+  border-radius: var(--border-md);
+}
+
+.buttonWrapper:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.primary {
+  background-color: var(--bg-color-secondary);
+  color: var(--bg-color-primary);
+}
+
+.ghost {
+  background-color: var(--bg-color-primary);
+}

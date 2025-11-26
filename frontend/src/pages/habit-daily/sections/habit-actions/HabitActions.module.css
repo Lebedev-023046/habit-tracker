@@ -22,22 +22,3 @@
   display: flex;
   gap: 1rem;
 }
-
-.controls > button {
-  padding: 1rem 2rem;
-  border-radius: var(--border-md);
-}
-
-.primary {
-  background-color: var(--bg-color-secondary);
-  color: var(--bg-color-primary);
-}
-
-.primary:disabled {
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-.ghost {
-  background-color: var(--bg-color-primary);
-}

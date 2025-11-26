@@ -1,3 +1,4 @@
+import { Button } from '@/shared/ui/button';
 import styles from './HabitActions.module.css';
 
 export function HabitActions() {
@@ -8,10 +9,10 @@ export function HabitActions() {
         You marked this as done. Keep the streak alive tomorrow.
       </p>
       <div className={styles.controls}>
-        <button disabled className={`${styles.button} ${styles.primary}`}>
+        <Button disabled variant="primary">
           Completed today
-        </button>
-        <button className={`${styles.button} ${styles.ghost}`}>Undo</button>
+        </Button>
+        <Button variant="ghost">Undo</Button>
       </div>
     </div>
   );
