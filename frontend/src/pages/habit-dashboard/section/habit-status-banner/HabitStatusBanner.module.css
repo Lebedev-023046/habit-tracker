@@ -1,0 +1,67 @@
+/* Styles for HabitStatusBanner */
+
+.habitStatusBannerWrapper {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.5rem;
+  font-size: 1.8rem;
+  border-radius: var(--rounded-md);
+  background-color: var(--text-color-secondary);
+}
+
+.bannerIcon {
+  padding: 1rem;
+  border-radius: var(--rounded-full);
+  background-color: var(--text-color-secondary);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.title {
+  font-weight: 600;
+}
+
+.planned {
+  background-color: var(--planned);
+}
+
+.planned .bannerIcon {
+  background-color: var(--planned-accent);
+}
+
+.active {
+  background-color: var(--success);
+}
+
+.active .bannerIcon {
+  background-color: var(--success-accent);
+}
+
+.paused {
+  background-color: var(--paused);
+}
+
+.paused .bannerIcon {
+  background-color: var(--paused-accent);
+}
+
+.cancelled {
+  background-color: var(--error);
+}
+
+.cancelled .bannerIcon {
+  background-color: var(--error-accent);
+}
+
+.built {
+  background-color: var(--built);
+}
+
+.built .bannerIcon {
+  background-color: var(--built-accent);
+}
