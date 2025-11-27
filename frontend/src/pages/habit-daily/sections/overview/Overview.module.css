@@ -6,10 +6,6 @@
   gap: 1rem;
 }
 
-.title {
-  font-size: 2rem;
-}
-
 .completedInfo {
   display: flex;
   justify-content: space-between;
@@ -26,7 +22,7 @@
 
 .progressBar {
   position: relative;
-  height: 6px;
+  height: var(--bar-height, 6px);
   width: 100%;
   background-color: var(--text-light-gray);
   border-radius: var(--rounded-md);

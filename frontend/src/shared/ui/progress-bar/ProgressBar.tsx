@@ -10,11 +10,11 @@ export function ProgressBar({
   completedBarWidth,
 }: ProgressBarProps) {
   return (
-    <div className={styles.progressBarWrapper}>
-      <div
-        style={{ '--barHeight': barHeight } as React.CSSProperties}
-        className={styles.progressBar}
-      >
+    <div
+      className={styles.progressBarWrapper}
+      style={{ '--bar-height': barHeight } as React.CSSProperties}
+    >
+      <div className={styles.progressBar}>
         <div
           className={styles.progressBarCompleted}
           style={{ width: completedBarWidth }}

@@ -12,7 +12,7 @@ export function Overview() {
 
   return (
     <Container className={styles.overviewWrapper}>
-      <h3 className={styles.title}>Today's habits</h3>
+      <h2 className={styles.title}>Today's habits</h2>
       <div className={styles.completedInfo}>
         <Subtitle>Stay consistent small wins add up.</Subtitle>
         <Subtitle>
