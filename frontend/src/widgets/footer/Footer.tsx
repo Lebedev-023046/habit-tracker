@@ -38,14 +38,16 @@ const Link = ({
 
 export function Footer() {
   return (
-    <div className={`${styles.wrapper}`}>
-      <nav className={styles.nav}>
-        <ul className={styles.navList}>
-          {navItems.map(item => (
-            <Link key={item.to()} {...item} />
-          ))}
-        </ul>
-      </nav>
-    </div>
+    <footer className={styles.footerWrapper}>
+      <div className={`${styles.footer}`}>
+        <nav className={styles.nav}>
+          <ul className={styles.navList}>
+            {navItems.map(item => (
+              <Link key={item.to()} {...item} />
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </footer>
   );
 }

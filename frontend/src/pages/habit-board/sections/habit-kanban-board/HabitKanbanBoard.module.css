@@ -3,7 +3,8 @@
 .habitKanbanBoardWrapper {
   display: grid;
   grid-template-columns: repeat(5, minmax(200px, 1fr));
-  min-height: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
   gap: 1rem;
   font-size: 1.6rem;
 }

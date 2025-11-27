@@ -8,18 +8,20 @@ import styles from './Header.module.css';
 export function Header() {
   const title = usePageTitle();
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.logo}>
-        <GiProgression size="2.5rem" color="var(--bg-color-secondary)" />
-        <Link to="/">Habit Flow</Link>
+    <header className={styles.headerWrapper}>
+      <div className={styles.header}>
+        <div className={styles.logo}>
+          <GiProgression size="2.5rem" color="var(--bg-color-secondary)" />
+          <Link to="/">Habit Flow</Link>
+        </div>
+        <div className={styles.titleContainer}>
+          <h1 className={styles.title}>{title}</h1>
+        </div>
+        <div className={styles.controls}>
+          <AiOutlineQuestionCircle />
+          <IoSettingsOutline />
+        </div>
       </div>
-      <div className={styles.titleContainer}>
-        <h1 className={styles.title}>{title}</h1>
-      </div>
-      <div className={styles.controls}>
-        <AiOutlineQuestionCircle />
-        <IoSettingsOutline />
-      </div>
-    </div>
+    </header>
   );
 }

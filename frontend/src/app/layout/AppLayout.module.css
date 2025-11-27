@@ -1,7 +1,7 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 5rem);
+  min-height: calc(100vh - 5rem);
   max-width: 95%;
   margin: 2.5rem auto;
 }
@@ -11,8 +11,9 @@
   flex-direction: column;
   gap: 2.5rem;
   flex: 1 1 auto;
-  overflow-y: auto;
-  margin: 2.5rem 0;
+
+  /* overflow-y: auto; */
   min-height: 0;
+  margin: 6.5rem 0;
   border-radius: var(--rounded-block);
 }
