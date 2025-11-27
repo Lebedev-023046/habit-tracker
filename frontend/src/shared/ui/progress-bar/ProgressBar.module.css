@@ -1,0 +1,19 @@
+/* Styles for ProgressBar */
+
+.progressBar {
+  position: relative;
+  width: 100%;
+  height: var(--bar-height);
+  background-color: var(--text-light-gray);
+  border-radius: var(--rounded-md);
+}
+
+.progressBarCompleted {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 6px;
+  background-color: var(--bg-color-secondary);
+  border-radius: var(--rounded-md);
+  transition: width 0.3s ease-in-out;
+}

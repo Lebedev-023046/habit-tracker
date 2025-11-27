@@ -1,4 +1,5 @@
 import { Container } from '@/shared/ui/container';
+import { ProgressBar } from '@/shared/ui/progress-bar';
 import { Subtitle } from '@/shared/ui/subtitle';
 import styles from './Overview.module.css';
 
@@ -18,14 +19,7 @@ export function Overview() {
           {completedCount} / {totalCount} completed
         </Subtitle>
       </div>
-      <div className={styles.progressBarWrapper}>
-        <div className={styles.progressBar}>
-          <div
-            className={styles.progressBarCompleted}
-            style={{ width: progressBarWidth }}
-          />
-        </div>
-      </div>
+      <ProgressBar completedBarWidth={progressBarWidth} />
       <span className={styles.span}>
         Nice start! Complete {restCount} more to close your rings!
       </span>
