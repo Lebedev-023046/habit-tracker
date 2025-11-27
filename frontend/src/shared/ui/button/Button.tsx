@@ -2,12 +2,13 @@ import styles from './Button.module.css';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  variant?: 'primary' | 'ghost' | 'basic' | 'icon';
+  variant?: 'primary' | 'ghost' | 'plain' | 'basic' | 'icon';
 }
 
 const variantClassMap = {
   primary: styles.primary,
   ghost: styles.ghost,
+  plain: styles.plain,
   basic: styles.basic,
   icon: styles.icon,
 };

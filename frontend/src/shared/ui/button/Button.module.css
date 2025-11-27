@@ -17,12 +17,29 @@
   padding: 1rem 2rem;
   border-radius: var(--rounded-md);
   overflow: hidden;
-  transition: background-color 0.3s ease-in-out;
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .buttonWrapper:disabled {
   opacity: 0.5;
   pointer-events: none;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  filter: none;
+}
+
+.buttonWrapper:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
+}
+
+.buttonWrapper:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 15%);
 }
 
 .primary {
@@ -30,12 +47,14 @@
   color: var(--bg-color-primary);
 }
 
-.primary:hover {
-  background: color-mix(in srgb, var(--bg-color-secondary) 90%, black);
-}
-
 .ghost {
   background-color: var(--bg-color-primary);
+}
+
+.plain {
+  padding: 1rem;
+  border-radius: 0;
+  background-color: transparent;
 }
 
 .basic {
@@ -43,28 +62,18 @@
   background-color: var(--bg-column);
 }
 
-.basic:hover {
-  background: color-mix(in srgb, var(--bg-column) 95%, black);
-}
-
 .icon {
   position: relative;
+  flex-shrink: 0;
+  width: fit-content;
+  aspect-ratio: 1;
   padding: 0.5rem;
   border-radius: var(--rounded-full);
+  transition:
+    transform 0.15s ease,
+    background-color 0.2s ease;
 }
 
-.icon::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 80%;
-  height: 100%;
-  background-color: var(--text-color-secondary);
-  opacity: 0.3;
-  transform: translateX(0) skewX(-45deg);
-}
-
-.icon:hover::before {
-  animation: move-ligth 0.5s ease-in-out forwards;
+.icon:active:not(:disabled) {
+  transform: scale(0.98);
 }
