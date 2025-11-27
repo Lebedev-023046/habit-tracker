@@ -1,5 +1,9 @@
 /* Styles for ProgressBar */
 
+.progressBarWrapper {
+  width: 100%;
+}
+
 .progressBar {
   position: relative;
   width: 100%;

@@ -42,7 +42,7 @@ export function HabitCard() {
   const passedDays = 8;
   const totatDays = 30;
 
-  const progressBarWidth = `${(passedDays / totatDays) * 100}%`;
+  const barProgress = (passedDays / totatDays) * 100;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -62,7 +62,7 @@ export function HabitCard() {
       <Subtitle>
         {passedDays} / {totatDays} days
       </Subtitle>
-      <ProgressBar barHeight="1px" completedBarWidth={progressBarWidth} />
+      <ProgressBar barHeight="1px" progress={barProgress} />
 
       <DailyCalendarProgress
         weekdays={weekdays}

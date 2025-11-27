@@ -1,14 +1,11 @@
 import styles from './ProgressBar.module.css';
 
 interface ProgressBarProps {
-  completedBarWidth: string;
+  progress: number;
   barHeight?: string;
 }
 
-export function ProgressBar({
-  barHeight = '6px',
-  completedBarWidth,
-}: ProgressBarProps) {
+export function ProgressBar({ barHeight = '6px', progress }: ProgressBarProps) {
   return (
     <div
       className={styles.progressBarWrapper}
@@ -17,7 +14,7 @@ export function ProgressBar({
       <div className={styles.progressBar}>
         <div
           className={styles.progressBarCompleted}
-          style={{ width: completedBarWidth }}
+          style={{ width: `${progress}%` }}
         />
       </div>
     </div>

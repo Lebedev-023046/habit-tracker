@@ -8,7 +8,7 @@ export function Overview() {
   const completedCount = 1;
   const restCount = totalCount - completedCount;
 
-  const progressBarWidth = `${(completedCount / totalCount) * 100}%`;
+  const barProgress = (completedCount / totalCount) * 100;
 
   return (
     <Container className={styles.overviewWrapper}>
@@ -19,7 +19,7 @@ export function Overview() {
           {completedCount} / {totalCount} completed
         </Subtitle>
       </div>
-      <ProgressBar completedBarWidth={progressBarWidth} />
+      <ProgressBar progress={barProgress} />
       <span className={styles.span}>
         Nice start! Complete {restCount} more to close your rings!
       </span>
