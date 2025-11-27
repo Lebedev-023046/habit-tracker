@@ -5,4 +5,5 @@
   font-size: 1.6rem;
   background-color: var(--bg-color-primary);
   border-radius: var(--rounded-block);
+  box-shadow: var(--shadow-common);
 }
