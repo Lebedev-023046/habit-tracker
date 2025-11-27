@@ -1,0 +1,1 @@
+export { StatisticBricks } from './StatisticBricks';
