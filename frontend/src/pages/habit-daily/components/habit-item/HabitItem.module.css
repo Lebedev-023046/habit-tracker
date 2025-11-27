@@ -15,3 +15,16 @@
   font-weight: 100;
   color: var(--text-color-secondary);
 }
+
+.calendarPointsWrapper {
+  max-width: 98%;
+  width: 100%;
+  margin: 0 auto;
+  color: var(--text-color-secondary);
+  font-weight: 100;
+}
+
+.calendarHeader {
+  display: flex;
+  justify-content: space-between;
+}

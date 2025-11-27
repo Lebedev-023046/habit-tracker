@@ -1,9 +1,42 @@
 import { Container } from '@/shared/ui/container';
+import { DailyCalendarProgress } from '@/shared/ui/daily-calendar-progress';
 import { Diagram } from '@/shared/ui/diagram/Diagram';
 import { Subtitle } from '@/shared/ui/subtitle';
 import { HabitActions } from '../../sections/habit-actions';
-import { DailyCalendarProgress } from '../daily-calendar-progress';
 import styles from './HabitItem.module.css';
+
+// TODO: replace it with real data
+
+const weekdays = [
+  {
+    weekday: 'monday',
+    isDone: Math.random() > 0.5,
+  },
+  {
+    weekday: 'tuesday',
+    isDone: Math.random() > 0.5,
+  },
+  {
+    weekday: 'wednesday',
+    isDone: Math.random() > 0.5,
+  },
+  {
+    weekday: 'thursday',
+    isDone: Math.random() > 0.5,
+  },
+  {
+    weekday: 'friday',
+    isDone: Math.random() > 0.5,
+  },
+  {
+    weekday: 'saturday',
+    isDone: Math.random() > 0.5,
+  },
+  {
+    weekday: 'sunday',
+    isDone: Math.random() > 0.5,
+  },
+];
 
 export function HabitItem() {
   const currentDay = 10;
@@ -22,7 +55,13 @@ export function HabitItem() {
         <Subtitle>Streak: {streak}</Subtitle>
       </Diagram>
       <HabitActions />
-      <DailyCalendarProgress />
+      <div className={styles.calendarPointsWrapper}>
+        <div className={styles.calendarHeader}>
+          <p>7-day actifity</p>
+          <p>Best Steak: 12 days</p>
+        </div>
+        <DailyCalendarProgress weekdays={weekdays} />
+      </div>
     </Container>
   );
 }
