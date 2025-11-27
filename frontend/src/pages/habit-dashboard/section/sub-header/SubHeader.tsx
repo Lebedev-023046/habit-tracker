@@ -10,8 +10,8 @@ export function SubHeader() {
     <Container className={styles.subHeaderWrapper}>
       <h2>Habit Title</h2>
       <div className={styles.subHeaderInfo}>
-        <Subtitle>{steak}-day steak</Subtitle>
-        <Subtitle>{restDays} days left</Subtitle>
+        <Subtitle as="h3">{steak}-day steak</Subtitle>
+        <Subtitle as="h3">{restDays} days left</Subtitle>
       </div>
     </Container>
   );
