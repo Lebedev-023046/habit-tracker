@@ -1,0 +1,38 @@
+/* Styles for HabitKanbanBoard */
+
+.habitKanbanBoardWrapper {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(200px, 1fr));
+  min-height: 100%;
+  gap: 1rem;
+  font-size: 1.6rem;
+}
+
+.column {
+  padding: 2rem;
+  background-color: var(--bg-column);
+  border-radius: var(--rounded-md);
+}
+
+.columnHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.columnTitle,
+.habitCount {
+  font-weight: 600;
+  font-size: 2rem;
+}
+
+.habitCount {
+  font-weight: 400;
+}
+
+.columnHabits {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
