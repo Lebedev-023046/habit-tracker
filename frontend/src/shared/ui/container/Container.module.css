@@ -4,5 +4,5 @@
   padding: 2rem 1.5rem;
   font-size: 1.6rem;
   background-color: var(--bg-color-primary);
-  border-radius: var(--border-block);
+  border-radius: var(--rounded-block);
 }

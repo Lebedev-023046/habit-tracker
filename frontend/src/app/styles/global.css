@@ -23,11 +23,13 @@ html {
   --bg-color-primary: #fff;
   --bg-color-secondary: #76c77d;
   --bg-accent: #edf8f1;
+  --bg-column: #f1f5f2;
   --success: #b5e5bb;
   --error: #e6a8a6;
   --text-color-primary: #363636;
   --text-color-secondary: #a2a6a9;
   --text-light-gray: #e5e5e5;
-  --border-block: 1.5rem;
-  --border-md: 1rem;
+  --rounded-block: 1.5rem;
+  --rounded-md: 1rem;
+  --rounded-full: 50%;
 }
