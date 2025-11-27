@@ -2,12 +2,14 @@ import styles from './Button.module.css';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  variant?: 'primary' | 'ghost';
+  variant?: 'primary' | 'ghost' | 'basic' | 'icon';
 }
 
 const variantClassMap = {
   primary: styles.primary,
   ghost: styles.ghost,
+  basic: styles.basic,
+  icon: styles.icon,
 };
 
 export function Button({
