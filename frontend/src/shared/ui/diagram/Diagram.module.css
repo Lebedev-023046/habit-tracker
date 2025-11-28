@@ -30,7 +30,7 @@
   border-radius: 50%;
   background: conic-gradient(
     var(--success) calc(var(--progress) * 1%),
-    var(--text-light-gray) 0
+    var(--neutral) 0
   );
   mask: radial-gradient(
     farthest-side,

@@ -30,7 +30,7 @@
 .indicator {
   height: 25rem;
   width: 100%;
-  background-color: var(--text-light-gray);
+  background-color: var(--neutral);
   border-top-left-radius: 5rem;
   border-top-right-radius: 5rem;
 }

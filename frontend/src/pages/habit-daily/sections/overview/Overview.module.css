@@ -24,7 +24,7 @@
   position: relative;
   height: var(--bar-height, 6px);
   width: 100%;
-  background-color: var(--text-light-gray);
+  background-color: var(--neutral);
   border-radius: var(--rounded-md);
 }
 

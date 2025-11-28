@@ -39,9 +39,9 @@
   width: 1.4rem;
   aspect-ratio: 1;
   border-radius: var(--rounded-full);
-  background-color: var(--text-light-gray);
+  background-color: var(--neutral);
 }
 
 .neutral {
-  background-color: var(--text-light-gray);
+  background-color: var(--neutral);
 }

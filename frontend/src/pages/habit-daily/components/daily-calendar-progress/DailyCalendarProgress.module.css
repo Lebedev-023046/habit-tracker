@@ -29,7 +29,7 @@
   width: 2rem;
   aspect-ratio: 1;
   border-radius: 50%;
-  background-color: var(--text-light-gray);
+  background-color: var(--neutral);
 }
 
 .done {
