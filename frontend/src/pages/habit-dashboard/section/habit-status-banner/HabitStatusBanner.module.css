@@ -1,6 +1,6 @@
 /* Styles for HabitStatusBanner */
 
-.habitStatusBannerWrapper {
+.banner {
   display: flex;
   align-items: center;
   gap: 2rem;
@@ -10,7 +10,7 @@
   background-color: var(--text-color-secondary);
 }
 
-.bannerIcon {
+.icon {
   padding: 1rem;
   border-radius: var(--rounded-full);
   background-color: var(--text-color-secondary);
@@ -30,7 +30,7 @@
   background-color: var(--planned);
 }
 
-.planned .bannerIcon {
+.planned .icon {
   background-color: var(--planned-accent);
 }
 
@@ -38,7 +38,7 @@
   background-color: var(--success);
 }
 
-.active .bannerIcon {
+.active .icon {
   background-color: var(--success-accent);
 }
 
@@ -46,7 +46,7 @@
   background-color: var(--paused);
 }
 
-.paused .bannerIcon {
+.paused .icon {
   background-color: var(--paused-accent);
 }
 
@@ -54,7 +54,7 @@
   background-color: var(--error);
 }
 
-.cancelled .bannerIcon {
+.cancelled .icon {
   background-color: var(--error-accent);
 }
 
@@ -62,6 +62,6 @@
   background-color: var(--built);
 }
 
-.built .bannerIcon {
+.built .icon {
   background-color: var(--built-accent);
 }

@@ -1,18 +1,18 @@
 /* Styles for CtatisticBricks */
 
-.statisticBricksWrapper {
+.statistics {
   display: flex;
   gap: 2rem;
 }
 
-.brickWrapper {
+.brick {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   flex: 1 1 auto;
 }
 
-.brickProgressBarWrapper {
+.progress {
   display: flex;
   flex-direction: column;
   gap: 1rem;

@@ -19,13 +19,13 @@ export function HabitStatusBanner({ status }: HabitStatusBannerProps) {
   });
 
   return (
-    <Container className={`${styles.habitStatusBannerWrapper} ${colorClass}`}>
-      <div className={styles.bannerIcon}>
+    <Container className={`${styles.banner} ${colorClass}`}>
+      <div className={styles.icon}>
         <FaFontAwesomeFlag color="var(--bg-accent)" size="2rem" />
       </div>
       <div className={styles.content}>
         <h3 className={styles.title}>{title}</h3>
-        <p className={styles.paragraph}>{subtitle(formattedDate)}</p>
+        <p>{subtitle(formattedDate)}</p>
       </div>
     </Container>
   );

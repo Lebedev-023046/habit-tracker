@@ -5,8 +5,8 @@ import styles from './StatisticBricks.module.css';
 
 const BrickProgressBar = ({ barProgress }: { barProgress: number }) => {
   return (
-    <div className={styles.brickProgressBarWrapper}>
-      <h2 className={styles.persentage}>{barProgress}%</h2>
+    <div className={styles.progress}>
+      <h2>{barProgress}%</h2>
       <ProgressBar progress={barProgress} />
     </div>
   );
@@ -20,7 +20,7 @@ interface BrickProps {
 
 const Brick = ({ title, subtitle, children }: BrickProps) => {
   return (
-    <Container className={styles.brickWrapper}>
+    <Container className={styles.brick}>
       <Subtitle as="h3">{title}</Subtitle>
       {children}
       <Subtitle as="h3">{subtitle}</Subtitle>
@@ -30,7 +30,7 @@ const Brick = ({ title, subtitle, children }: BrickProps) => {
 
 export function StatisticBricks() {
   return (
-    <section className={styles.statisticBricksWrapper}>
+    <section className={styles.statistics}>
       <Brick
         title="Current Streak"
         subtitle="Only 7 days away from your longest streak."

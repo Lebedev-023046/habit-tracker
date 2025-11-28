@@ -4,7 +4,7 @@ import styles from './HabitCharts.module.css';
 
 export function HabitCharts() {
   return (
-    <div className={styles.habitChartsWrapper}>
+    <div className={styles.charts}>
       <HabitCompletionOverview />
       <HabitLastDaysChart />
     </div>

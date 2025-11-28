@@ -7,9 +7,9 @@ export function SubHeader() {
   const restDays = 31;
 
   return (
-    <Container className={styles.subHeaderWrapper}>
+    <Container className={styles.sectionHeader}>
       <h2>Habit Title</h2>
-      <div className={styles.subHeaderInfo}>
+      <div className={styles.info}>
         <Subtitle as="h3">{steak}-day steak</Subtitle>
         <Subtitle as="h3">{restDays} days left</Subtitle>
       </div>

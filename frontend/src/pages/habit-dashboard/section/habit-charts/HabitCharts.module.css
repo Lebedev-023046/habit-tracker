@@ -1,6 +1,6 @@
 /* Styles for HabitCharts */
 
-.habitChartsWrapper {
+.charts {
   display: flex;
   gap: 2rem;
   font-size: 1.6rem;
