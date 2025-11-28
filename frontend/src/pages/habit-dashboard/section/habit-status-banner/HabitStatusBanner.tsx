@@ -13,6 +13,11 @@ export function HabitStatusBanner({ status }: HabitStatusBannerProps) {
   const colorClass = getBannerColorClass(status);
   const { title, subtitle } = getBannerContent(status);
 
+  const formattedDate = new Date().toLocaleDateString('en-US', {
+    day: 'numeric',
+    month: 'short',
+  });
+
   return (
     <Container className={`${styles.habitStatusBannerWrapper} ${colorClass}`}>
       <div className={styles.bannerIcon}>
@@ -20,7 +25,7 @@ export function HabitStatusBanner({ status }: HabitStatusBannerProps) {
       </div>
       <div className={styles.content}>
         <h3 className={styles.title}>{title}</h3>
-        <p className={styles.paragraph}>{subtitle}</p>
+        <p className={styles.paragraph}>{subtitle(formattedDate)}</p>
       </div>
     </Container>
   );
