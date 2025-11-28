@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Diagram.module.css';
 
-interface DiagramProps {
+interface DiagramProps extends React.HTMLAttributes<HTMLDivElement> {
   progress: number;
   thicknessVar?: string;
   widthVar?: string;
@@ -13,7 +13,10 @@ export function Diagram({
   progress,
   thicknessVar = '2.5rem',
   widthVar = '24rem',
+  ...props
 }: DiagramProps) {
+  const { className, ...rest } = props;
+
   // const currentDay = 10;
   // const totalDays = 45;
   // const streak = 7;
@@ -30,7 +33,7 @@ export function Diagram({
 
   return (
     <div
-      className={styles.diagram}
+      className={`${styles.diagram} ${className}`}
       style={
         {
           '--progress': displayed,
@@ -38,6 +41,7 @@ export function Diagram({
           '--width': widthVar,
         } as React.CSSProperties
       }
+      {...rest}
     >
       <div className={styles.diagramInfo}>{children}</div>
     </div>

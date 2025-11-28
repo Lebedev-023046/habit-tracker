@@ -17,14 +17,9 @@
 } */
 
 .diagram {
-  /* --progress: var(--progress); */
   position: relative;
-  margin-left: 3rem;
   width: var(--width);
   aspect-ratio: 1;
-  margin-bottom: 1.5rem;
-
-  /* animation: fill-progress 1s ease-out forwards; */
   transition: --progress 0.8s ease-in-out;
 }
 

@@ -6,6 +6,11 @@
   gap: 1rem;
 }
 
+.diagramOuter {
+  margin-left: 3rem;
+  margin-bottom: 1.5rem;
+}
+
 .percentage {
   font-weight: 700;
   font-size: 2.5rem;

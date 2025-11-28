@@ -47,7 +47,7 @@ export function HabitItem() {
 
   return (
     <Container as="div" className={styles.habitItemWrapper}>
-      <Diagram progress={12}>
+      <Diagram progress={12} className={styles.diagramOuter}>
         <Subtitle>
           Day {currentDay} of {totalDays}
         </Subtitle>
