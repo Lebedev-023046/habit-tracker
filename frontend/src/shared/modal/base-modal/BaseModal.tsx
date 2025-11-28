@@ -1,3 +1,4 @@
+import { Container } from '@/shared/ui/container';
 import styles from './BaseModal.module.css';
 
 // src/shared/modal/BaseModal.tsx
@@ -39,9 +40,13 @@ export const BaseModal = ({ children, onClose }: BaseModalProps) => {
       className={styles.backdrop}
       onClick={onClose}
     >
-      <div className={styles.modal} onClick={e => e.stopPropagation()}>
+      <Container
+        as="div"
+        className={styles.modal}
+        onClick={e => e.stopPropagation()}
+      >
         {children}
-      </div>
+      </Container>
     </div>,
 
     modalRoot,

@@ -17,7 +17,7 @@ export function useGetHabit(id: string) {
   return useQuery(queryOptions);
 }
 
-export function useCreateHebit() {
+export function useCreateHabitBase() {
   const queryClient = useQueryClient();
   const queryOptions = getAllHabitsQueryOptions();
 
@@ -32,7 +32,7 @@ export function useCreateHebit() {
     },
   });
 }
-export function useUpdateHebit() {
+export function useUpdateHabitBase() {
   const queryClient = useQueryClient();
 
   return useMutation<ApiResponse<Habit>, Error, UpdateHabitPayload>({
@@ -53,7 +53,7 @@ export function useUpdateHebit() {
   });
 }
 
-export function useDeleteHabit() {
+export function useDeleteHabitBase() {
   const queryClient = useQueryClient();
 
   return useMutation<ApiResponse<Habit>, Error, string>({

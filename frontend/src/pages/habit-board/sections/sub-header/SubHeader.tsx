@@ -1,6 +1,5 @@
-import { Button } from '@/shared/ui/button';
 import { Container } from '@/shared/ui/container';
-import { GoPlus } from 'react-icons/go';
+import { CreateHabitModalTrigger } from '@/widgets/habit/create-habit-modal/ui/create-habit-modal-trigger';
 import styles from './SubHeader.module.css';
 
 export function SubHeader() {
@@ -8,10 +7,7 @@ export function SubHeader() {
     <Container className={styles.sectionHeader}>
       <h3 className={styles.title}>Habit Management</h3>
       <div className={styles.controls}>
-        <Button>
-          <GoPlus size="2.5rem" />
-          Add Habit
-        </Button>
+        <CreateHabitModalTrigger />
       </div>
     </Container>
   );

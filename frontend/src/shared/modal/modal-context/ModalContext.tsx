@@ -24,7 +24,7 @@ interface ModalContextValue {
   modals: ModalState[];
   openModal: <P extends ModalBaseProps>(
     Component: ModalComponent<P>,
-    props?: ModalExternalProps<P>,
+    props: ModalExternalProps<P>,
   ) => string;
   closeModal: (id: string) => void;
   closeAll: () => void;
@@ -41,7 +41,7 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
 
   function openModal<P extends ModalBaseProps>(
     Component: ModalComponent<P>,
-    props?: ModalExternalProps<P>,
+    props: ModalExternalProps<P> = {} as ModalExternalProps<P>,
   ) {
     const id = `${Date.now()}-${Math.random()}`;
     setModals(prev => [...prev, { id, Component, props: props || {} }]);

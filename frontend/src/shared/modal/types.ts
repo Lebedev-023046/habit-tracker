@@ -4,10 +4,9 @@ export interface ModalBaseProps {
   close: () => void;
 }
 
-export type ModalExternalProps<TProps extends ModalBaseProps> = Omit<
-  TProps,
+export type ModalExternalProps<P extends ModalBaseProps> = Omit<
+  P,
   keyof ModalBaseProps
 >;
 
-export type ModalComponent<TProps extends ModalBaseProps> =
-  ComponentType<TProps>;
+export type ModalComponent<P extends ModalBaseProps> = ComponentType<P>;
