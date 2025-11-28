@@ -6,14 +6,14 @@ const COLUMNS = ['Planned', 'Active', 'Paused', 'Built', 'Cancelled'];
 
 export function HabitKanbanBoard() {
   return (
-    <div className={styles.habitKanbanBoardWrapper}>
+    <div className={styles.kanban}>
       {COLUMNS.map(column => (
         <div key={column} className={styles.column}>
           <div className={styles.columnHeader}>
             <h3 className={styles.columnTitle}>{column}</h3>
-            <Subtitle className={styles.habitCount}>0</Subtitle>
+            <Subtitle className={styles.columnCount}>0</Subtitle>
           </div>
-          <div className={styles.columnHabits}>
+          <div className={styles.columnBody}>
             <HabitCard />
             {/* <HabitCard />
             <HabitCard />

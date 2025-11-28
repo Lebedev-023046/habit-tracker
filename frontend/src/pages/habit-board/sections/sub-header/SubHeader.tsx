@@ -5,7 +5,7 @@ import styles from './SubHeader.module.css';
 
 export function SubHeader() {
   return (
-    <Container className={styles.subHeaderWrapper}>
+    <Container className={styles.sectionHeader}>
       <h3 className={styles.title}>Habit Management</h3>
       <div className={styles.controls}>
         <Button>

@@ -1,6 +1,6 @@
 /* Styles for SubHeader */
 
-.subHeaderWrapper {
+.sectionHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;

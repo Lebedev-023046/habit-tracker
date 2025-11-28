@@ -57,7 +57,7 @@ export function HabitCard() {
   };
 
   return (
-    <div ref={actionsRef} className={styles.habitCardWrapper}>
+    <div ref={actionsRef} className={styles.habitCard}>
       <h3>Habit title</h3>
       <Subtitle>
         {passedDays} / {totatDays} days
@@ -78,11 +78,9 @@ export function HabitCard() {
         </Button>
       </div>
 
-      <div
-        className={`${styles.actionsWrapper} ${isMenuOpen ? styles.open : ''}`}
-      >
-        <div className={styles.actionsContent}>
-          <div className={styles.actions}>
+      <div className={`${styles.menu} ${isMenuOpen ? styles.menuOpen : ''}`}>
+        <div className={styles.menuContent}>
+          <div className={styles.menuActions}>
             <Button onClick={handleMenuClick} variant="plain">
               Edit
             </Button>
@@ -94,7 +92,7 @@ export function HabitCard() {
             </Button>
             <Button
               onClick={handleMenuClick}
-              className={styles.removeButton}
+              className={styles.menuActionDanger}
               variant="plain"
             >
               Remove
