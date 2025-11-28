@@ -17,7 +17,7 @@ export function Container({
   const { className, ...rest } = props;
 
   return (
-    <As className={`${styles.containerWrapper} ${className}`} {...rest}>
+    <As className={`${styles.container} ${className}`} {...rest}>
       {children}
     </As>
   );

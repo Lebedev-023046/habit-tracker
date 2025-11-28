@@ -11,7 +11,7 @@ export function Subtitle({ children, as: As = 'p', ...props }: SubtitleProp) {
   const { className, ...rest } = props;
 
   return (
-    <As className={`${styles.subtitleWrapper} ${className}`} {...rest}>
+    <As className={`${styles.subtitle} ${className}`} {...rest}>
       {children}
     </As>
   );

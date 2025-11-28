@@ -43,7 +43,7 @@ export function Diagram({
       }
       {...rest}
     >
-      <div className={styles.diagramInfo}>{children}</div>
+      <div className={styles.content}>{children}</div>
     </div>
   );
 }

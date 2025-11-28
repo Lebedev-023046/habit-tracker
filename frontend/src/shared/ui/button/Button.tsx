@@ -24,7 +24,7 @@ export function Button({
 
   return (
     <button
-      className={`${styles.buttonWrapper} ${variantClass} ${className}`}
+      className={`${styles.button} ${variantClass} ${className}`}
       {...rest}
     >
       {children}

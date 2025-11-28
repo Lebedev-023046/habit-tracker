@@ -8,14 +8,11 @@ interface ProgressBarProps {
 export function ProgressBar({ barHeight = '6px', progress }: ProgressBarProps) {
   return (
     <div
-      className={styles.progressBarWrapper}
+      className={styles.bar}
       style={{ '--bar-height': barHeight } as React.CSSProperties}
     >
-      <div className={styles.progressBar}>
-        <div
-          className={styles.progressBarCompleted}
-          style={{ width: `${progress}%` }}
-        />
+      <div className={styles.track}>
+        <div className={styles.fill} style={{ width: `${progress}%` }} />
       </div>
     </div>
   );

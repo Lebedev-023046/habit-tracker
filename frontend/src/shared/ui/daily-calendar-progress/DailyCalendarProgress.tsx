@@ -22,12 +22,12 @@ interface DayStatusProps extends CommonProps {
 
 const DayStatus = ({ day, showWeekdayLabels = true }: DayStatusProps) => {
   const { weekday, isDone } = day;
-  const isDoneClassName = isDone ? styles.done : styles.notDone;
+  const bgColorClassName = isDone ? 'completed' : 'missed';
   const weekdayLetter = weekday[0].toUpperCase() ?? 'N/A';
 
   return (
-    <div className={styles.calendarDayProgress}>
-      <div className={`${styles.indicator} ${isDoneClassName}`}></div>
+    <div className={styles.day}>
+      <div className={`${styles.indicator} ${bgColorClassName}`}></div>
       {showWeekdayLabels && <p>{weekdayLetter}</p>}
     </div>
   );
@@ -48,7 +48,7 @@ export function DailyCalendarProgress({
 }: DailyCalendarProgressProps) {
   return (
     <div
-      className={styles.dailyCalendarProgressWrapper}
+      className={styles.calendar}
       style={
         {
           '--indicator-size': dayIndicatorSize,

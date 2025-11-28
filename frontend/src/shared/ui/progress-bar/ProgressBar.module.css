@@ -1,10 +1,10 @@
 /* Styles for ProgressBar */
 
-.progressBarWrapper {
+.bar {
   width: 100%;
 }
 
-.progressBar {
+.track {
   position: relative;
   width: 100%;
   height: var(--bar-height);
@@ -12,7 +12,7 @@
   border-radius: var(--rounded-md);
 }
 
-.progressBarCompleted {
+.fill {
   position: absolute;
   top: 0;
   left: 0;

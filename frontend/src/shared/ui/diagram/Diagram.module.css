@@ -39,7 +39,7 @@
   );
 }
 
-.diagramInfo {
+.content {
   position: absolute;
   inset: calc(var(--thickness));
   border-radius: 50%;

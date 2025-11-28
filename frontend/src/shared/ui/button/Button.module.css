@@ -10,7 +10,7 @@
   }
 }
 
-.buttonWrapper {
+.button {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -23,7 +23,7 @@
     box-shadow 0.15s ease;
 }
 
-.buttonWrapper:disabled {
+.button:disabled {
   opacity: 0.5;
   pointer-events: none;
   cursor: not-allowed;
@@ -32,12 +32,12 @@
   filter: none;
 }
 
-.buttonWrapper:hover:not(:disabled) {
+.button:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
 }
 
-.buttonWrapper:active:not(:disabled) {
+.button:active:not(:disabled) {
   transform: translateY(0);
   box-shadow: 0 2px 6px rgb(0 0 0 / 15%);
 }
