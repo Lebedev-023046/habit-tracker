@@ -11,16 +11,16 @@ export function Overview() {
   const barProgress = (completedCount / totalCount) * 100;
 
   return (
-    <Container className={styles.overviewWrapper}>
+    <Container className={styles.overview}>
       <h2 className={styles.title}>Today's habits</h2>
-      <div className={styles.completedInfo}>
+      <div className={styles.stats}>
         <Subtitle>Stay consistent small wins add up.</Subtitle>
         <Subtitle>
           {completedCount} / {totalCount} completed
         </Subtitle>
       </div>
       <ProgressBar progress={barProgress} />
-      <span className={styles.span}>
+      <span className={styles.message}>
         Nice start! Complete {restCount} more to close your rings!
       </span>
     </Container>

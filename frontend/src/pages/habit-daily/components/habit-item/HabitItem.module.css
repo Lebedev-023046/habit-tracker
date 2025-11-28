@@ -1,12 +1,12 @@
 /* Styles for HabitItem */
 
-.habitItemWrapper {
+.habitCard {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.diagramOuter {
+.progressDiagram {
   margin-left: 3rem;
   margin-bottom: 1.5rem;
 }
@@ -21,7 +21,7 @@
   color: var(--text-color-secondary);
 }
 
-.calendarPointsWrapper {
+.activitySection {
   max-width: 98%;
   width: 100%;
   margin: 0 auto;
@@ -29,7 +29,7 @@
   font-weight: 100;
 }
 
-.calendarHeader {
+.activityHeader {
   display: flex;
   justify-content: space-between;
 }

@@ -1,6 +1,6 @@
 /* Styles for HabitItems */
 
-.HabitItemsWrapper {
+.habitCards {
   display: flex;
   flex-direction: column;
   gap: 2.5rem;

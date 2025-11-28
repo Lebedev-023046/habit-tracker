@@ -2,7 +2,7 @@ import { Container } from '@/shared/ui/container';
 import { DailyCalendarProgress } from '@/shared/ui/daily-calendar-progress';
 import { Diagram } from '@/shared/ui/diagram/Diagram';
 import { Subtitle } from '@/shared/ui/subtitle';
-import { HabitActions } from '../../sections/habit-actions';
+import { HabitActions } from '../habit-actions';
 import styles from './HabitItem.module.css';
 
 // TODO: replace it with real data
@@ -43,22 +43,22 @@ export function HabitItem() {
   const totalDays = 45;
   const streak = 7;
 
-  const persentage = Math.ceil((currentDay / totalDays) * 100); // или можно считать сколько процентов выполнено (кол-во выполненых / кол-во дней которые ты прошел)
+  const percentage = Math.ceil((currentDay / totalDays) * 100); // или можно считать сколько процентов выполнено (кол-во выполненых / кол-во дней которые ты прошел)
 
   return (
-    <Container as="div" className={styles.habitItemWrapper}>
-      <Diagram progress={12} className={styles.diagramOuter}>
+    <Container as="div" className={styles.habitCard}>
+      <Diagram progress={12} className={styles.progressDiagram}>
         <Subtitle>
           Day {currentDay} of {totalDays}
         </Subtitle>
-        <p className={styles.percentage}>{persentage}%</p>
+        <p className={styles.percentage}>{percentage}%</p>
         <Subtitle>Streak: {streak}</Subtitle>
       </Diagram>
       <HabitActions />
-      <div className={styles.calendarPointsWrapper}>
-        <div className={styles.calendarHeader}>
-          <p>7-day actifity</p>
-          <p>Best Steak: 12 days</p>
+      <div className={styles.activitySection}>
+        <div className={styles.activityHeader}>
+          <p>7-day activity</p>
+          <p>Best Streak: 12 days</p>
         </div>
         <DailyCalendarProgress weekdays={weekdays} />
       </div>

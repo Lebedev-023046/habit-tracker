@@ -4,7 +4,7 @@ import styles from './HabitActions.module.css';
 
 export function HabitActions() {
   return (
-    <div className={styles.habitActionsWrapper}>
+    <div className={styles.habitActions}>
       <h3 className={styles.title}>Morning Run</h3>
       <Subtitle>
         You marked this as done. Keep the streak alive tomorrow.

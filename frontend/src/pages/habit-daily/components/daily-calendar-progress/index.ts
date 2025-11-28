@@ -1,1 +1,0 @@
-export { DailyCalendarProgress } from './DailyCalendarProgress';

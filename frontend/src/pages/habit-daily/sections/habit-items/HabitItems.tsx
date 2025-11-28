@@ -5,7 +5,7 @@ const ITEMS = [1, 2, 3];
 
 export function HabitItems() {
   return (
-    <section className={styles.HabitItemsWrapper}>
+    <section className={styles.habitCards}>
       {ITEMS.map(item => (
         <HabitItem key={item} />
       ))}
