@@ -1,0 +1,20 @@
+/* Styles for BaseModal */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(0 0 0 / 40%);
+}
+
+.modal {
+  width: 100%;
+  max-width: 32rem; /* Tailwind max-w-lg */
+  max-height: 90vh;
+  background-color: #1a1a1a; /* примерно neutral-900 */
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgb(0 0 0 / 30%);
+}
