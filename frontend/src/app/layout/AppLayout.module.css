@@ -11,8 +11,6 @@
   flex-direction: column;
   gap: 2.5rem;
   flex: 1 1 auto;
-
-  /* overflow-y: auto; */
   min-height: 0;
   margin: 6.5rem 0;
   border-radius: var(--rounded-block);
