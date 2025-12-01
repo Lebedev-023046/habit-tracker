@@ -1,0 +1,51 @@
+/* Styles for BaseTextField */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-weight: 300;
+  text-transform: capitalize;
+}
+
+.input {
+  padding: 1rem;
+  outline: none;
+  border: none;
+  box-shadow: var(--shadow-common);
+  border-radius: var(--rounded-sm);
+  font-size: 1.6rem;
+
+  /* transition: outline 0.2s ease-in-out; */
+}
+
+.input::placeholder {
+  font-size: 1.6rem;
+  color: var(--text-color-secondary);
+}
+
+.input:focus {
+  outline: 1px solid var(--bg-color-secondary);
+}
+
+.error {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.2s ease-in-out;
+  font-weight: 300;
+  font-size: 1.4rem;
+  color: var(--error);
+  margin-left: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.errorContent {
+  overflow: hidden;
+}
+
+.errorOpen {
+  grid-template-rows: 1fr;
+}

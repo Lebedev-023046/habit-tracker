@@ -8,6 +8,7 @@
   --text-color-secondary: #a2a6a9;
   --rounded-block: 1.5rem;
   --rounded-md: 1rem;
+  --rounded-sm: 0.5rem;
   --rounded-full: 50%;
   --shadow-common: 0 1px 3px rgb(0 0 0 / 12%);
   --shadow-top: 0 -1px 3px rgb(0 0 0 / 12%);
@@ -22,6 +23,7 @@
   --built: #e6fbf4;
   --built-accent: #2e7268;
   --neutral: #e5e5e5;
+  --today: #617bc3;
 }
 
 body {

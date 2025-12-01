@@ -1,0 +1,119 @@
+/* stylelint-disable custom-property-pattern */
+
+/* Styles for BaseDatePicker */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-weight: 300;
+  text-transform: capitalize;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  width: 100%;
+  font-size: 1.6rem;
+  cursor: pointer;
+  padding: 1rem;
+  border: 1px solid var(--neutral);
+  border-radius: var(--rounded-sm);
+}
+
+.input {
+  width: 100%;
+  outline: none;
+  border: none;
+  font-size: inherit;
+  cursor: inherit;
+}
+
+.icon {
+  font-size: 1.6rem;
+}
+
+.inputDisabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.popover {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.2s ease-in-out;
+  width: 100%;
+  background-color: var(--bg-color-primary);
+}
+
+.popoverContent {
+  overflow: hidden;
+}
+
+.popoverOpen {
+  grid-template-rows: 1fr;
+}
+
+.error {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.2s ease-in-out;
+  font-weight: 300;
+  font-size: 1.4rem;
+  color: var(--error);
+  margin-left: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.errorContent {
+  overflow: hidden;
+}
+
+.errorOpen {
+  grid-template-rows: 1fr;
+}
+
+/* React Date Picker styles */
+
+.calendar {
+  --rdp-accent-color: var(--bg-color-secondary);
+  --rdp-today-color: var(--today);
+  --rdp-day-height: 3rem;
+  --rdp-day-width: 3rem;
+  --rdp-day_button-width: 4rem;
+  --rdp-day_button-height: 3rem;
+  --rdp-selected-border: none;
+
+  padding: 1.5rem;
+}
+
+.rdpMonths {
+  flex: 1 1 auto;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+}
+
+.monthGrid {
+  margin-top: 1.5rem;
+}
+
+.monthsCaption {
+  display: flex;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 2rem;
+}
+
+.captionLabel {
+  margin-top: 0.2rem;
+}
+
+.weekdays {
+  margin-top: 1rem;
+}
