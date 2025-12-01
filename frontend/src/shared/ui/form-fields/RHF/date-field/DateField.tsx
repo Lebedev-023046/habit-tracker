@@ -35,8 +35,7 @@ export function DateField<TFieldValues extends FieldValues>({
     control,
   });
 
-  // ожидаем, что в форме лежит Date | null | undefined
-  const value = (field.value as Date | null | undefined) ?? null;
+  const value = field.value as Date | undefined;
 
   return (
     <BaseDatePicker

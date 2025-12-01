@@ -56,7 +56,7 @@ export function SelectField<TFieldValues extends FieldValues>({
           ? currentValue.includes(option.value)
           : false,
       )
-    : (options.find(option => option.value === currentValue) ?? null);
+    : (options.find(option => option.value === currentValue) ?? undefined);
 
   return (
     <BaseSelect
@@ -80,7 +80,7 @@ export function SelectField<TFieldValues extends FieldValues>({
           field.onChange(values);
         } else {
           const opt = option as SelectOption | null;
-          field.onChange(opt?.value ?? null);
+          field.onChange(opt?.value ?? undefined);
         }
       }}
       onBlur={field.onBlur}

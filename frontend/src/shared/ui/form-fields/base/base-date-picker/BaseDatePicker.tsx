@@ -10,8 +10,8 @@ import styles from './BaseDatePicker.module.css';
 interface BaseDatePickerProps {
   label?: string;
   placeholder?: string;
-  value: Date | null;
-  onChange: (date: Date | null) => void;
+  value: Date | undefined;
+  onChange: (date: Date | undefined) => void;
   errorText?: string;
 
   // классы как в других компонентах
@@ -45,7 +45,7 @@ export function BaseDatePicker({
   const formatted = value ? format(value, 'dd.MM.yyyy') : '';
 
   const handleSelect = (date?: Date) => {
-    onChange(date ?? null);
+    onChange(date);
     setOpen(false);
   };
 
@@ -73,7 +73,7 @@ export function BaseDatePicker({
             disabled ? styles.inputDisabled : ''
           }`}
         />
-        <MdClear size="2rem" onClick={() => onChange(null)} />
+        <MdClear size="2rem" onClick={() => onChange(undefined)} />
         <CiCalendar size="2rem" onClick={() => openDatePicker()} />
       </div>
 

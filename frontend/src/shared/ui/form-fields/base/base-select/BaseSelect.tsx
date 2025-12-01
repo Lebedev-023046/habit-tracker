@@ -23,8 +23,8 @@ interface BaseSelectProps
   selectClassName?: string;
 
   options: SelectOption[];
-  value: SelectOption | SelectOption[] | null;
-  onChange: (option: SelectOption | SelectOption[] | null) => void;
+  value: SelectOption | SelectOption[] | undefined;
+  onChange: (option: SelectOption | SelectOption[] | undefined) => void;
 
   styles?: StylesConfig<SelectOption, boolean>;
   classNames?: ClassNamesConfig<SelectOption, boolean>;
