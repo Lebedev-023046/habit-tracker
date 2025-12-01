@@ -1,5 +1,49 @@
 /* Styles for HabitForm */
 
 .form {
+  display: flex;
+  flex-direction: column;
+
+  /* gap: 1rem; */
   margin: 2rem 0;
+}
+
+.form > div + div {
+  margin-top: 1rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.form > :is(.actions, .error) {
+  margin-top: 0;
+}
+
+.error {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.2s ease-in-out;
+}
+
+.errorContent {
+  overflow: hidden;
+}
+
+.errorText {
+  display: inline-block;
+  padding: 1rem;
+  font-weight: 600;
+  font-size: 1.6rem;
+  color: var(--error);
+
+  /* border: 1px solid var(--error-accent); */
+
+  /* border-radius: var(--rounded-sm); */
+}
+
+.errorOpen {
+  grid-template-rows: 1fr;
 }

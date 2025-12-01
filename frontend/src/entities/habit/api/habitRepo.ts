@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'axios';
-import type { CreateHabitPayload, UpdateHabitPayload } from '../model/types';
+import type { CreateHabitFormValues } from '../model/form/schema';
 
 const ENDPOINTS = {
   getAllHabits: () => `/habits`,
@@ -13,6 +13,11 @@ export class HabitRepo {
   private api: AxiosInstance;
   constructor(api: AxiosInstance) {
     this.api = api;
+    this.createHabit = this.createHabit.bind(this);
+    this.getAllHabits = this.getAllHabits.bind(this);
+    this.getHabit = this.getHabit.bind(this);
+    this.updateHabit = this.updateHabit.bind(this);
+    this.deleteHabit = this.deleteHabit.bind(this);
   }
   // private baseHabitKey = ['habit'];
 
@@ -30,7 +35,8 @@ export class HabitRepo {
       throw error;
     }
   }
-  async createHabit(payload: CreateHabitPayload) {
+  async createHabit(payload: CreateHabitFormValues) {
+    console.log({ payload });
     try {
       return this.api
         .post(ENDPOINTS.createHabit(), payload)
@@ -39,7 +45,9 @@ export class HabitRepo {
       throw error;
     }
   }
-  async updateHabit(payload: UpdateHabitPayload) {
+
+  // TODO: update ANY Type
+  async updateHabit(payload: any) {
     if (!payload.id) {
       throw new Error('Habit id is required');
     }

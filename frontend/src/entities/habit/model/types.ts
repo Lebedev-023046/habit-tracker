@@ -1,33 +1,39 @@
-// enums из Prisma
+export const HABIT_STATUS = [
+  'planned',
+  'active',
+  'paused',
+  'built',
+  'cancelled',
+] as const;
+export const TOTAL_DAYS_VALUES = [30, 45, 60] as const;
+export const CREATE_HABIT_STATUS = ['planned', 'active'] as const;
+export const HABIT_DAY_STATUS = ['completed', 'missed'] as const;
 
-export const HabitStatus = {
-  planned: 'planned',
-  active: 'active',
-  paused: 'paused',
-  built: 'built',
-  cancelled: 'cancelled',
-};
+export type HabitStatus = (typeof HABIT_STATUS)[number];
+export type HabitTotalDays = (typeof TOTAL_DAYS_VALUES)[number];
+export type CreateHabitPayloadStatus = (typeof CREATE_HABIT_STATUS)[number];
 
-export const HabitDayStatus = {
-  done: 'done',
-  missed: 'missed',
-};
+export type HabitDayStatus = (typeof HABIT_DAY_STATUS)[number];
 
-export type HabitStatus = keyof typeof HabitStatus;
-export type HabitDayStatus = keyof typeof HabitDayStatus;
+export type DateType = Date | string;
 
-type DateType = Date | string;
-
-export interface Habit {
+interface HabitBase {
   id: string;
   title: string;
   status: HabitStatus;
-  totalDays: number;
+  totalDays: HabitTotalDays;
   startDate: DateType | null;
   endDate: DateType | null;
+}
+
+export interface Habit extends HabitBase {
   createdAt: DateType;
   updatedAt: DateType;
   dayLogs: HabitDayLog[];
+}
+
+export interface HabitClient extends HabitBase {
+  expectedEndDate: DateType | null;
 }
 
 export interface HabitDayLog {
@@ -38,18 +44,3 @@ export interface HabitDayLog {
   createdAt: DateType;
   habit: Habit;
 }
-
-export type CreateHabitPayload = Pick<
-  Habit,
-  'title' | 'status' | 'totalDays'
-> & {
-  startDate?: Date;
-  endDate?: Date;
-};
-
-type Optional<T> = {
-  [K in keyof T]?: T[K];
-};
-export type UpdateHabitPayload = Optional<
-  Omit<Habit, 'createdAt' | 'updatedAt'>
->;

@@ -14,12 +14,12 @@ export const CreateHabitModal: React.FC<CreateHabitModalProps> = ({
   close,
 }) => {
   return (
-    <div>
+    <>
       <div className={styles.header}>
         <h2 className={styles.title}>{title}</h2>
         <Subtitle className={styles.subtitle}>{subtitle}</Subtitle>
       </div>
       <CreateHabitForm onSuccess={close} onCancel={close} />
-    </div>
+    </>
   );
 };

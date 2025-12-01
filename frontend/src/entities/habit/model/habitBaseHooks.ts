@@ -1,11 +1,12 @@
 import type { ApiResponse } from '@/shared/api/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { habitRepo } from '../api';
+import type { CreateHabitFormValues } from './form/schema';
 import {
   getAllHabitsQueryOptions,
   getOneHabitQueryOptions,
 } from './queryOptions';
-import type { CreateHabitPayload, Habit, UpdateHabitPayload } from './types';
+import type { Habit } from './types';
 
 export function useGetHabits() {
   const queryOptions = getAllHabitsQueryOptions();
@@ -21,7 +22,7 @@ export function useCreateHabitBase() {
   const queryClient = useQueryClient();
   const queryOptions = getAllHabitsQueryOptions();
 
-  return useMutation<ApiResponse<Habit>, Error, CreateHabitPayload>({
+  return useMutation<ApiResponse<Habit>, Error, CreateHabitFormValues>({
     mutationFn: habitRepo.createHabit,
     async onSuccess(response) {
       console.log(`Habit with id: ${response.data?.id} was created!`);
@@ -32,10 +33,12 @@ export function useCreateHabitBase() {
     },
   });
 }
+
+// TODO: update ANY Type
 export function useUpdateHabitBase() {
   const queryClient = useQueryClient();
 
-  return useMutation<ApiResponse<Habit>, Error, UpdateHabitPayload>({
+  return useMutation<ApiResponse<Habit>, Error, any>({
     mutationFn: habitRepo.updateHabit,
     async onSuccess(response) {
       console.log(`Habit with id: ${response.data?.id} was updated!`);
