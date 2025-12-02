@@ -1,6 +1,6 @@
-import { CreateHabitModal } from '@/features/habit/create/ui/create-habit-modal';
 import { useModal } from '@/shared/modal/modal-context/ModalContext';
 import { Button } from '@/shared/ui/button';
+import { CreateHabitModal } from '@/widgets/habit/create/create-habit-modal';
 import { GoPlus } from 'react-icons/go';
 
 interface CreateHabitModalTriggerProps {

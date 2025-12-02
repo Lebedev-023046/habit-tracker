@@ -1,5 +1,5 @@
 import { Container } from '@/shared/ui/container';
-import { CreateHabitModalTrigger } from '@/widgets/habit/create-habit-modal/ui/create-habit-modal-trigger';
+import { CreateHabitModalTrigger } from '@/widgets/habit/create/create-habit-modal-trigger';
 import styles from './SubHeader.module.css';
 
 export function SubHeader() {

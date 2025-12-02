@@ -44,8 +44,11 @@ export function HabitKanbanBoard() {
                 : columnHabits.map(habit => (
                     <HabitCard
                       key={habit.id}
+                      id={habit.id}
                       title={habit.title}
+                      status={habit.status}
                       totalDays={habit.totalDays}
+                      startDate={habit.startDate}
                     />
                   ))}
             </div>

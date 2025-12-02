@@ -36,7 +36,6 @@ export class HabitRepo {
     }
   }
   async createHabit(payload: CreateHabitFormValues) {
-    console.log({ payload });
     try {
       return this.api
         .post(ENDPOINTS.createHabit(), payload)

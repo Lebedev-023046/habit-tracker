@@ -1,6 +1,6 @@
 import type { ModalBaseProps } from '@/shared/modal/types';
 import { Subtitle } from '@/shared/ui/subtitle';
-import { CreateHabitForm } from '../create-habit-form';
+import { CreateHabitForm } from '../../../../features/habit/create/ui/create-habit-form';
 import styles from './CreateHabitModal.module.css';
 
 interface CreateHabitModalProps extends ModalBaseProps {

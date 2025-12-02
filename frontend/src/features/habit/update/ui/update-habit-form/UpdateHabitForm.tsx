@@ -1,6 +1,6 @@
 import {
-  type CreateHabitFormValues,
   type HabitFormValues,
+  type UpdateHabitFormValues,
   updateHabitSchema,
 } from '@/entities/habit/model/form/schema';
 import { HabitForm } from '@/entities/habit/ui/habit-form';
@@ -11,17 +11,21 @@ import { useUpdateHabit } from '../../model/useUpdateHabit';
 export interface UpdateHabitFormProps {
   onSuccess: () => void;
   onCancel: () => void;
+  habitId: string;
+  defaultValues: UpdateHabitFormValues;
 }
 
 export function UpdateHabitForm({
   onSuccess: handleSuccess,
   onCancel,
+  habitId,
+  defaultValues,
 }: UpdateHabitFormProps) {
   const { mutate: updateHabit, isPending, error } = useUpdateHabit();
 
-  const form = useForm<CreateHabitFormValues>({
+  const form = useForm<HabitFormValues>({
     resolver: zodResolver(updateHabitSchema),
-    defaultValues: {
+    defaultValues: defaultValues ?? {
       title: '',
       status: 'planned',
       totalDays: 30,
@@ -30,8 +34,8 @@ export function UpdateHabitForm({
     },
   });
 
-  const handleSubmit = (values: HabitFormValues) => {
-    const payload = values;
+  const handleSubmit = (values: UpdateHabitFormValues) => {
+    const payload = { id: habitId, ...values };
     updateHabit(payload, {
       onSuccess: () => {
         handleSuccess?.();

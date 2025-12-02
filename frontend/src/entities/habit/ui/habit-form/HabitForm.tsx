@@ -8,7 +8,11 @@ import { type UseFormReturn } from 'react-hook-form';
 import styles from './HabitForm.module.css';
 
 import type { SelectOption } from '@/shared/ui/form-fields/base/base-select';
-import type { HabitFormValues } from '../../model/form/schema';
+import type {
+  CreateHabitFormValues,
+  HabitFormValues,
+  UpdateHabitFormValues,
+} from '../../model/form/schema';
 import { CREATE_HABIT_STATUS, TOTAL_DAYS_VALUES } from '../../model/types';
 
 interface HabitFormProps {
@@ -18,7 +22,7 @@ interface HabitFormProps {
   isSubmitting?: boolean;
   showCancelButton?: boolean;
 
-  onSubmit: (values: HabitFormValues) => void;
+  onSubmit: (values: UpdateHabitFormValues | CreateHabitFormValues) => void;
   onCancel: () => void;
 }
 

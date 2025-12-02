@@ -1,8 +1,11 @@
+import type { UpdateHabitFormValues } from '@/entities/habit/model/form/schema';
+import type { HabitStatus, HabitTotalDays } from '@/entities/habit/model/types';
 import { useClickOutside } from '@/shared/hooks/useClickOutside';
 import { Button } from '@/shared/ui/button';
 import { DailyCalendarProgress } from '@/shared/ui/daily-calendar-progress';
 import { ProgressBar } from '@/shared/ui/progress-bar';
 import { Subtitle } from '@/shared/ui/subtitle';
+import { UpdateHabitModalTrigger } from '@/widgets/habit/update/update-habit-modal-trigger';
 import { useState } from 'react';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import styles from './HabitCard.module.css';
@@ -39,12 +42,28 @@ const weekdays = [
 ];
 
 interface HabitCardProps {
+  id: string;
   title: string;
-  totalDays: number;
+  totalDays: HabitTotalDays;
+  status: HabitStatus;
+  startDate?: Date | undefined;
 }
 
-export function HabitCard({ title, totalDays }: HabitCardProps) {
+export function HabitCard({
+  id: habitId,
+  title,
+  status,
+  totalDays,
+  startDate,
+}: HabitCardProps) {
   const passedDays = 8;
+
+  const updatePayload: UpdateHabitFormValues = {
+    title,
+    status,
+    totalDays,
+    startDate,
+  };
 
   const barProgress = (passedDays / totalDays) * 100;
 
@@ -85,9 +104,11 @@ export function HabitCard({ title, totalDays }: HabitCardProps) {
       <div className={`${styles.menu} ${isMenuOpen ? styles.menuOpen : ''}`}>
         <div className={styles.menuContent}>
           <div className={styles.menuActions}>
-            <Button onClick={handleMenuClick} variant="plain">
-              Edit
-            </Button>
+            <UpdateHabitModalTrigger
+              onClick={handleMenuClick}
+              habitId={habitId}
+              defaultValues={updatePayload}
+            />
             <Button onClick={handleMenuClick} variant="plain">
               Pause
             </Button>
