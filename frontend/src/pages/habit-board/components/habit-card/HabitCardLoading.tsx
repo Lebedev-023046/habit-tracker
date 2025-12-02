@@ -23,7 +23,7 @@ export function HabitCardLoading() {
       </div>
 
       <div className={styles.controls}>
-        <Button disabled variant="basic">
+        <Button disabled variant="neutral">
           Dashboard
         </Button>
         <Button disabled variant="icon">

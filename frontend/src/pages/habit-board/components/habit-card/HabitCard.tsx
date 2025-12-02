@@ -76,7 +76,7 @@ export function HabitCard({ title, totalDays }: HabitCardProps) {
       />
 
       <div className={styles.controls}>
-        <Button variant="basic">Dashboard</Button>
+        <Button variant="neutral">Dashboard</Button>
         <Button variant="icon" onClick={handleMenuClick}>
           <HiOutlineDotsHorizontal size="2.5rem" />
         </Button>
