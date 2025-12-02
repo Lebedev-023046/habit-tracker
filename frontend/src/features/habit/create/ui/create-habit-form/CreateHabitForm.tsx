@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useCreateHabit } from '../../model/useCreateHabit';
 
-export interface CreateHabitFormProps {
+interface CreateHabitFormProps {
   onSuccess: () => void;
   onCancel: () => void;
 }
