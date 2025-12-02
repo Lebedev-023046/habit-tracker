@@ -1,0 +1,73 @@
+/* Styles for ErrorPage */
+
+.wrapper {
+  display: flex;
+  font-size: 2rem;
+  flex: 1 1 auto;
+}
+
+.fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2rem;
+  flex: 1 1 auto;
+}
+
+.image {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--rounded-md);
+  overflow: hidden;
+}
+
+.image > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+
+  /* display: block; */
+
+  object-fit: cover;
+
+  /* 
+  object-fit: cover;
+  height: 80%;
+  aspect-ratio: 16 / 9; */
+
+  /* flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  /* object-fit: cover; */
+}
+
+.title {
+  font-size: 4rem;
+  font-weight: 500;
+}
+
+.subtitle {
+  font-weight: 400;
+}
+
+.error {
+  display: contents;
+  color: var(--error);
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.retry {
+  background-color: var(--today);
+}
