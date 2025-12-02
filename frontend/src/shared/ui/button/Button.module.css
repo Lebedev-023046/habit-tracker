@@ -78,6 +78,11 @@
   background-color: var(--bg-column);
 }
 
+.danger {
+  background-color: var(--error);
+  color: var(--error-accent);
+}
+
 .icon {
   position: relative;
   flex-shrink: 0;

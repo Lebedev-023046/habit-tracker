@@ -2,7 +2,14 @@ import styles from './Button.module.css';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  variant?: 'primary' | 'ghost' | 'plain' | 'neutral' | 'outlined' | 'icon';
+  variant?:
+    | 'primary'
+    | 'ghost'
+    | 'plain'
+    | 'neutral'
+    | 'danger'
+    | 'outlined'
+    | 'icon';
   animation?: 'light-sweep' | 'none';
   borderRadius?: string;
 }
@@ -13,6 +20,7 @@ const variantClassMap = {
   ghost: styles.ghost,
   plain: styles.plain,
   neutral: styles.neutral,
+  danger: styles.danger,
   icon: styles.icon,
 };
 
