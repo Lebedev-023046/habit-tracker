@@ -8,7 +8,7 @@ import AppLayout from '../layout/AppLayout';
 
 export const router = createBrowserRouter([
   {
-    path: ROUTES.home(),
+    path: ROUTES.habitDaily(),
     element: <AppLayout />,
     children: [
       {
