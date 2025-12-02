@@ -1,7 +1,7 @@
 import { Footer } from '@/widgets/footer/Footer';
 import { Header } from '@/widgets/header/Header';
 
-import { GlobalFallback } from '@/shared/ui/global-fallback';
+import { GlobalFallback } from '@/shared/ui/error-boundary/global-fallback';
 import { Outlet } from 'react-router-dom';
 import { ErrorBoundary } from '../../shared/ui/error-boundary';
 import styles from './AppLayout.module.css';

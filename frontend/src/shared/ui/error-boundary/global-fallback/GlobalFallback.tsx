@@ -1,7 +1,8 @@
 import { ROUTES } from '@/shared/config/routes';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '../button';
-import { Subtitle } from '../subtitle';
+
+import { Button } from '../../button';
+import { Subtitle } from '../../subtitle';
 import styles from './GlobalFallback.module.css';
 import ErrorBoundaryPic from '/error-boundary-pic.webp';
 
