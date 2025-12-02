@@ -38,11 +38,15 @@ const weekdays = [
   },
 ];
 
-export function HabitCard() {
-  const passedDays = 8;
-  const totatDays = 30;
+interface HabitCardProps {
+  title: string;
+  totalDays: number;
+}
 
-  const barProgress = (passedDays / totatDays) * 100;
+export function HabitCard({ title, totalDays }: HabitCardProps) {
+  const passedDays = 8;
+
+  const barProgress = (passedDays / totalDays) * 100;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -58,9 +62,9 @@ export function HabitCard() {
 
   return (
     <div ref={actionsRef} className={styles.habitCard}>
-      <h3>Habit title</h3>
+      <h3>{title}</h3>
       <Subtitle>
-        {passedDays} / {totatDays} days
+        {passedDays} / {totalDays} days
       </Subtitle>
       <ProgressBar barHeight="1px" progress={barProgress} />
 

@@ -41,3 +41,13 @@
 .menuActionDanger {
   color: var(--error);
 }
+
+.skeletonDays {
+  display: flex;
+  gap: 1rem;
+}
+
+.skeletonWeekDays {
+  display: flex;
+  gap: 0.5rem;
+}

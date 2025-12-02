@@ -8,6 +8,8 @@ import './styles/global.css';
 import './styles/reset.css';
 import './styles/responsive.css';
 
+import 'react-loading-skeleton/dist/skeleton.css';
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Providers>
