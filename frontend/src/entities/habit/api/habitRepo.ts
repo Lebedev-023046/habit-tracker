@@ -1,11 +1,13 @@
 import type { AxiosInstance } from 'axios';
 import type { CreateHabitFormValues } from '../model/form/schema';
+import type { HabitStatus } from '../model/types';
 
 const ENDPOINTS = {
   getAllHabits: () => `/habits`,
   getHabit: (id: string) => `/habits/${id}`,
   createHabit: () => '/habits/create',
   updateHabit: (id: string) => `/habits/update/${id}`,
+  updateHabitStatus: (id: string) => `habits/update-status/${id}`,
   deleteHabit: (id: string) => `/habits/delete/${id}`,
 };
 
@@ -17,6 +19,7 @@ export class HabitRepo {
     this.getAllHabits = this.getAllHabits.bind(this);
     this.getHabit = this.getHabit.bind(this);
     this.updateHabit = this.updateHabit.bind(this);
+    this.updateHabitStatus = this.updateHabitStatus.bind(this);
     this.deleteHabit = this.deleteHabit.bind(this);
   }
   // private baseHabitKey = ['habit'];
@@ -60,6 +63,17 @@ export class HabitRepo {
       throw error;
     }
   }
+
+  async updateHabitStatus({ id, status }: { id: string; status: HabitStatus }) {
+    try {
+      return this.api
+        .patch(ENDPOINTS.updateHabitStatus(id), { status })
+        .then(res => res.data);
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async deleteHabit(id: string) {
     try {
       return this.api.delete(ENDPOINTS.deleteHabit(id)).then(res => res.data);

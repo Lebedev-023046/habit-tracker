@@ -1,15 +1,12 @@
 import type { ApiResponse } from '@/shared/api/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { habitRepo } from '../api';
-import type {
-  CreateHabitFormValues,
-  UpdateHabitFormValues,
-} from './form/schema';
+import type { CreateHabitFormValues } from './form/schema';
 import {
   getAllHabitsQueryOptions,
   getOneHabitQueryOptions,
 } from './queryOptions';
-import type { Habit } from './types';
+import type { Habit, HabitStatus } from './types';
 
 export function useGetHabits() {
   const queryOptions = getAllHabitsQueryOptions();
@@ -40,7 +37,11 @@ export function useCreateHabitBase() {
 export function useUpdateHabitBase() {
   const queryClient = useQueryClient();
 
-  return useMutation<ApiResponse<Habit>, Error, UpdateHabitFormValues>({
+  return useMutation<
+    ApiResponse<Habit>,
+    Error,
+    { id: string; status: HabitStatus }
+  >({
     mutationFn: habitRepo.updateHabit,
     async onSuccess(response) {
       console.log(`Habit with id: ${response.data?.id} was updated!`);
@@ -49,6 +50,28 @@ export function useUpdateHabitBase() {
         throw new Error('Habit id not found');
       }
 
+      const queryOptions = getAllHabitsQueryOptions();
+      await queryClient.invalidateQueries(queryOptions);
+    },
+    async onError(error) {
+      throw new Error(error.message);
+    },
+  });
+}
+
+export function useUpdateHabitStatusBase() {
+  const queryClient = useQueryClient();
+  return useMutation<
+    ApiResponse<Habit>,
+    Error,
+    { id: string; status: HabitStatus }
+  >({
+    mutationFn: habitRepo.updateHabitStatus,
+    async onSuccess(response) {
+      console.log(`Habit with id: ${response.data?.id} status updated!`);
+      if (!response.data?.id) {
+        throw new Error('Habit id not found');
+      }
       const queryOptions = getAllHabitsQueryOptions();
       await queryClient.invalidateQueries(queryOptions);
     },

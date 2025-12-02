@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { HabitStatus } from '@prisma/client';
 import { throwError } from 'src/common/helper/error-handling';
 import { ResponseUtil } from 'src/common/utils/response';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -10,7 +11,11 @@ export class HabitService {
 
   async getAllHabits() {
     try {
-      const habits = await this.prisma.habit.findMany();
+      const habits = await this.prisma.habit.findMany({
+        orderBy: {
+          updatedAt: 'desc',
+        },
+      });
       console.log(`Found ${habits.length} habits`);
       return ResponseUtil.success(habits);
     } catch (error) {
@@ -70,6 +75,19 @@ export class HabitService {
       return ResponseUtil.success(updatedHabit);
     } catch (error) {
       throwError({ error, errorMessage: 'Error updating habit:' });
+    }
+  }
+
+  async updateHabitStatus(id: string, status: HabitStatus) {
+    try {
+      const updatedHabit = await this.prisma.habit.update({
+        where: { id },
+        data: { status },
+      });
+      console.log(`Habit with id: ${updatedHabit.id} status updated`);
+      return ResponseUtil.success(updatedHabit);
+    } catch (error) {
+      throwError({ error, errorMessage: 'Error updating habit status:' });
     }
   }
 

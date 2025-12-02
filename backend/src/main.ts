@@ -10,6 +10,8 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.useGlobalFilters(new AllExceptionsFilter());
 
+  app.enableCors([process.env.CLIENT_URL]);
+
   await app.listen(PORT);
 
   console.log(`✅ SERVER STARTED ON PORT: ${PORT}`);

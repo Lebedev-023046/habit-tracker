@@ -1,5 +1,6 @@
 import type { UpdateHabitFormValues } from '@/entities/habit/model/form/schema';
 import type { HabitStatus, HabitTotalDays } from '@/entities/habit/model/types';
+import { UpdateHabitStatusButton } from '@/features/habit/update/ui/update-habit-status-button';
 import { useClickOutside } from '@/shared/hooks/useClickOutside';
 import { Button } from '@/shared/ui/button';
 import { DailyCalendarProgress } from '@/shared/ui/daily-calendar-progress';
@@ -110,12 +111,20 @@ export function HabitCard({
               habitId={habitId}
               defaultValues={updatePayload}
             />
-            <Button onClick={handleMenuClick} variant="plain">
+            <UpdateHabitStatusButton
+              onClick={handleMenuClick}
+              habitId={habitId}
+              status="paused"
+            >
               Pause
-            </Button>
-            <Button onClick={handleMenuClick} variant="plain">
+            </UpdateHabitStatusButton>
+            <UpdateHabitStatusButton
+              onClick={handleMenuClick}
+              habitId={habitId}
+              status="built"
+            >
               Move to Built
-            </Button>
+            </UpdateHabitStatusButton>
             <DeleteHabitModalTrigger
               habitId={habitId}
               habitTitle={title}
