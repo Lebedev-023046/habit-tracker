@@ -15,15 +15,15 @@ export type CreateHabitPayloadStatus = (typeof CREATE_HABIT_STATUS)[number];
 
 export type HabitDayStatus = (typeof HABIT_DAY_STATUS)[number];
 
-export type DateType = Date | string;
+export type DateType = Date | undefined;
 
 interface HabitBase {
   id: string;
   title: string;
   status: HabitStatus;
   totalDays: HabitTotalDays;
-  startDate: DateType | null;
-  endDate: DateType | null;
+  startDate: DateType;
+  endDate: DateType;
 }
 
 export interface Habit extends HabitBase {
