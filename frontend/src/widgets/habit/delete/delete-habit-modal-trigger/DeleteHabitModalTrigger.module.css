@@ -1,0 +1,5 @@
+/* Styles for DeleteHabitModalTrigger */
+
+.buttonTextDanger {
+  color: var(--error);
+}

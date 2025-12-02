@@ -5,6 +5,7 @@ import { Button } from '@/shared/ui/button';
 import { DailyCalendarProgress } from '@/shared/ui/daily-calendar-progress';
 import { ProgressBar } from '@/shared/ui/progress-bar';
 import { Subtitle } from '@/shared/ui/subtitle';
+import { DeleteHabitModalTrigger } from '@/widgets/habit/delete/delete-habit-modal-trigger';
 import { UpdateHabitModalTrigger } from '@/widgets/habit/update/update-habit-modal-trigger';
 import { useState } from 'react';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
@@ -115,13 +116,11 @@ export function HabitCard({
             <Button onClick={handleMenuClick} variant="plain">
               Move to Built
             </Button>
-            <Button
+            <DeleteHabitModalTrigger
+              habitId={habitId}
+              habitTitle={title}
               onClick={handleMenuClick}
-              className={styles.menuActionDanger}
-              variant="plain"
-            >
-              Remove
-            </Button>
+            />
           </div>
         </div>
       </div>

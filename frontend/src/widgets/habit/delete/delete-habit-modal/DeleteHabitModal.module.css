@@ -1,0 +1,25 @@
+/* Styles for DeleteHabitModal */
+
+.confirm {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: 1.7rem;
+  font-weight: 300;
+  margin-bottom: 2.5rem;
+  line-height: 1.5;
+}
+
+.habitTitle {
+  filter: brightness(80%);
+  font-style: italic;
+  margin-left: 0.5rem;
+  color: var(--text-color-secondary);
+}
