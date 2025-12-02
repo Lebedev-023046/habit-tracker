@@ -79,7 +79,7 @@ export function BaseDatePicker({
 
       <div
         ref={popoverRef}
-        className={`${styles.popover} ${open && !disabled && !hasError ? styles.popoverOpen : ''}`}
+        className={`${styles.popover} ${open && !disabled ? styles.popoverOpen : ''}`}
       >
         <div className={styles.popoverContent}>
           <DayPicker
@@ -87,6 +87,7 @@ export function BaseDatePicker({
             mode="single"
             navLayout="around"
             selected={value ?? undefined}
+            disabled={{ before: new Date() }}
             onSelect={handleSelect}
             className={styles.calendar}
             classNames={{

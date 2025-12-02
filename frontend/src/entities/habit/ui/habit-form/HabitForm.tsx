@@ -94,7 +94,12 @@ export function HabitForm({
 
       <div className={styles.actions}>
         {showCancelButton && onCancel && (
-          <Button type="button" variant="ghost" onClick={onCancel}>
+          <Button
+            type="button"
+            variant="outlined"
+            onClick={onCancel}
+            animation="none"
+          >
             Cancel
           </Button>
         )}

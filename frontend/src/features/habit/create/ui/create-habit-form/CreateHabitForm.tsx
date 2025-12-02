@@ -29,6 +29,7 @@ export function CreateHabitForm({
       startDate: undefined,
       endDate: undefined,
     },
+    mode: 'onSubmit',
   });
 
   const handleSubmit = (values: HabitFormValues) => {

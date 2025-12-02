@@ -18,10 +18,6 @@
   gap: 1rem;
 }
 
-.form > :is(.actions, .error) {
-  margin-top: 0;
-}
-
 .error {
   display: grid;
   grid-template-rows: 0fr;
