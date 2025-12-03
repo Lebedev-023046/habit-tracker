@@ -1,10 +1,17 @@
-import { HabitKanbanBoard } from './sections/habit-kanban-board';
-import { SubHeader } from './sections/sub-header';
+import { HabitKanbanBoard } from '@/features/habit-kanban';
+import { CreateHabitModalTrigger } from '@/features/habit/create/ui/create-habit-modal-trigger';
+import { Container } from '@/shared/ui/container';
+import styles from './HabitBoardPage.module.css';
 
 export default function HabitBoardPage() {
   return (
     <>
-      <SubHeader />
+      <Container className={styles.sectionHeader}>
+        <h3 className={styles.title}>Habit Management</h3>
+        <div className={styles.controls}>
+          <CreateHabitModalTrigger />
+        </div>
+      </Container>
       <HabitKanbanBoard />
     </>
   );

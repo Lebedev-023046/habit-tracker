@@ -1,7 +1,7 @@
 import { Button } from '@/shared/ui/button';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import Skeleton from 'react-loading-skeleton';
-import styles from './HabitCard.module.css';
+import styles from './HabitKanbanCard.module.css';
 
 export function HabitCardLoading() {
   return (

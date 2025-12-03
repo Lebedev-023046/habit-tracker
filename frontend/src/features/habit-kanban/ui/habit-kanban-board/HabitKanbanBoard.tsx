@@ -1,17 +1,14 @@
 import { useGetHabits } from '@/entities/habit/model/habitBaseHooks';
-import type { HabitStatus } from '@/entities/habit/model/types';
+import { HabitCard } from '@/features/habit-kanban/ui/habit-kanban-card';
+import { HabitCardLoading } from '@/features/habit-kanban/ui/habit-kanban-card/HabitKanbanCardLoading';
 import { Subtitle } from '@/shared/ui/subtitle';
-import { HabitCard } from '../../components/habit-card';
-import { HabitCardLoading } from '../../components/habit-card/HabitCardLoading';
+import { KANBAN_COLUMNS } from '../../model/columns';
 import styles from './HabitKanbanBoard.module.css';
 
-const KANBAN_COLUMNS = [
-  { status: 'planned', title: 'Planned' },
-  { status: 'active', title: 'Active' },
-  { status: 'paused', title: 'Paused' },
-  { status: 'built', title: 'Built' },
-  { status: 'cancelled', title: 'Cancelled' },
-] satisfies { status: HabitStatus; title: string }[];
+const LoadingHabitCards = () =>
+  Array(2)
+    .fill(null)
+    .map((_, i) => <HabitCardLoading key={i} />);
 
 export function HabitKanbanBoard() {
   const { data: habitsInfo, isLoading } = useGetHabits();
@@ -37,20 +34,21 @@ export function HabitKanbanBoard() {
               </Subtitle>
             </div>
             <div className={styles.columnBody}>
-              {isLoading
-                ? Array(2)
-                    .fill(null)
-                    .map((_, i) => <HabitCardLoading key={i} />)
-                : columnHabits.map(habit => (
-                    <HabitCard
-                      key={habit.id}
-                      id={habit.id}
-                      title={habit.title}
-                      status={habit.status}
-                      totalDays={habit.totalDays}
-                      startDate={habit.startDate}
-                    />
-                  ))}
+              {isLoading ? (
+                <LoadingHabitCards />
+              ) : (
+                columnHabits.map((habit, index) => (
+                  <HabitCard
+                    index={index}
+                    key={habit.id}
+                    id={habit.id}
+                    title={habit.title}
+                    status={habit.status}
+                    totalDays={habit.totalDays}
+                    startDate={habit.startDate}
+                  />
+                ))
+              )}
             </div>
           </div>
         );

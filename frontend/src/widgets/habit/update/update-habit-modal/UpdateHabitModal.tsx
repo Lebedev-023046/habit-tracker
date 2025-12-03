@@ -1,7 +1,7 @@
 import type { UpdateHabitFormValues } from '@/entities/habit/model/form/schema';
+import { UpdateHabitForm } from '@/features/habit/update/ui/update-habit-form';
 import type { ModalBaseProps } from '@/shared/modal/types';
 import { Subtitle } from '@/shared/ui/subtitle';
-import { UpdateHabitForm } from '../../../../features/habit/update/ui/update-habit-form';
 import styles from './UpdateHabitModal.module.css';
 
 interface UpdateHabitModalProps extends ModalBaseProps {
