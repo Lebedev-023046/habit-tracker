@@ -1,6 +1,7 @@
 import { useModal } from '@/shared/modal/modal-context';
 import { Button } from '@/shared/ui/button';
-import { DeleteHabitModal } from '../delete-habit-modal';
+
+import { DeleteHabitModal } from '@/features/habit/delete/ui/delete-habit-modal';
 import styles from './DeleteHabitModalTrigger.module.css';
 
 interface DeleteHabitModalTriggerProps {
