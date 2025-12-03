@@ -1,7 +1,7 @@
 import type { UpdateHabitFormValues } from '@/entities/habit/model/form/schema';
+import { UpdateHabitModal } from '@/features/habit/update/ui/update-habit-modal';
 import { useModal } from '@/shared/modal/modal-context';
 import { Button } from '@/shared/ui/button';
-import { UpdateHabitModal } from '@/widgets/habit/update/update-habit-modal';
 
 interface UpdateHabitModalTriggerProps {
   onClick?: () => void;
