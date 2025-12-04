@@ -21,6 +21,7 @@ interface HabitBase {
   id: string;
   title: string;
   status: HabitStatus;
+  position: number;
   totalDays: HabitTotalDays;
   startDate: DateType;
   endDate: DateType;
@@ -30,10 +31,6 @@ export interface Habit extends HabitBase {
   createdAt: DateType;
   updatedAt: DateType;
   dayLogs: HabitDayLog[];
-}
-
-export interface HabitClient extends HabitBase {
-  expectedEndDate: DateType | null;
 }
 
 export interface HabitDayLog {

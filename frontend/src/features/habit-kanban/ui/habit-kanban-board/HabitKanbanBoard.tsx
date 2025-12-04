@@ -1,3 +1,4 @@
+import { useGetHabits } from '@/entities/habit/model/RQ/habitBaseHooks';
 import { DragDropContext, type DropResult } from '@hello-pangea/dnd';
 import { useCallback, useState } from 'react';
 import { HABIT_KANBAN_COLUMNS } from '../../model/columns';
@@ -17,8 +18,8 @@ export function HabitKanbanBoard() {
     [setBoard],
   );
 
-  // const { data: habitsInfo, isLoading } = useGetHabits();
-  // console.log({ habitsInfo });
+  const { data: habitsInfo, isLoading } = useGetHabits();
+  console.log({ habitsInfo });
 
   // if (habitsInfo?.error) {
   //   return <div>{habitsInfo?.error}</div>;

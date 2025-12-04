@@ -21,11 +21,14 @@ export function DeleteHabitForm({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    deleteHabit(habitId, {
-      onSuccess: () => {
-        handleSuccess?.();
+    deleteHabit(
+      { id: habitId },
+      {
+        onSuccess: () => {
+          handleSuccess?.();
+        },
       },
-    });
+    );
   };
 
   return (

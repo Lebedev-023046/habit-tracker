@@ -1,12 +1,19 @@
 import type { AxiosInstance } from 'axios';
-import type { CreateHabitFormValues } from '../model/form/schema';
-import type { HabitStatus } from '../model/types';
+import type {
+  CreateHabitPayload,
+  DeleteHabitPayload,
+  UpdateHabitPayload,
+  UpdateHabitStatusAndPositionPayload,
+  UpdateHabitStatusPayload,
+} from './types';
 
 const ENDPOINTS = {
   getAllHabits: () => `/habits`,
   getHabit: (id: string) => `/habits/${id}`,
   createHabit: () => '/habits/create',
   updateHabit: (id: string) => `/habits/update/${id}`,
+  updateHabitStatusAndPosition: (id: string) =>
+    `/habits/update-status-and-position/${id}`,
   updateHabitStatus: (id: string) => `habits/update-status/${id}`,
   deleteHabit: (id: string) => `/habits/delete/${id}`,
 };
@@ -19,6 +26,8 @@ export class HabitRepo {
     this.getAllHabits = this.getAllHabits.bind(this);
     this.getHabit = this.getHabit.bind(this);
     this.updateHabit = this.updateHabit.bind(this);
+    this.updateHabitStatusAndPosition =
+      this.updateHabitStatusAndPosition.bind(this);
     this.updateHabitStatus = this.updateHabitStatus.bind(this);
     this.deleteHabit = this.deleteHabit.bind(this);
   }
@@ -38,7 +47,7 @@ export class HabitRepo {
       throw error;
     }
   }
-  async createHabit(payload: CreateHabitFormValues) {
+  async createHabit(payload: CreateHabitPayload) {
     try {
       return this.api
         .post(ENDPOINTS.createHabit(), payload)
@@ -48,8 +57,7 @@ export class HabitRepo {
     }
   }
 
-  // TODO: update ANY Type
-  async updateHabit(payload: any) {
+  async updateHabit(payload: UpdateHabitPayload) {
     if (!payload.id) {
       throw new Error('Habit id is required');
     }
@@ -64,8 +72,9 @@ export class HabitRepo {
     }
   }
 
-  async updateHabitStatus({ id, status }: { id: string; status: HabitStatus }) {
+  async updateHabitStatus(payload: UpdateHabitStatusPayload) {
     try {
+      const { id, status } = payload;
       return this.api
         .patch(ENDPOINTS.updateHabitStatus(id), { status })
         .then(res => res.data);
@@ -74,8 +83,22 @@ export class HabitRepo {
     }
   }
 
-  async deleteHabit(id: string) {
+  async updateHabitStatusAndPosition(
+    payload: UpdateHabitStatusAndPositionPayload,
+  ) {
     try {
+      const { id } = payload;
+      return this.api
+        .patch(ENDPOINTS.updateHabitStatusAndPosition(id), { payload })
+        .then(res => res.data);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteHabit(payload: DeleteHabitPayload) {
+    try {
+      const { id } = payload;
       return this.api.delete(ENDPOINTS.deleteHabit(id)).then(res => res.data);
     } catch (error) {
       throw error;
