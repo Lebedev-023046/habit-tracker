@@ -2,7 +2,6 @@ import type { UpdateHabitFormValues } from '@/entities/habit/model/form/schema';
 import type { HabitStatus, HabitTotalDays } from '@/entities/habit/model/types';
 import { DeleteHabitModalTrigger } from '@/features/habit/delete/ui/delete-habit-modal-trigger';
 import { UpdateHabitModalTrigger } from '@/features/habit/update/ui/update-habit-modal-trigger';
-import { UpdateHabitStatusButton } from '@/features/habit/update/ui/update-habit-status-button';
 import { useClickOutside } from '@/shared/hooks/useClickOutside';
 import { Button } from '@/shared/ui/button';
 import { DailyCalendarProgress } from '@/shared/ui/daily-calendar-progress';
@@ -11,7 +10,7 @@ import { Subtitle } from '@/shared/ui/subtitle';
 import { Draggable } from '@hello-pangea/dnd';
 import { useState } from 'react';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
-import styles from './HabitCard.module.css';
+import styles from './HabitKanbanCard.module.css';
 
 const weekdays = [
   { weekday: 'monday', isDone: Math.random() > 0.5 },
@@ -35,7 +34,7 @@ interface HabitCardProps extends DNDCardProps {
   startDate?: Date | undefined;
 }
 
-export function HabitCard({
+export function HabitKanbanCard({
   index,
   id: habitId,
   title,
@@ -69,71 +68,60 @@ export function HabitCard({
   return (
     <>
       <Draggable draggableId={habitId} index={index}>
-        {provided => (
-          <div
-            ref={node => {
-              actionsRef.current = node;
-              if (node) provided.innerRef(node);
-            }}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-            className={styles.habitCard}
-            style={{ ...provided.draggableProps.style }}
-          >
-            <h3>{title}</h3>
-            <Subtitle>
-              {passedDays} / {totalDays} days
-            </Subtitle>
-            <ProgressBar barHeight="1px" progress={barProgress} />
-
-            <DailyCalendarProgress
-              weekdays={weekdays}
-              showWeekdayLabels={false}
-              dayIndicatorSize="1.3rem"
-              dayIndicatorsGap="0.5rem"
-            />
-
-            <div className={styles.controls}>
-              <Button variant="neutral">Dashboard</Button>
-              <Button variant="icon" onClick={handleMenuClick}>
-                <HiOutlineDotsHorizontal size="2.5rem" />
-              </Button>
-            </div>
-
+        {provided => {
+          const setRefs = (node: HTMLDivElement | null) => {
+            actionsRef.current = node;
+            provided.innerRef(node);
+          };
+          return (
             <div
-              className={`${styles.menu} ${isMenuOpen ? styles.menuOpen : ''}`}
+              ref={setRefs}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              className={styles.habitCard}
+              style={{ ...provided.draggableProps.style }}
             >
-              <div className={styles.menuContent}>
-                <div className={styles.menuActions}>
-                  <UpdateHabitModalTrigger
-                    onClick={handleMenuClick}
-                    habitId={habitId}
-                    defaultValues={updatePayload}
-                  />
-                  <UpdateHabitStatusButton
-                    onClick={handleMenuClick}
-                    habitId={habitId}
-                    status="paused"
-                  >
-                    Pause
-                  </UpdateHabitStatusButton>
-                  <UpdateHabitStatusButton
-                    onClick={handleMenuClick}
-                    habitId={habitId}
-                    status="built"
-                  >
-                    Move to Built
-                  </UpdateHabitStatusButton>
-                  <DeleteHabitModalTrigger
-                    habitId={habitId}
-                    habitTitle={title}
-                    onClick={handleMenuClick}
-                  />
+              <h3>{title}</h3>
+              <Subtitle>
+                {passedDays} / {totalDays} days
+              </Subtitle>
+              <ProgressBar barHeight="1px" progress={barProgress} />
+
+              <DailyCalendarProgress
+                weekdays={weekdays}
+                showWeekdayLabels={false}
+                dayIndicatorSize="1.3rem"
+                dayIndicatorsGap="0.5rem"
+              />
+
+              <div className={styles.controls}>
+                <Button variant="neutral">Dashboard</Button>
+                <Button variant="icon" onClick={handleMenuClick}>
+                  <HiOutlineDotsHorizontal size="2.5rem" />
+                </Button>
+              </div>
+
+              <div
+                className={`${styles.menu} ${isMenuOpen ? styles.menuOpen : ''}`}
+              >
+                <div className={styles.menuContent}>
+                  <div className={styles.menuActions}>
+                    <UpdateHabitModalTrigger
+                      onClick={handleMenuClick}
+                      habitId={habitId}
+                      defaultValues={updatePayload}
+                    />
+                    <DeleteHabitModalTrigger
+                      habitId={habitId}
+                      habitTitle={title}
+                      onClick={handleMenuClick}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          );
+        }}
       </Draggable>
     </>
   );

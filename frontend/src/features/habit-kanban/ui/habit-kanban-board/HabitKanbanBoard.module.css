@@ -9,38 +9,3 @@
   font-size: 1.6rem;
   overflow-y: auto;
 }
-
-.column {
-  padding: 2rem;
-  background-color: var(--bg-column);
-  border-radius: var(--rounded-md);
-}
-
-.columnHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.columnTitle,
-.columnCount {
-  font-weight: 600;
-  font-size: 2rem;
-}
-
-.columnCount {
-  font-weight: 400;
-}
-
-.columnBody {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.loading {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-}

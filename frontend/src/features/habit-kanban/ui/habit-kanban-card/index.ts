@@ -1,1 +1,1 @@
-export { HabitCard } from './HabitKanbanCard';
+export { HabitKanbanCard } from './HabitKanbanCard';
