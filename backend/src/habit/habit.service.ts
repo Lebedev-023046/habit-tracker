@@ -3,7 +3,11 @@ import { HabitStatus } from '@prisma/client';
 import { throwError } from 'src/common/helper/error-handling';
 import { ResponseUtil } from 'src/common/utils/response';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateHabitDto, UpdateHabitDto } from './habit.dto';
+import {
+  CreateHabitDto,
+  UpdateHabitDto,
+  UpdateHabitStatusAndPosition,
+} from './habit.dto';
 
 @Injectable()
 export class HabitService {
@@ -49,16 +53,23 @@ export class HabitService {
         throw new Error('Total days must be positive number');
       }
 
-      const newHabit = await this.prisma.habit.create({
-        data: {
-          ...data,
-          status: data.status || 'planned',
-        },
+      return this.prisma.$transaction(async (tx) => {
+        await tx.habit.updateMany({
+          where: { status: data.status },
+          data: { position: { increment: 1 } },
+        });
+        const newHabit = await this.prisma.habit.create({
+          data: {
+            ...data,
+            position: 0,
+            status: data.status || 'planned',
+          },
+        });
+        console.log(
+          `New Habit "${newHabit.title}" with id: ${newHabit.id} Created`,
+        );
+        return ResponseUtil.success(newHabit);
       });
-      console.log(
-        `New Habit "${newHabit.title}" with id: ${newHabit.id} Created`,
-      );
-      return ResponseUtil.success(newHabit);
     } catch (error) {
       throwError({ error, errorMessage: 'Error creating habit:' });
     }
@@ -85,6 +96,39 @@ export class HabitService {
         data: { status },
       });
       console.log(`Habit with id: ${updatedHabit.id} status updated`);
+      return ResponseUtil.success(updatedHabit);
+    } catch (error) {
+      throwError({ error, errorMessage: 'Error updating habit status:' });
+    }
+  }
+
+  async updateHabitStatusAndPosition(
+    id: string,
+    payload: UpdateHabitStatusAndPosition,
+  ) {
+    const { status, position } = payload;
+
+    if (status === undefined && position === undefined) {
+      throwError({
+        error: new Error('No fields provided'),
+        errorMessage: 'Error updating habit:',
+      });
+    }
+
+    try {
+      const data: Partial<UpdateHabitStatusAndPosition> = {};
+
+      if (status !== undefined) data.status = status;
+      if (position !== undefined) data.position = position;
+
+      const updatedHabit = await this.prisma.habit.update({
+        where: { id },
+        data,
+      });
+
+      console.log(
+        `Habit with id: ${updatedHabit.id} status and position updated`,
+      );
       return ResponseUtil.success(updatedHabit);
     } catch (error) {
       throwError({ error, errorMessage: 'Error updating habit status:' });

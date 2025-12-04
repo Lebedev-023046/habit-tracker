@@ -9,7 +9,11 @@ import {
   Put,
 } from '@nestjs/common';
 import { HabitStatus } from '@prisma/client';
-import { CreateHabitDto, UpdateHabitDto } from './habit.dto';
+import {
+  CreateHabitDto,
+  UpdateHabitDto,
+  UpdateHabitStatusAndPosition,
+} from './habit.dto';
 import { HabitService } from './habit.service';
 
 @Controller('habits')
@@ -39,6 +43,14 @@ export class HabitController {
   @Patch('update-status/:id')
   updateHabitStatus(@Param('id') id: string, @Body() status: HabitStatus) {
     return this.habitService.updateHabitStatus(id, status);
+  }
+
+  @Patch('update-status-and-position/:id')
+  updateHabitStatusAndPos(
+    @Param('id') id: string,
+    @Body() payload: UpdateHabitStatusAndPosition,
+  ) {
+    return this.habitService.updateHabitStatusAndPosition(id, payload);
   }
 
   @Delete('delete/:id')
