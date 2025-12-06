@@ -1,8 +1,10 @@
-import type { HabitStatus, HabitTotalDays } from '@/entities/habit/model/types';
+import type { HabitStatus } from '@/entities/habit/model/types';
 import { Subtitle } from '@/shared/ui/subtitle';
 import { Droppable } from '@hello-pangea/dnd';
 import { HabitKanbanCard } from '../habit-kanban-card/HabitKanbanCard';
 import { HabitCardLoading } from '../habit-kanban-card/HabitKanbanCardLoading';
+
+import type { HabitKanbanItem } from '@/entities/habit/kanban/types';
 import styles from './HabitKanbanColumn.module.css';
 
 const LoadingHabitCards = () =>
@@ -10,25 +12,11 @@ const LoadingHabitCards = () =>
     .fill(null)
     .map((_, i) => <HabitCardLoading key={i} />);
 
-interface KanbanColumnHabitProps {
-  id: string;
-  title: string;
-  status: HabitStatus;
-  totalDays: HabitTotalDays;
-  startDate?: Date | null;
-}
 interface HabitKanbanColumnProps {
   columnId: HabitStatus;
   title: string;
-  columnHabits: KanbanColumnHabitProps[];
+  columnHabits: HabitKanbanItem[];
   isLoading: boolean;
-  // id: string;
-  // title: string;
-  // status: HabitStatus;
-  // columnHabits: Habit[];
-  // isLoading: boolean;
-  // totalDays: HabitTotalDays;
-  // startDate: Date | undefined;
 }
 
 export function HabitKanbanColumn({

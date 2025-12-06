@@ -1,13 +1,14 @@
 import { HabitStatus } from '@prisma/client';
 import {
+  IsArray,
   IsDate,
   IsEnum,
-  IsInt,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
   Min,
+  ValidateNested,
 } from 'class-validator';
 
 export class CreateHabitDto {
@@ -59,15 +60,14 @@ export class UpdateHabitDto {
   endDate?: Date;
 }
 
-export class UpdateHabitStatusAndPosition {
-  @IsOptional()
-  @IsEnum(HabitStatus, {
-    message: `Status must be one of: ${Object.values(HabitStatus).join(', ')}`,
-  })
+export class ReorderHabitDto {
+  id: string;
   status: HabitStatus;
+  position: number;
+}
 
-  @IsOptional()
-  @IsInt()
-  @Min(0)
-  position?: number;
+export class ReorderHabitsDto {
+  @IsArray()
+  @ValidateNested({ each: true })
+  updates: ReorderHabitDto[];
 }

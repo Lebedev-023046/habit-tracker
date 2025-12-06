@@ -1,4 +1,4 @@
-import type { HabitKanbanBoardState } from './types';
+import type { HabitKanbanBoardState } from '@/entities/habit/kanban/types';
 
 export const initialBoard: HabitKanbanBoardState = {
   planned: [
@@ -7,14 +7,16 @@ export const initialBoard: HabitKanbanBoardState = {
       title: 'Morning run',
       status: 'planned',
       totalDays: 30,
-      startDate: null,
+      position: 0,
+      startDate: undefined,
     },
     {
       id: '2',
       title: 'Read 10 pages',
       status: 'planned',
       totalDays: 45,
-      startDate: null,
+      position: 0,
+      startDate: undefined,
     },
   ],
   active: [
@@ -23,7 +25,8 @@ export const initialBoard: HabitKanbanBoardState = {
       title: 'No sugar',
       status: 'active',
       totalDays: 60,
-      startDate: null,
+      position: 0,
+      startDate: undefined,
     },
   ],
   paused: [],

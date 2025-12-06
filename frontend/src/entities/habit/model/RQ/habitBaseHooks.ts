@@ -5,7 +5,6 @@ import type {
   CreateHabitPayload,
   DeleteHabitPayload,
   UpdateHabitPayload,
-  UpdateHabitStatusAndPositionPayload,
   UpdateHabitStatusPayload,
 } from '../../api/types';
 import {
@@ -65,28 +64,6 @@ export function useUpdateHabitStatusBase() {
   const queryClient = useQueryClient();
   return useMutation<ApiResponse<Habit>, Error, UpdateHabitStatusPayload>({
     mutationFn: habitRepo.updateHabitStatus,
-    async onSuccess(response) {
-      console.log(`Habit with id: ${response.data?.id} status updated!`);
-      if (!response.data?.id) {
-        throw new Error('Habit id not found');
-      }
-      const queryOptions = getAllHabitsQueryOptions();
-      await queryClient.invalidateQueries(queryOptions);
-    },
-    async onError(error) {
-      throw new Error(error.message);
-    },
-  });
-}
-
-export function useUpdateHabitStatusAndPositionBase() {
-  const queryClient = useQueryClient();
-  return useMutation<
-    ApiResponse<Habit>,
-    Error,
-    UpdateHabitStatusAndPositionPayload
-  >({
-    mutationFn: habitRepo.updateHabitStatusAndPosition,
     async onSuccess(response) {
       console.log(`Habit with id: ${response.data?.id} status updated!`);
       if (!response.data?.id) {

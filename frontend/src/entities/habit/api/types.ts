@@ -12,4 +12,6 @@ export type UpdateHabitStatusAndPositionPayload = {
   payload: Pick<Habit, 'status' | 'position'>;
 };
 
+export type HabitReorderPayload = Pick<Habit, 'id' | 'status' | 'position'>;
+
 export type DeleteHabitPayload = { id: string };

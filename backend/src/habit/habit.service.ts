@@ -3,11 +3,7 @@ import { HabitStatus } from '@prisma/client';
 import { throwError } from 'src/common/helper/error-handling';
 import { ResponseUtil } from 'src/common/utils/response';
 import { PrismaService } from 'src/prisma/prisma.service';
-import {
-  CreateHabitDto,
-  UpdateHabitDto,
-  UpdateHabitStatusAndPosition,
-} from './habit.dto';
+import { CreateHabitDto, ReorderHabitDto, UpdateHabitDto } from './habit.dto';
 
 @Injectable()
 export class HabitService {
@@ -16,14 +12,12 @@ export class HabitService {
   async getAllHabits() {
     try {
       const habits = await this.prisma.habit.findMany({
-        orderBy: {
-          updatedAt: 'desc',
-        },
+        orderBy: { position: 'asc' },
       });
       console.log(`Found ${habits.length} habits`);
       return ResponseUtil.success(habits);
     } catch (error) {
-      throwError({ error, errorMessage: 'Error getting all habits' });
+      throwError({ error, errorMessage: 'Error getting all habits: ' });
     }
   }
 
@@ -39,7 +33,7 @@ export class HabitService {
       console.log(` Habit with id: ${habit?.id} found`);
       return ResponseUtil.success(habit);
     } catch (error) {
-      throwError({ error, errorMessage: 'Error getting habit:' });
+      throwError({ error, errorMessage: 'Error getting habit: ' });
     }
   }
 
@@ -71,7 +65,7 @@ export class HabitService {
         return ResponseUtil.success(newHabit);
       });
     } catch (error) {
-      throwError({ error, errorMessage: 'Error creating habit:' });
+      throwError({ error, errorMessage: 'Error creating habit: ' });
     }
   }
 
@@ -85,7 +79,7 @@ export class HabitService {
       console.log(`Habit with id: ${updatedHabit.id} updated`);
       return ResponseUtil.success(updatedHabit);
     } catch (error) {
-      throwError({ error, errorMessage: 'Error updating habit:' });
+      throwError({ error, errorMessage: 'Error updating habit: ' });
     }
   }
 
@@ -98,40 +92,23 @@ export class HabitService {
       console.log(`Habit with id: ${updatedHabit.id} status updated`);
       return ResponseUtil.success(updatedHabit);
     } catch (error) {
-      throwError({ error, errorMessage: 'Error updating habit status:' });
+      throwError({ error, errorMessage: 'Error updating habit status: ' });
     }
   }
 
-  async updateHabitStatusAndPosition(
-    id: string,
-    payload: UpdateHabitStatusAndPosition,
-  ) {
-    const { status, position } = payload;
-
-    if (status === undefined && position === undefined) {
-      throwError({
-        error: new Error('No fields provided'),
-        errorMessage: 'Error updating habit:',
-      });
-    }
-
+  async reorderHabits(data: ReorderHabitDto[]) {
     try {
-      const data: Partial<UpdateHabitStatusAndPosition> = {};
-
-      if (status !== undefined) data.status = status;
-      if (position !== undefined) data.position = position;
-
-      const updatedHabit = await this.prisma.habit.update({
-        where: { id },
-        data,
+      const updatedHabits = await this.prisma.$transaction(async (tx) => {
+        for (const { id, status, position } of data) {
+          await tx.habit.update({
+            where: { id },
+            data: { status, position },
+          });
+        }
       });
-
-      console.log(
-        `Habit with id: ${updatedHabit.id} status and position updated`,
-      );
-      return ResponseUtil.success(updatedHabit);
+      return ResponseUtil.success(updatedHabits);
     } catch (error) {
-      throwError({ error, errorMessage: 'Error updating habit status:' });
+      throwError({ error, errorMessage: 'Error reordering habits: ' });
     }
   }
 

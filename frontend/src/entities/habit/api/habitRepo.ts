@@ -2,8 +2,8 @@ import type { AxiosInstance } from 'axios';
 import type {
   CreateHabitPayload,
   DeleteHabitPayload,
+  HabitReorderPayload,
   UpdateHabitPayload,
-  UpdateHabitStatusAndPositionPayload,
   UpdateHabitStatusPayload,
 } from './types';
 
@@ -12,9 +12,8 @@ const ENDPOINTS = {
   getHabit: (id: string) => `/habits/${id}`,
   createHabit: () => '/habits/create',
   updateHabit: (id: string) => `/habits/update/${id}`,
-  updateHabitStatusAndPosition: (id: string) =>
-    `/habits/update-status-and-position/${id}`,
   updateHabitStatus: (id: string) => `habits/update-status/${id}`,
+  reorderHabits: () => `/habits/reorder`,
   deleteHabit: (id: string) => `/habits/delete/${id}`,
 };
 
@@ -26,8 +25,7 @@ export class HabitRepo {
     this.getAllHabits = this.getAllHabits.bind(this);
     this.getHabit = this.getHabit.bind(this);
     this.updateHabit = this.updateHabit.bind(this);
-    this.updateHabitStatusAndPosition =
-      this.updateHabitStatusAndPosition.bind(this);
+    this.reorderHabits = this.reorderHabits.bind(this);
     this.updateHabitStatus = this.updateHabitStatus.bind(this);
     this.deleteHabit = this.deleteHabit.bind(this);
   }
@@ -83,13 +81,10 @@ export class HabitRepo {
     }
   }
 
-  async updateHabitStatusAndPosition(
-    payload: UpdateHabitStatusAndPositionPayload,
-  ) {
+  async reorderHabits(payload: HabitReorderPayload[]) {
     try {
-      const { id } = payload;
       return this.api
-        .patch(ENDPOINTS.updateHabitStatusAndPosition(id), { payload })
+        .patch(ENDPOINTS.reorderHabits(), { updates: payload })
         .then(res => res.data);
     } catch (error) {
       throw error;
