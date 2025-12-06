@@ -3,15 +3,17 @@ import { useEffect, useState } from 'react';
 
 import type { Habit } from '../model/types';
 import { useReorderHabits } from './hooks';
-import type { HabitKanbanBoardState } from './types';
+
 import {
-  applyDragToBoard,
-  buildHabitBoard,
-  buildReorderDiffPayload,
-} from './utils';
+  habitBoardService,
+  type HabitKanbanBoardState,
+} from '../model/habitBoard.service';
 
 export function useBoard(habits: Habit[]) {
   const [board, setBoard] = useState<HabitKanbanBoardState | null>(null);
+
+  const { buildHabitBoard, applyDragToBoard, buildReorderDiffPayload } =
+    habitBoardService;
 
   const { mutate: reorderHabits } = useReorderHabits();
 
@@ -22,7 +24,6 @@ export function useBoard(habits: Habit[]) {
 
       const payload = buildReorderDiffPayload(prev, next);
       reorderHabits(payload);
-      // console.log(payload);
 
       return next;
     });
