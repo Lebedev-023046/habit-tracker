@@ -1,4 +1,4 @@
-import { useGetHabits } from '@/entities/habit/model/RQ/habitBaseHooks';
+import { useGetHabitsWithStale } from '@/entities/habit/model/RQ/habitBaseHooks';
 import { DragDropContext } from '@hello-pangea/dnd';
 import { HABIT_KANBAN_COLUMNS } from '../../model/columns';
 
@@ -7,7 +7,10 @@ import { HabitKanbanColumn } from '../habit-kanban-column';
 import styles from './HabitKanbanBoard.module.css';
 
 export function HabitKanbanBoard() {
-  const { data: habitsInfo, isLoading } = useGetHabits();
+  const { data: habitsInfo, isLoading } = useGetHabitsWithStale();
+
+  const isInitialLoading = isLoading && !habitsInfo;
+
   if (habitsInfo?.error) {
     return <div>{habitsInfo?.error}</div>;
   }
@@ -24,7 +27,7 @@ export function HabitKanbanBoard() {
               title={column.title}
               columnHabits={board ? board[column.id] : []}
               columnId={column.id}
-              isLoading={isLoading}
+              isLoading={isInitialLoading}
             />
           );
         })}
