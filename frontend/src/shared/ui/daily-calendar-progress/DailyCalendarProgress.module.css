@@ -20,10 +20,14 @@
   background-color: var(--neutral);
 }
 
-.done {
+.completed {
   background-color: var(--success);
 }
 
-.notDone {
+.missed {
   background-color: var(--error);
+}
+
+.unmarked {
+  background-color: var(--neutral);
 }

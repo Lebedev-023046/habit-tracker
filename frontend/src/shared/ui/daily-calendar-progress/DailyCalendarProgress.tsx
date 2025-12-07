@@ -1,9 +1,12 @@
+import Skeleton from 'react-loading-skeleton';
 import styles from './DailyCalendarProgress.module.css';
 
+type DayStatus = 'completed' | 'missed' | 'unmarked';
+
 // TODO: когда появятся реальные данные нужно подумать где хранить этот интерфейс
-interface DayProgress {
+export interface DayProgress {
   weekday: string;
-  isDone: boolean;
+  status: DayStatus;
 }
 
 interface CommonProps {
@@ -12,22 +15,49 @@ interface CommonProps {
 
 interface DailyCalendarProgressProps extends CommonProps {
   weekdays: DayProgress[];
+  isLoading?: boolean;
   dayIndicatorSize?: string;
   dayIndicatorsGap?: string;
 }
 
 interface DayStatusProps extends CommonProps {
   day: DayProgress;
+  isLoading?: boolean;
 }
 
-const DayStatus = ({ day, showWeekdayLabels = true }: DayStatusProps) => {
-  const { weekday, isDone } = day;
-  const bgColorClassName = isDone ? 'completed' : 'missed';
-  const weekdayLetter = weekday[0].toUpperCase() ?? 'N/A';
+const DayStatus = ({
+  day,
+  isLoading,
+  showWeekdayLabels = true,
+}: DayStatusProps) => {
+  const { weekday, status } = day;
+
+  console.log('WWWWW');
+  console.log({ status });
+
+  const statusClassName = (() => {
+    switch (status) {
+      case 'completed':
+        return styles.completed;
+      case 'missed':
+        return styles.missed;
+      case 'unmarked':
+      default:
+        return styles.unmarked;
+    }
+  })();
+
+  const weekdayLetter = isLoading ? (
+    <Skeleton width={14} height={16} />
+  ) : (
+    (weekday[0].toUpperCase() ?? 'N/A')
+  );
 
   return (
     <div className={styles.day}>
-      <div className={`${styles.indicator} ${bgColorClassName}`}></div>
+      <div
+        className={`${styles.indicator} ${statusClassName} ${isLoading && styles.neutral}`}
+      ></div>
       {showWeekdayLabels && <p>{weekdayLetter}</p>}
     </div>
   );
@@ -42,6 +72,7 @@ const DayStatus = ({ day, showWeekdayLabels = true }: DayStatusProps) => {
  */
 export function DailyCalendarProgress({
   weekdays,
+  isLoading,
   showWeekdayLabels = true,
   dayIndicatorSize = '2rem',
   dayIndicatorsGap = '1rem',
@@ -60,6 +91,7 @@ export function DailyCalendarProgress({
         <DayStatus
           key={index}
           day={day}
+          isLoading={isLoading}
           showWeekdayLabels={showWeekdayLabels}
         />
       ))}

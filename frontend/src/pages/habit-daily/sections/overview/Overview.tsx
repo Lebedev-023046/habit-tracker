@@ -3,9 +3,12 @@ import { ProgressBar } from '@/shared/ui/progress-bar';
 import { Subtitle } from '@/shared/ui/subtitle';
 import styles from './Overview.module.css';
 
-export function Overview() {
-  const totalCount = 3;
-  const completedCount = 1;
+interface OverviewProps {
+  totalCount: number;
+  completedCount: number;
+}
+
+export function Overview({ totalCount, completedCount }: OverviewProps) {
   const restCount = totalCount - completedCount;
 
   const barProgress = (completedCount / totalCount) * 100;

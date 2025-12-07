@@ -1,5 +1,10 @@
 import type { ApiResponse } from '@/shared/api/types';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  keepPreviousData,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { habitRepo } from '../../api';
 import type {
   CreateHabitPayload,
@@ -16,6 +21,15 @@ import type { Habit } from '../types';
 export function useGetHabits() {
   const queryOptions = getAllHabitsQueryOptions();
   return useQuery(queryOptions);
+}
+export function useGetHabitsWithStale() {
+  const queryOptions = getAllHabitsQueryOptions();
+  return useQuery({
+    ...queryOptions,
+    placeholderData: keepPreviousData,
+    staleTime: 60_000,
+    refetchOnWindowFocus: true,
+  });
 }
 
 export function useGetHabit(id: string) {
