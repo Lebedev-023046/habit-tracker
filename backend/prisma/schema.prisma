@@ -17,7 +17,7 @@ enum HabitStatus {
 }
 
 enum HabitDayStatus {
-  сompleted
+  completed
   missed
   unmarked
 }
