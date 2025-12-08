@@ -1,4 +1,5 @@
 import { Button } from '@/shared/ui/button';
+import { useEffect, useRef } from 'react';
 import { useDeleteHabit } from '../../model/useDeleteHabit';
 import styles from './DeleteHabitForm.module.css';
 
@@ -14,6 +15,7 @@ export function DeleteHabitForm({
   onCancel,
 }: DeleteHabitFormProps) {
   const { mutate: deleteHabit, isPending, error } = useDeleteHabit();
+  const deleteButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const errorMessage = error ? (error as Error).message : undefined;
   const hasError = Boolean(errorMessage);
@@ -31,6 +33,12 @@ export function DeleteHabitForm({
     );
   };
 
+  useEffect(() => {
+    if (deleteButtonRef.current) {
+      deleteButtonRef.current.focus();
+    }
+  }, []);
+
   return (
     <form onSubmit={handleSubmit}>
       <div className={styles.actions}>
@@ -42,7 +50,7 @@ export function DeleteHabitForm({
         >
           Cancel
         </Button>
-        <Button variant="danger" disabled={isPending}>
+        <Button ref={deleteButtonRef} variant="danger" disabled={isPending}>
           Delete
         </Button>
       </div>

@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import styles from './Button.module.css';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -12,6 +13,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     | 'icon';
   animation?: 'light-sweep' | 'none';
   borderRadius?: string;
+  ref?: React.Ref<HTMLButtonElement>;
 }
 
 const variantClassMap = {
@@ -29,7 +31,7 @@ const animationClassMap = {
   none: '',
 };
 
-export function Button({
+function BaseButton({
   children,
   variant = 'primary',
   animation = 'light-sweep',
@@ -55,3 +57,9 @@ export function Button({
     </button>
   );
 }
+
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (props, ref) => <BaseButton {...props} ref={ref} />,
+);
+
+Button.displayName = 'Button';
