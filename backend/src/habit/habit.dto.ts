@@ -1,4 +1,5 @@
 import { HabitStatus } from '@prisma/client';
+import { Type } from 'class-transformer';
 import {
   IsArray,
   IsDate,
@@ -27,10 +28,12 @@ export class CreateHabitDto {
 
   @IsOptional()
   @IsDate({ message: 'Start date must be a valid date' })
+  @Type(() => Date)
   startDate?: Date;
 
   @IsOptional()
   @IsDate({ message: 'End date must be a valid date' })
+  @Type(() => Date)
   endDate?: Date;
 }
 
@@ -53,10 +56,12 @@ export class UpdateHabitDto {
 
   @IsOptional()
   @IsDate({ message: 'Start date must be a valid date' })
+  @Type(() => Date)
   startDate?: Date;
 
   @IsOptional()
   @IsDate({ message: 'End date must be a valid date' })
+  @Type(() => Date)
   endDate?: Date;
 }
 
