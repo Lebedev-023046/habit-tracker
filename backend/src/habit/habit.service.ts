@@ -13,6 +13,7 @@ export class HabitService {
     try {
       const habits = await this.prisma.habit.findMany({
         orderBy: { position: 'asc' },
+        include: { dayLogs: true },
       });
       console.log(`Found ${habits.length} habits`);
       return ResponseUtil.success(habits);
