@@ -1,6 +1,6 @@
 import type { ApiResponse } from '@/shared/api/types';
 import { useMutation } from '@tanstack/react-query';
-import { habitRepo } from '../api';
+import { habitRepo } from '../api/habitRepo';
 import type { HabitReorderPayload } from '../api/types';
 import type { Habit } from '../model/types';
 

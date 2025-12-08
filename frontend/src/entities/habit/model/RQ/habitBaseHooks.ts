@@ -5,7 +5,7 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { habitRepo } from '../../api';
+import { habitRepo } from '../../api/habitRepo';
 import type {
   CreateHabitPayload,
   DeleteHabitPayload,

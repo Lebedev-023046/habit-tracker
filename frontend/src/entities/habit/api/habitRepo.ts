@@ -1,4 +1,6 @@
+import { api as AxiosApiInstance } from '@/shared/api/instance';
 import type { AxiosInstance } from 'axios';
+
 import type {
   CreateHabitPayload,
   DeleteHabitPayload,
@@ -17,7 +19,7 @@ const ENDPOINTS = {
   deleteHabit: (id: string) => `/habits/delete/${id}`,
 };
 
-export class HabitRepo {
+class HabitRepo {
   private api: AxiosInstance;
   constructor(api: AxiosInstance) {
     this.api = api;
@@ -100,3 +102,5 @@ export class HabitRepo {
     }
   }
 }
+
+export const habitRepo = new HabitRepo(AxiosApiInstance);
