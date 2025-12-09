@@ -31,7 +31,6 @@ export function HabitItem({ isLoading, habit }: HabitItemProps) {
     todayStatus,
   } = habit;
 
-  const today = new Date();
   const [completeStatus, undoStatus] = [
     HABIT_DAY_STATUS_MAP.completed,
     HABIT_DAY_STATUS_MAP.unmarked,
@@ -40,13 +39,11 @@ export function HabitItem({ isLoading, habit }: HabitItemProps) {
   const completedPayload = {
     habitId: id,
     status: completeStatus,
-    date: today,
   };
 
   const undoPayload = {
     habitId: id,
     status: undoStatus,
-    date: today,
   };
 
   return (

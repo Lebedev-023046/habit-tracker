@@ -89,7 +89,7 @@ export function DailyCalendarProgress({
         } as React.CSSProperties
       }
     >
-      {lastWeekProgress.map((day, index) => (
+      {(lastWeekProgress ?? []).map((day, index) => (
         <DayStatus
           key={index}
           day={day}

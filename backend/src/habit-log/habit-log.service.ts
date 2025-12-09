@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { throwError } from 'src/common/helper/error-handling';
 import { ResponseUtil } from 'src/common/utils/response';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { getUTCStartOfUserDay } from 'src/utils/time';
+import { getUserDayUTC } from 'src/utils/time';
 import {
   CreateHabitLogDto,
   UpdateHabitLogDto,
@@ -47,9 +47,8 @@ export class HabitLogService {
     try {
       const { habitId, date, status } = data;
 
-      const rawDate = new Date(date);
-
-      const normalizedDate = getUTCStartOfUserDay(rawDate);
+      const rawDate = date ? new Date(date) : new Date();
+      const normalizedDate = getUserDayUTC(rawDate);
 
       const habitLog = await this.prisma.habitDayLog.upsert({
         where: {

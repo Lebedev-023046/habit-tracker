@@ -18,6 +18,7 @@ export class UpsertHabitLogDto {
   })
   status: HabitDayStatus;
 
+  @IsOptional()
   @IsDate({ message: 'Date must be a valid date' })
   @Type(() => Date)
   date: Date;

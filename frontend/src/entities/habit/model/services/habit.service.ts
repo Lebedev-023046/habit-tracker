@@ -1,22 +1,23 @@
-import { format, isSameDay, startOfDay, subDays } from 'date-fns';
+import { getTodayUserDayUTC } from '@/shared/utils/time';
+import { format, isSameDay, subDays } from 'date-fns';
 import { HABIT_DAY_STATUS_MAP } from '../constants';
 import { type HabitDayLog } from '../types';
 
 export class HabitService {
   getLastDaysProgress(habitLogs: HabitDayLog[], period: number) {
     try {
-      const today = startOfDay(new Date());
+      const today = getTodayUserDayUTC();
 
       const normalizedLogs = habitLogs.map(log => ({
         ...log,
-        date: startOfDay(new Date(log.date as string)),
+        date: new Date(log.date as string),
       }));
 
       const result = [];
 
       // строим даты: от today-(period-1) до today
       for (let i = period - 1; i >= 0; i--) {
-        const day = subDays(today, i);
+        const day = subDays(today, i); // тоже "дни пользователя", в UTC
 
         const foundLog = normalizedLogs.find(l => isSameDay(l.date, day));
 

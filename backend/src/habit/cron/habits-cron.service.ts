@@ -7,8 +7,10 @@ import {
   type HabitDayLog,
   type Prisma,
 } from '@prisma/client';
-import { addDays, isAfter, isBefore, startOfDay } from 'date-fns';
+import { addDays, isAfter, isBefore } from 'date-fns';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { getTodayUserDayUTC, getUserDayUTC } from 'src/utils/time';
+// import { getTodayUTCStartForUser, getUTCStartOfUserDay } from 'src/utils/time';
 
 type HabitWithLogs = Habit & { dayLogs: HabitDayLog[] };
 
@@ -22,11 +24,8 @@ export class HabitsCronService {
   async backfillAllHabitsDaily() {
     this.logger.log('Starting daily habits backfill');
 
-    const today = startOfDay(new Date());
-
-    // Берём только те привычки, которые ещё актуальны (не закончились)
+    const today = getTodayUserDayUTC();
     const habits = await this.prisma.habit.findMany({
-      // where: { userId } — если нужно на пользователя фильтровать
       include: {
         dayLogs: {
           orderBy: { date: 'asc' },
@@ -46,21 +45,20 @@ export class HabitsCronService {
 
     if (!startDate || !totalDays) return;
 
-    const start = startOfDay(startDate);
+    const start = getUserDayUTC(new Date(startDate));
+
     const yesterday = addDays(today, -1);
     const plannedEnd = addDays(start, totalDays - 1);
 
-    // Логи создаём до min(вчера, plannedEnd)
     const effectiveEnd = isBefore(yesterday, plannedEnd)
       ? yesterday
       : plannedEnd;
-    if (isBefore(effectiveEnd, start)) {
-      // ещё нечего заполнять (привычка началась сегодня/вчера и т.п.)
-      return;
-    }
+
+    // ещё нечего заполнять (привычка началась сегодня/вчера и т.п.)
+    if (isBefore(effectiveEnd, start)) return;
 
     const existingDates = new Set(
-      dayLogs.map((log) => startOfDay(log.date).getTime()),
+      dayLogs.map((log) => new Date(log.date).getTime()),
     );
 
     const logsToCreate: Prisma.HabitDayLogCreateManyInput[] = [];
@@ -71,19 +69,19 @@ export class HabitsCronService {
       !isAfter(day, effectiveEnd);
       day = addDays(day, 1)
     ) {
-      const key = startOfDay(day).getTime();
+      const key = day.getTime();
 
       if (!existingDates.has(key)) {
         logsToCreate.push({
           habitId,
-          date: day,
+          date: day, // уже "день пользователя в UTC"
           status: HabitDayStatus.missed,
         });
       }
     }
 
     // 2) Сегодняшний unmarked, если ещё нет и привычка активна
-    const todayKey = startOfDay(today).getTime();
+    const todayKey = today.getTime();
     const hasTodayLog = existingDates.has(todayKey);
     const habitIsActiveToday = !isAfter(today, plannedEnd);
 

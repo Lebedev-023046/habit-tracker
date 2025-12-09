@@ -1,5 +1,6 @@
 import type { DayProgress } from '@/shared/ui/daily-calendar-progress/DailyCalendarProgress';
-import { isSameDay, startOfDay } from 'date-fns';
+import { getTodayUserDayUTC } from '@/shared/utils/time';
+import { isSameDay } from 'date-fns';
 import { HABIT_DAY_STATUS_MAP } from '../constants';
 import type { Habit, HabitDayLog, HabitDayStatus } from '../types';
 import { HabitService } from './habit.service';
@@ -91,16 +92,14 @@ export class HabitDailyService extends HabitService {
 
   private getTodayStatus(dayLogs: HabitDayLog[]): HabitDayStatus {
     try {
-      const today = startOfDay(new Date());
+      if (!dayLogs?.length) {
+        return HABIT_DAY_STATUS_MAP.unmarked;
+      }
 
-      // нормализуем логи (важно!)
-      const normalizedLogs = dayLogs.map(log => ({
-        ...log,
-        date: startOfDay(new Date(log.date as string)),
-      }));
+      const todayUTC = getTodayUserDayUTC();
 
-      const logForToday = normalizedLogs.find(log =>
-        isSameDay(log.date, today),
+      const logForToday = dayLogs.find(log =>
+        isSameDay(new Date(log.date as string), todayUTC),
       );
 
       return logForToday?.status ?? HABIT_DAY_STATUS_MAP.unmarked;
