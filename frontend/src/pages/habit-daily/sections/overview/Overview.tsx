@@ -24,7 +24,9 @@ export function Overview({ totalCount, completedCount }: OverviewProps) {
       </div>
       <ProgressBar progress={barProgress} />
       <span className={styles.message}>
-        Nice start! Complete {restCount} more to close your rings!
+        {restCount > 0
+          ? `Nice start! Complete ${restCount} more to close your rings!`
+          : 'Great! You completed all your habits today!'}
       </span>
     </Container>
   );

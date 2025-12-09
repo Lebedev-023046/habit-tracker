@@ -8,12 +8,12 @@ import { type UseFormReturn } from 'react-hook-form';
 import styles from './HabitForm.module.css';
 
 import type { SelectOption } from '@/shared/ui/form-fields/base/base-select';
+import { CREATE_HABIT_STATUS, TOTAL_DAYS_VALUES } from '../../model/constants';
 import type {
   CreateHabitFormValues,
   HabitFormValues,
   UpdateHabitFormValues,
 } from '../../model/form/schema';
-import { CREATE_HABIT_STATUS, TOTAL_DAYS_VALUES } from '../../model/types';
 
 interface HabitFormProps {
   form: UseFormReturn<HabitFormValues>;

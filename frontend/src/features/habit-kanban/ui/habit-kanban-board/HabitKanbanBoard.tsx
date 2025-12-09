@@ -1,4 +1,4 @@
-import { useGetHabitsWithStale } from '@/entities/habit/model/RQ/habitBaseHooks';
+import { useGetHabitsWithStale } from '@/entities/habit/model/query/habitBaseHooks';
 import { DragDropContext } from '@hello-pangea/dnd';
 import { HABIT_KANBAN_COLUMNS } from '../../model/columns';
 

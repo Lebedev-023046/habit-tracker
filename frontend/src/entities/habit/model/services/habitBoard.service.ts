@@ -1,6 +1,7 @@
 import type { DraggableLocation, DropResult } from '@hello-pangea/dnd';
-import type { HabitReorderPayload } from '../api/types';
-import { HABIT_STATUS, type Habit, type HabitStatus } from './types';
+import type { HabitReorderPayload } from '../../api/types';
+import { HABIT_STATUS } from '../constants';
+import type { Habit, HabitStatus } from '../types';
 
 export type HabitKanbanItem = Pick<
   Habit,

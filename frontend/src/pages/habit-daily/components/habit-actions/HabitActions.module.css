@@ -17,3 +17,8 @@
   display: flex;
   gap: 1rem;
 }
+
+.actionButton {
+  min-width: 15rem;
+  justify-content: center;
+}

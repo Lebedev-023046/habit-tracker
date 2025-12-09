@@ -12,11 +12,11 @@ import type {
   UpdateHabitPayload,
   UpdateHabitStatusPayload,
 } from '../../api/types';
+import type { Habit } from '../types';
 import {
   getAllHabitsQueryOptions,
   getOneHabitQueryOptions,
-} from '../RQ/queryOptions';
-import type { Habit } from '../types';
+} from './queryOptions';
 
 export function useGetHabits() {
   const queryOptions = getAllHabitsQueryOptions();

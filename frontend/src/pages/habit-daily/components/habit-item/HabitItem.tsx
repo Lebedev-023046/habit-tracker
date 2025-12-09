@@ -1,82 +1,82 @@
+import { HABIT_DAY_STATUS_MAP } from '@/entities/habit/model/constants';
+import type { DailyHabitViewModel } from '@/entities/habit/model/services/habitDaily.service';
+import { HabitActionsContainer } from '@/features/habit-log/update/ui/habit-actions-container';
+import { usePlural } from '@/shared/hooks/usePlural';
 import { Container } from '@/shared/ui/container';
 import { DailyCalendarProgress } from '@/shared/ui/daily-calendar-progress';
 import { Diagram } from '@/shared/ui/diagram/Diagram';
 import { Subtitle } from '@/shared/ui/subtitle';
 import Skeleton from 'react-loading-skeleton';
-import { HabitActions } from '../habit-actions';
 import styles from './HabitItem.module.css';
 
-// TODO: replace it with real data
-
-const statuses = ['completed', 'missed', 'unmarked'] as const;
-
-const weekdays = [
-  {
-    weekday: 'monday',
-    status: statuses[Math.floor(Math.random() * statuses.length)],
-  },
-  {
-    weekday: 'tuesday',
-    status: statuses[Math.floor(Math.random() * statuses.length)],
-  },
-  {
-    weekday: 'wednesday',
-    status: statuses[Math.floor(Math.random() * statuses.length)],
-  },
-  {
-    weekday: 'thursday',
-    status: statuses[Math.floor(Math.random() * statuses.length)],
-  },
-  {
-    weekday: 'friday',
-    status: statuses[Math.floor(Math.random() * statuses.length)],
-  },
-  {
-    weekday: 'saturday',
-    status: statuses[Math.floor(Math.random() * statuses.length)],
-  },
-  {
-    weekday: 'sunday',
-    status: statuses[Math.floor(Math.random() * statuses.length)],
-  },
-];
-
-console.log({ weekdays });
-
 interface HabitItemProps {
-  title: string;
   isLoading: boolean;
+  habit?: DailyHabitViewModel;
 }
 
-export function HabitItem({ title = 'Not found', isLoading }: HabitItemProps) {
-  const currentDay = 10;
-  const totalDays = 45;
-  const streak = 7;
+export function HabitItem({ isLoading, habit }: HabitItemProps) {
+  const { pluralize } = usePlural();
 
-  const percentage = Math.ceil((currentDay / totalDays) * 100); // или можно считать сколько процентов выполнено (кол-во выполненых / кол-во дней которые ты прошел)
+  if (!habit) return;
+
+  const {
+    id,
+    progress,
+    daySinceStart,
+    totalDays,
+    currentStreak,
+    title,
+    bestStreak,
+    lastWeekProgress,
+    todayStatus,
+  } = habit;
+
+  const today = new Date();
+  const [completeStatus, undoStatus] = [
+    HABIT_DAY_STATUS_MAP.completed,
+    HABIT_DAY_STATUS_MAP.unmarked,
+  ];
+
+  const completedPayload = {
+    habitId: id,
+    status: completeStatus,
+    date: today,
+  };
+
+  const undoPayload = {
+    habitId: id,
+    status: undoStatus,
+    date: today,
+  };
 
   return (
     <Container as="div" className={styles.habitCard}>
-      <Diagram progress={12} className={styles.progressDiagram}>
+      <Diagram progress={progress} className={styles.progressDiagram}>
         <Subtitle>
           {isLoading ? (
             <Skeleton width={100} height={16} />
           ) : (
-            `Day ${currentDay} of ${totalDays}`
+            `Day ${daySinceStart} of ${totalDays}`
           )}
         </Subtitle>
         <p className={styles.percentage}>
-          {isLoading ? <Skeleton width={75} height={24} /> : `${percentage}%`}
+          {isLoading ? <Skeleton width={75} height={24} /> : `${progress}%`}
         </p>
         <Subtitle>
           {isLoading ? (
             <Skeleton width={100} height={16} />
           ) : (
-            `Streak: ${streak}`
+            `Streak: ${currentStreak}`
           )}
         </Subtitle>
       </Diagram>
-      <HabitActions habitName={title} />
+      <HabitActionsContainer
+        todayStatus={todayStatus}
+        habitName={title}
+        completePayload={completedPayload}
+        undoPayload={undoPayload}
+        isLoading={isLoading}
+      />
       <div className={styles.activitySection}>
         <div className={styles.activityHeader}>
           <p>
@@ -90,11 +90,11 @@ export function HabitItem({ title = 'Not found', isLoading }: HabitItemProps) {
             {isLoading ? (
               <Skeleton width={130} height={16} />
             ) : (
-              'Best Streak: 12 days'
+              `Best Streak: ${pluralize(bestStreak)}`
             )}
           </p>
         </div>
-        <DailyCalendarProgress weekdays={weekdays} />
+        <DailyCalendarProgress lastWeekProgress={lastWeekProgress} />
       </div>
     </Container>
   );

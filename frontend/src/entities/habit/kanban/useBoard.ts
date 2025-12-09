@@ -7,7 +7,7 @@ import { useReorderHabits } from './hooks';
 import {
   habitBoardService,
   type HabitKanbanBoardState,
-} from '../model/habitBoard.service';
+} from '../model/services/habitBoard.service';
 
 export function useBoard(habits: Habit[]) {
   const [board, setBoard] = useState<HabitKanbanBoardState | null>(null);

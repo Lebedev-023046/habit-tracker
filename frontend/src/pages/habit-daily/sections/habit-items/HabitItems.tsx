@@ -1,9 +1,9 @@
-import type { Habit } from '@/entities/habit/model/types';
+import type { DailyHabitViewModel } from '@/entities/habit/model';
 import { HabitItem } from '../../components/habit-item';
 import styles from './HabitItems.module.css';
 
 interface HabitItemsProps {
-  activeHabits: Habit[];
+  activeHabits: DailyHabitViewModel[];
   isLoading: boolean;
 }
 export function HabitItems({ activeHabits, isLoading }: HabitItemsProps) {
@@ -13,7 +13,7 @@ export function HabitItems({ activeHabits, isLoading }: HabitItemsProps) {
     return (
       <section className={styles.habitCards}>
         {skeletons.map((_, index) => (
-          <HabitItem key={index} isLoading={true} title="" />
+          <HabitItem key={index} isLoading />
         ))}
       </section>
     );
@@ -21,8 +21,8 @@ export function HabitItems({ activeHabits, isLoading }: HabitItemsProps) {
 
   return (
     <section className={styles.habitCards}>
-      {activeHabits.map(item => (
-        <HabitItem key={item.id} title={item.title} isLoading={isLoading} />
+      {activeHabits.map(habit => (
+        <HabitItem key={habit.id} isLoading={isLoading} habit={habit} />
       ))}
     </section>
   );

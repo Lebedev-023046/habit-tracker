@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { HABIT_STATUS, TOTAL_DAYS_VALUES } from '../types';
+import { HABIT_STATUS, TOTAL_DAYS_VALUES } from '../constants';
 
 const titleSchema = z
   .string()

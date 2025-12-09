@@ -1,9 +1,9 @@
 import Skeleton from 'react-loading-skeleton';
 import styles from './DailyCalendarProgress.module.css';
 
-type DayStatus = 'completed' | 'missed' | 'unmarked';
+const DayStatuses = ['completed', 'missed', 'unmarked'] as const;
+type DayStatus = (typeof DayStatuses)[number];
 
-// TODO: когда появятся реальные данные нужно подумать где хранить этот интерфейс
 export interface DayProgress {
   weekday: string;
   status: DayStatus;
@@ -14,7 +14,7 @@ interface CommonProps {
 }
 
 interface DailyCalendarProgressProps extends CommonProps {
-  weekdays: DayProgress[];
+  lastWeekProgress: DayProgress[];
   isLoading?: boolean;
   dayIndicatorSize?: string;
   dayIndicatorsGap?: string;
@@ -31,9 +31,6 @@ const DayStatus = ({
   showWeekdayLabels = true,
 }: DayStatusProps) => {
   const { weekday, status } = day;
-
-  console.log('WWWWW');
-  console.log({ status });
 
   const statusClassName = (() => {
     switch (status) {
@@ -71,12 +68,17 @@ const DayStatus = ({
  * @returns JSX
  */
 export function DailyCalendarProgress({
-  weekdays,
+  lastWeekProgress,
   isLoading,
   showWeekdayLabels = true,
   dayIndicatorSize = '2rem',
   dayIndicatorsGap = '1rem',
 }: DailyCalendarProgressProps) {
+  //   const lastWeekProgress = useMemo(
+  //   () => buildLast7DaysProgress(logs),
+  //   [logs],
+  // );
+
   return (
     <div
       className={styles.calendar}
@@ -87,7 +89,7 @@ export function DailyCalendarProgress({
         } as React.CSSProperties
       }
     >
-      {weekdays.map((day, index) => (
+      {lastWeekProgress.map((day, index) => (
         <DayStatus
           key={index}
           day={day}

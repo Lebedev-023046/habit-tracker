@@ -1,26 +1,27 @@
-import { useGetHabitsWithStale } from '@/entities/habit/model/RQ/habitBaseHooks';
+import { useDailyHabits } from '@/entities/habit/model/view/useDailyHabits';
 import { HabitItems } from './sections/habit-items';
 import { Overview } from './sections/overview/Overview';
 
 export default function HabitDailyPage() {
-  const { data: habitsInfo, isLoading, isError } = useGetHabitsWithStale();
-
-  const isInitialLoading = isLoading && !habitsInfo;
+  const { viewModel, isLoading, isError, error } = useDailyHabits();
+  const isInitialLoading = isLoading && !viewModel;
 
   if (isError) {
-    return <div>{habitsInfo?.error}</div>;
+    return <div>{error?.message}</div>;
   }
 
-  const habits = habitsInfo?.data ?? [];
-  const activeHabits = habits.filter(habit => habit.status === 'active');
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-  const totalCount = activeHabits.length;
-  const completedCount = 1;
+  const { totalCount, completedCount, habits } = viewModel;
+
+  console.log({ habits });
 
   return (
     <>
       <Overview totalCount={totalCount} completedCount={completedCount} />
-      <HabitItems activeHabits={activeHabits} isLoading={isInitialLoading} />
+      <HabitItems activeHabits={habits} isLoading={isInitialLoading} />
     </>
   );
 }
