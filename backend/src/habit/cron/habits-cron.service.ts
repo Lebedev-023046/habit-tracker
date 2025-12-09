@@ -3,6 +3,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import {
   HabitDayStatus,
+  HabitStatus,
   type Habit,
   type HabitDayLog,
   type Prisma,
@@ -26,6 +27,7 @@ export class HabitsCronService {
 
     const today = getTodayUserDayUTC();
     const habits = await this.prisma.habit.findMany({
+      where: { status: HabitStatus.active },
       include: {
         dayLogs: {
           orderBy: { date: 'asc' },
