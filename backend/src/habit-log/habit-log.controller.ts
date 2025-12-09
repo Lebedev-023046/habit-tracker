@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Put } from '@nestjs/common';
 import { UpsertHabitLogDto } from './habit-log.dto';
 import { HabitLogService } from './habit-log.service';
 
@@ -16,7 +16,7 @@ export class HabitLogController {
     return this.habitLogService.getHabitLogById(id);
   }
 
-  @Patch('upsert')
+  @Put('upsert')
   upsertHabitLog(@Body() data: UpsertHabitLogDto) {
     return this.habitLogService.upsertHabitLog(data);
   }

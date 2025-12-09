@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { HabitService } from './habit.service';
+import { HabitsCronService } from './cron/habits-cron.service';
 import { HabitController } from './habit.controller';
+import { HabitService } from './habit.service';
 
 @Module({
-  providers: [HabitService],
-  controllers: [HabitController]
+  providers: [HabitService, HabitsCronService],
+  controllers: [HabitController],
 })
 export class HabitModule {}

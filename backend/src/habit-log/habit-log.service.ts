@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { startOfDay } from 'date-fns';
 import { throwError } from 'src/common/helper/error-handling';
 import { ResponseUtil } from 'src/common/utils/response';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -46,17 +47,19 @@ export class HabitLogService {
     try {
       const { habitId, date, status } = data;
 
+      const normalizedDate = startOfDay(new Date(date));
+
       const habitLog = await this.prisma.habitDayLog.upsert({
         where: {
           habitId_date: {
             habitId,
-            date: new Date(date),
+            date: normalizedDate,
           },
         },
         update: { status },
         create: {
           habitId,
-          date: new Date(date),
+          date: normalizedDate,
           status,
         },
       });
