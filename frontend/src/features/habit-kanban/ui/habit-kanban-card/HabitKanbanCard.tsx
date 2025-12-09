@@ -1,5 +1,5 @@
 import type { UpdateHabitFormValues } from '@/entities/habit/model/form/schema';
-import type { HabitStatus, HabitTotalDays } from '@/entities/habit/model/types';
+import type { HabitBoardViewModel } from '@/entities/habit/model/services/habitBoard.service';
 import { DeleteHabitModalTrigger } from '@/features/habit/delete/ui/delete-habit-modal-trigger';
 import { UpdateHabitModalTrigger } from '@/features/habit/update/ui/update-habit-modal-trigger';
 import { useClickOutside } from '@/shared/hooks/useClickOutside';
@@ -7,51 +7,34 @@ import { Button } from '@/shared/ui/button';
 import { DailyCalendarProgress } from '@/shared/ui/daily-calendar-progress';
 import { ProgressBar } from '@/shared/ui/progress-bar';
 import { Subtitle } from '@/shared/ui/subtitle';
+import { getUserDayUTC } from '@/shared/utils/time';
 import { Draggable } from '@hello-pangea/dnd';
 import { useState } from 'react';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import styles from './HabitKanbanCard.module.css';
 
-const weekdays = [
-  { weekday: 'monday', isDone: Math.random() > 0.5 },
-  { weekday: 'tuesday', isDone: Math.random() > 0.5 },
-  { weekday: 'wednesday', isDone: Math.random() > 0.5 },
-  { weekday: 'thursday', isDone: Math.random() > 0.5 },
-  { weekday: 'friday', isDone: Math.random() > 0.5 },
-  { weekday: 'saturday', isDone: Math.random() > 0.5 },
-  { weekday: 'sunday', isDone: Math.random() > 0.5 },
-];
+type HabitCardProps = HabitBoardViewModel;
 
-interface DNDCardProps {
-  index: number;
-}
-
-interface HabitCardProps extends DNDCardProps {
-  id: string;
-  title: string;
-  totalDays: HabitTotalDays;
-  status: HabitStatus;
-  startDate?: Date | undefined;
-}
-
-export function HabitKanbanCard({
-  index,
-  id: habitId,
-  title,
-  status,
-  totalDays,
-  startDate,
-}: HabitCardProps) {
-  const passedDays = 8; // TODO: replace it with real data
+export function HabitKanbanCard(props: HabitCardProps) {
+  const {
+    id: habitId,
+    title,
+    status,
+    totalDays,
+    startDate,
+    position,
+    daySinceStart,
+    lastWeekProgress,
+  } = props;
 
   const updatePayload: UpdateHabitFormValues = {
     title,
     status,
     totalDays,
-    startDate,
+    startDate: startDate ? getUserDayUTC(new Date(startDate)) : undefined,
   };
 
-  const barProgress = (passedDays / totalDays) * 100;
+  const barProgress = (daySinceStart / totalDays) * 100;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -60,14 +43,11 @@ export function HabitKanbanCard({
     setIsMenuOpen(false);
   });
 
-  const handleMenuClick = () => {
-    // console.log('CLICKED!');
-    setIsMenuOpen(prev => !prev);
-  };
+  const handleMenuClick = () => setIsMenuOpen(prev => !prev);
 
   return (
     <>
-      <Draggable draggableId={habitId} index={index}>
+      <Draggable draggableId={habitId} index={position}>
         {provided => {
           const setRefs = (node: HTMLDivElement | null) => {
             actionsRef.current = node;
@@ -83,12 +63,12 @@ export function HabitKanbanCard({
             >
               <h3>{title}</h3>
               <Subtitle>
-                {passedDays} / {totalDays} days
+                {daySinceStart} / {totalDays} days
               </Subtitle>
               <ProgressBar barHeight="1px" progress={barProgress} />
 
               <DailyCalendarProgress
-                weekdays={weekdays}
+                lastWeekProgress={lastWeekProgress}
                 showWeekdayLabels={false}
                 dayIndicatorSize="1.3rem"
                 dayIndicatorsGap="0.5rem"

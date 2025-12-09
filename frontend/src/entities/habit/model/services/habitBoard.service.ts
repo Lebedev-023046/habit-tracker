@@ -1,17 +1,27 @@
+import type { DateType } from '@/shared/types';
+import type { DayProgress } from '@/shared/ui/daily-calendar-progress/DailyCalendarProgress';
 import type { DraggableLocation, DropResult } from '@hello-pangea/dnd';
 import type { HabitReorderPayload } from '../../api/types';
 import { HABIT_STATUS } from '../constants';
-import type { Habit, HabitStatus } from '../types';
+import type { Habit, HabitStatus, HabitTotalDays } from '../types';
+import { HabitService } from './habit.service';
 
-export type HabitKanbanItem = Pick<
-  Habit,
-  'id' | 'title' | 'status' | 'totalDays' | 'startDate' | 'position'
->;
+export interface HabitBoardViewModel {
+  id: string;
+  title: string;
+  status: HabitStatus;
+  totalDays: HabitTotalDays;
+  startDate?: DateType;
+  position: number;
+  daySinceStart: number;
+  lastWeekProgress: DayProgress[];
+}
 
-export type HabitKanbanBoardState = Record<HabitStatus, HabitKanbanItem[]>;
+export type HabitKanbanBoardState = Record<HabitStatus, HabitBoardViewModel[]>;
 
-class HabitBoardService {
+class HabitBoardService extends HabitService {
   constructor() {
+    super();
     this.buildHabitBoard = this.buildHabitBoard.bind(this);
     this.applyDragToBoard = this.applyDragToBoard.bind(this);
     this.buildReorderDiffPayload = this.buildReorderDiffPayload.bind(this);
@@ -50,34 +60,6 @@ class HabitBoardService {
     return next;
   }
 
-  buildHabitBoard(habits: Habit[]): HabitKanbanBoardState {
-    const empty: HabitKanbanBoardState = {
-      planned: [],
-      active: [],
-      paused: [],
-      built: [],
-      cancelled: [],
-    };
-
-    habits.forEach(habit => {
-      empty[habit.status].push({
-        id: habit.id,
-        title: habit.title,
-        status: habit.status,
-        totalDays: habit.totalDays,
-        startDate: habit.startDate,
-        position: habit.position,
-      });
-    });
-
-    // сортируем внутри колонок по position
-    (Object.keys(empty) as HabitStatus[]).forEach(status => {
-      empty[status].sort((a, b) => a.position - b.position);
-    });
-
-    return empty;
-  }
-
   applyDragToBoard(
     board: HabitKanbanBoardState,
     result: DropResult,
@@ -105,7 +87,7 @@ class HabitBoardService {
     const [moved] = sourceColumn.splice(source.index, 1);
     if (!moved) return board;
 
-    const movedWithStatus: HabitKanbanItem = {
+    const movedWithStatus: HabitBoardViewModel = {
       ...moved,
       status: destStatus,
     };
@@ -152,6 +134,57 @@ class HabitBoardService {
     }
 
     return updates;
+  }
+
+  buildBoardModel(habit: Habit): HabitBoardViewModel {
+    if (!habit) {
+      return {
+        id: '',
+        title: '',
+        status: 'planned',
+        totalDays: 30,
+        startDate: undefined,
+        position: 0,
+        daySinceStart: 0,
+        lastWeekProgress: [],
+      };
+    }
+
+    const { id, title, status, totalDays, startDate, position, dayLogs } =
+      habit;
+
+    return {
+      id: id,
+      title: title,
+      status: status,
+      totalDays: totalDays,
+      startDate: startDate,
+      position: position,
+      daySinceStart: this.getDayNumberSinceStart(dayLogs, totalDays),
+      lastWeekProgress: habitBoardService.getLastDaysProgress(dayLogs, 7),
+    };
+  }
+
+  buildHabitBoard(habits: Habit[]): HabitKanbanBoardState {
+    const empty: HabitKanbanBoardState = {
+      planned: [],
+      active: [],
+      paused: [],
+      built: [],
+      cancelled: [],
+    };
+
+    habits.forEach(habit => {
+      const { status } = habit;
+      empty[status].push(this.buildBoardModel(habit));
+    });
+
+    // сортируем внутри колонок по position
+    (Object.keys(empty) as HabitStatus[]).forEach(status => {
+      empty[status].sort((a, b) => a.position - b.position);
+    });
+
+    return empty;
   }
 }
 

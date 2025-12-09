@@ -22,15 +22,6 @@ export class HabitDailyService extends HabitService {
     super();
   }
 
-  private getDayNumberSinceStart(
-    habitLogs: HabitDayLog[],
-    totalDays: number,
-  ): number {
-    if (!habitLogs?.length) return 0;
-
-    return Math.min(habitLogs.length, totalDays);
-  }
-
   private getHabitProgress(habitLogs: HabitDayLog[], totalDays: number) {
     if (!habitLogs || habitLogs.length === 0) return 0;
 

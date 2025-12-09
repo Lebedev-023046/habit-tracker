@@ -4,6 +4,11 @@ import { HABIT_DAY_STATUS_MAP } from '../constants';
 import { type HabitDayLog } from '../types';
 
 export class HabitService {
+  getDayNumberSinceStart(habitLogs: HabitDayLog[], totalDays: number): number {
+    if (!habitLogs?.length) return 0;
+
+    return Math.min(habitLogs.length, totalDays);
+  }
   getLastDaysProgress(habitLogs: HabitDayLog[], period: number) {
     try {
       const today = getTodayUserDayUTC();

@@ -4,7 +4,7 @@ import { Droppable } from '@hello-pangea/dnd';
 import { HabitKanbanCard } from '../habit-kanban-card/HabitKanbanCard';
 import { HabitCardLoading } from '../habit-kanban-card/HabitKanbanCardLoading';
 
-import type { HabitKanbanItem } from '@/entities/habit/kanban/types';
+import type { HabitBoardViewModel } from '@/entities/habit/model/services/habitBoard.service';
 import styles from './HabitKanbanColumn.module.css';
 
 const LoadingHabitCards = () =>
@@ -15,7 +15,7 @@ const LoadingHabitCards = () =>
 interface HabitKanbanColumnProps {
   columnId: HabitStatus;
   title: string;
-  columnHabits: HabitKanbanItem[];
+  columnHabits: HabitBoardViewModel[];
   isLoading: boolean;
 }
 
@@ -43,16 +43,8 @@ export function HabitKanbanColumn({
             {isLoading ? (
               <LoadingHabitCards />
             ) : (
-              columnHabits.map((habit, index) => (
-                <HabitKanbanCard
-                  key={habit.id}
-                  id={habit.id}
-                  index={index}
-                  title={habit.title}
-                  status={habit.status}
-                  totalDays={habit.totalDays}
-                  // startDate={habit.startDate}
-                />
+              columnHabits.map(habit => (
+                <HabitKanbanCard key={habit.id} {...habit} />
               ))
             )}
             {provided.placeholder}
