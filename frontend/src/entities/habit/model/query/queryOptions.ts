@@ -11,8 +11,8 @@ export function getAllHabitsQueryOptions() {
   });
 }
 export function getOneHabitQueryOptions(id: string) {
-  return queryOptions<ApiResponse<Habit[]>>({
+  return queryOptions<ApiResponse<Habit>>({
     queryKey: habitQueryKeys.byParams<string>(id),
-    queryFn: () => habitRepo.getAllHabits(),
+    queryFn: () => habitRepo.getHabit(id),
   });
 }

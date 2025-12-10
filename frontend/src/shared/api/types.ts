@@ -1,12 +1,12 @@
 export interface ApiSuccessResponse<T> {
   success: true;
   data: T;
-  error: null;
+  error: undefined;
 }
 
 export interface ApiErrorResponse {
   success: false;
-  data: null;
+  data: undefined;
   error: string;
 }
 

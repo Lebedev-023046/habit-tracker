@@ -16,8 +16,6 @@ export default function HabitDailyPage() {
 
   const { totalCount, completedCount, habits } = viewModel;
 
-  console.log({ habits });
-
   return (
     <>
       <Overview totalCount={totalCount} completedCount={completedCount} />

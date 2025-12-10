@@ -4,12 +4,74 @@ import { HABIT_DAY_STATUS_MAP } from '../constants';
 import { type HabitDayLog } from '../types';
 
 export class HabitService {
-  getDayNumberSinceStart(habitLogs: HabitDayLog[], totalDays: number): number {
+  protected getHabitProgress(habitLogs: HabitDayLog[], totalDays: number) {
+    if (!habitLogs || habitLogs.length === 0) return 0;
+
+    let completed = 0;
+    for (const log of habitLogs) {
+      if (log.status === HABIT_DAY_STATUS_MAP.completed) {
+        completed++;
+      }
+    }
+
+    const percent = (completed / totalDays) * 100;
+    return Math.round(percent);
+  }
+
+  protected getBestStreak(habitLogs: HabitDayLog[]) {
+    if (!habitLogs || habitLogs.length === 0) return 0;
+
+    let best = 0;
+    let current = 0;
+
+    for (const log of habitLogs) {
+      if (log.status === HABIT_DAY_STATUS_MAP.completed) {
+        current += 1;
+        best = Math.max(best, current);
+      } else {
+        current = 0;
+      }
+    }
+
+    return best;
+  }
+
+  protected getCurrentStreak(habitLogs: HabitDayLog[]) {
+    if (!habitLogs || habitLogs.length === 0) return 0;
+
+    let streak = 0;
+
+    let i = habitLogs.length - 1;
+    const lastLog = habitLogs[i];
+
+    if (lastLog.status === HABIT_DAY_STATUS_MAP.unmarked) {
+      i -= 1;
+    }
+
+    for (; i >= 0; i--) {
+      const log = habitLogs[i];
+
+      if (log.status === HABIT_DAY_STATUS_MAP.completed) {
+        streak += 1;
+        continue;
+      }
+
+      // любой missed или unmarked в прошлом дне — обрывает стрик
+      break;
+    }
+
+    return streak;
+  }
+
+  protected getDayNumberSinceStart(
+    habitLogs: HabitDayLog[],
+    totalDays: number,
+  ): number {
     if (!habitLogs?.length) return 0;
 
     return Math.min(habitLogs.length, totalDays);
   }
-  getLastDaysProgress(habitLogs: HabitDayLog[], period: number) {
+  protected getLastDaysProgress(habitLogs: HabitDayLog[], period: number) {
     try {
       const today = getTodayUserDayUTC();
 

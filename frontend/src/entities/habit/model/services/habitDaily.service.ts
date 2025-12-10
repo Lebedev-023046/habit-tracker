@@ -14,71 +14,12 @@ export interface DailyHabitViewModel {
   currentStreak: number;
   bestStreak: number;
   todayStatus: HabitDayStatus;
-  lastWeekProgress: DayProgress[];
+  lastDaysProgress: DayProgress[];
 }
 
 export class HabitDailyService extends HabitService {
   constructor() {
     super();
-  }
-
-  private getHabitProgress(habitLogs: HabitDayLog[], totalDays: number) {
-    if (!habitLogs || habitLogs.length === 0) return 0;
-
-    let completed = 0;
-    for (const log of habitLogs) {
-      if (log.status === HABIT_DAY_STATUS_MAP.completed) {
-        completed++;
-      }
-    }
-
-    const percent = (completed / totalDays) * 100;
-    return Math.round(percent);
-  }
-
-  private getBestStreak(habitLogs: HabitDayLog[]) {
-    if (!habitLogs || habitLogs.length === 0) return 0;
-
-    let best = 0;
-    let current = 0;
-
-    for (const log of habitLogs) {
-      if (log.status === HABIT_DAY_STATUS_MAP.completed) {
-        current += 1;
-        best = Math.max(best, current);
-      } else {
-        current = 0;
-      }
-    }
-
-    return best;
-  }
-
-  private getCurrentStreak(habitLogs: HabitDayLog[]) {
-    if (!habitLogs || habitLogs.length === 0) return 0;
-
-    let streak = 0;
-
-    let i = habitLogs.length - 1;
-    const lastLog = habitLogs[i];
-
-    if (lastLog.status === HABIT_DAY_STATUS_MAP.unmarked) {
-      i -= 1;
-    }
-
-    for (; i >= 0; i--) {
-      const log = habitLogs[i];
-
-      if (log.status === HABIT_DAY_STATUS_MAP.completed) {
-        streak += 1;
-        continue;
-      }
-
-      // любой missed или unmarked в прошлом дне — обрывает стрик
-      break;
-    }
-
-    return streak;
   }
 
   private getTodayStatus(dayLogs: HabitDayLog[]): HabitDayStatus {
@@ -111,7 +52,7 @@ export class HabitDailyService extends HabitService {
         currentStreak: 0,
         bestStreak: 0,
         todayStatus: HABIT_DAY_STATUS_MAP.unmarked,
-        lastWeekProgress: [],
+        lastDaysProgress: [],
       };
 
     const { id, title, dayLogs, totalDays } = habit;
@@ -124,7 +65,7 @@ export class HabitDailyService extends HabitService {
       progress: this.getHabitProgress(dayLogs, totalDays),
       currentStreak: this.getCurrentStreak(dayLogs),
       bestStreak: this.getBestStreak(dayLogs),
-      lastWeekProgress: this.getLastDaysProgress(dayLogs, 7),
+      lastDaysProgress: this.getLastDaysProgress(dayLogs, 7),
       todayStatus: this.getTodayStatus(dayLogs),
     };
   }

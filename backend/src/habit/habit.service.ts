@@ -32,7 +32,14 @@ export class HabitService {
       if (!id) {
         throw new Error('Habit ID is required');
       }
-      const habit = await this.prisma.habit.findUnique({ where: { id } });
+      const habit = await this.prisma.habit.findUnique({
+        where: { id },
+        include: {
+          dayLogs: {
+            orderBy: { date: 'asc' },
+          },
+        },
+      });
       if (!habit) {
         throw new Error(`Habit with id ${id} not found`);
       }

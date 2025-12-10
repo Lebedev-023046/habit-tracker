@@ -1,12 +1,33 @@
+import type { DayProgress } from '@/shared/ui/daily-calendar-progress/DailyCalendarProgress';
 import { HabitCompletionOverview } from '../../components/habit-completion-overview';
 import { HabitLastDaysChart } from '../../components/habit-last-days-chart';
 import styles from './HabitCharts.module.css';
 
-export function HabitCharts() {
+interface HabitChartsProps {
+  completedDays: number;
+  missedDays: number;
+  restDays: number;
+
+  progress: number;
+  lastDaysProgress: DayProgress[];
+}
+
+export function HabitCharts({
+  completedDays,
+  missedDays,
+  restDays,
+  progress,
+  lastDaysProgress,
+}: HabitChartsProps) {
   return (
     <div className={styles.charts}>
-      <HabitCompletionOverview />
-      <HabitLastDaysChart />
+      <HabitCompletionOverview
+        completedDays={completedDays}
+        missedDays={missedDays}
+        restDays={restDays}
+        progress={progress}
+      />
+      <HabitLastDaysChart lastDaysProgress={lastDaysProgress} />
     </div>
   );
 }

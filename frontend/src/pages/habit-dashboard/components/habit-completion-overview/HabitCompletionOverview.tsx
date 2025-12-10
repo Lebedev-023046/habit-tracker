@@ -2,17 +2,30 @@ import { Diagram } from '@/shared/ui/diagram';
 import { Subtitle } from '@/shared/ui/subtitle';
 import styles from './HabitCompletionOverview.module.css';
 
-export function HabitCompletionOverview() {
-  const completedDays = 31;
-  const missedDays = 7;
-  const remainingDays = 31;
+interface DiadramProps {
+  completedDays: number;
+  missedDays: number;
+  restDays: number;
 
+  progress: number;
+}
+
+export function HabitCompletionOverview({
+  completedDays,
+  missedDays,
+  restDays,
+  progress,
+}: DiadramProps) {
   return (
     <div className={styles.overview}>
       <h3>Completion Overview</h3>
       <div className={styles.content}>
-        <Diagram progress={69} className={styles.diagram} widthVar="30rem">
-          <h4 className={styles.percentage}>69%</h4>
+        <Diagram
+          progress={progress}
+          className={styles.diagram}
+          widthVar="30rem"
+        >
+          <h4 className={styles.percentage}>{progress}%</h4>
           <Subtitle>overall completion</Subtitle>
         </Diagram>
         <ul className={styles.legend}>
@@ -26,7 +39,7 @@ export function HabitCompletionOverview() {
           </li>
           <li className={styles.legendItem}>
             <span className={`${styles.legendIndicator} ${styles.neutral}`} />
-            Remaining days: {remainingDays}
+            Remaining days: {restDays}
           </li>
         </ul>
       </div>

@@ -1,49 +1,47 @@
 import { Container } from '@/shared/ui/container';
+import type { DayProgress } from '@/shared/ui/daily-calendar-progress/DailyCalendarProgress';
 import { Subtitle } from '@/shared/ui/subtitle';
 import styles from './HabitLastDaysChart.module.css';
 
-const WEEKDAYS = [
-  'monday',
-  'tuesday',
-  'wednesday',
-  'thursday',
-  'friday',
-  'saturday',
-  'sunday',
-  'monday',
-  'tuesday',
-  'wednesday',
-  'thursday',
-  'friday',
-  'saturday',
-  'sunday',
-];
+interface ChartProps {
+  lastDaysProgress: DayProgress[];
+}
 
-const DAY_STATUSES = WEEKDAYS.map(day => ({
-  day: day[0].toUpperCase(),
-  isDone: Math.random() > 0.5,
-}));
+const DayBar = ({ day }: { day: DayProgress }) => {
+  const { weekday, status } = day;
 
-export function HabitLastDaysChart() {
+  const statusClassName = (() => {
+    switch (status) {
+      case 'completed':
+        return styles.completed;
+      case 'missed':
+        return styles.missed;
+      case 'unmarked':
+      default:
+        return styles.unmarked;
+    }
+  })();
+
+  const weekdayLetter = weekday[0].toUpperCase() ?? 'N/A';
+
+  return (
+    <div className={styles.bar}>
+      <div className={`${styles.indicator} ${statusClassName}`}></div>
+      <Subtitle className={styles.label}>{weekdayLetter}</Subtitle>
+    </div>
+  );
+};
+
+export function HabitLastDaysChart({ lastDaysProgress }: ChartProps) {
   return (
     <div className={styles.chart}>
       <h3>Last 14 days</h3>
       <div className={styles.content}>
         <Container as="div">
           <div className={styles.bars}>
-            {DAY_STATUSES.map((dayStatus, index) => {
-              const bgColorClassName = dayStatus.isDone
-                ? 'completed'
-                : 'missed';
-              return (
-                <div className={styles.bar} key={index}>
-                  <div
-                    className={`${styles.indicator} ${bgColorClassName}`}
-                  ></div>
-                  <Subtitle className={styles.label}>{dayStatus.day}</Subtitle>
-                </div>
-              );
-            })}
+            {lastDaysProgress.map((day, index) => (
+              <DayBar key={index} day={day} />
+            ))}
           </div>
         </Container>
       </div>

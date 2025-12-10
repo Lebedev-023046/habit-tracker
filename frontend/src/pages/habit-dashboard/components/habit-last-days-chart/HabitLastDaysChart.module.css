@@ -34,3 +34,15 @@
   border-top-left-radius: 5rem;
   border-top-right-radius: 5rem;
 }
+
+.completed {
+  background-color: var(--success);
+}
+
+.missed {
+  background-color: var(--error);
+}
+
+.unmarked {
+  background-color: var(--neutral);
+}
