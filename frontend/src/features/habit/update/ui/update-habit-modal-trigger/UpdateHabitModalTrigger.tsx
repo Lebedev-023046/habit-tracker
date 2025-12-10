@@ -1,5 +1,5 @@
 import type { UpdateHabitFormValues } from '@/entities/habit/model/form/schema';
-import { UpdateHabitModal } from '@/features/habit/update/ui/update-habit-modal';
+import { UpdateHabitModal } from '@/features/habit/update';
 import { useModal } from '@/shared/modal/modal-context';
 import { Button } from '@/shared/ui/button';
 

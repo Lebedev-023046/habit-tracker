@@ -1,6 +1,6 @@
 import { HABIT_DAY_STATUS_MAP } from '@/entities/habit/model/constants';
 import type { DailyHabitViewModel } from '@/entities/habit/model/services/habitDaily.service';
-import { HabitActionsContainer } from '@/features/habit-log/update/ui/habit-actions-container';
+import { HabitActionsContainer } from '@/features/habit-log';
 import { usePlural } from '@/shared/hooks/usePlural';
 import { Container } from '@/shared/ui/container';
 import { DailyCalendarProgress } from '@/shared/ui/daily-calendar-progress';

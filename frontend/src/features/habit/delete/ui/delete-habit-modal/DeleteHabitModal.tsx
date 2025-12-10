@@ -1,4 +1,4 @@
-import { DeleteHabitForm } from '@/features/habit/delete/ui/delete-habit-form';
+import { DeleteHabitForm } from '@/features/habit/delete';
 import type { ModalBaseProps } from '@/shared/modal/types';
 import { Subtitle } from '@/shared/ui/subtitle';
 import styles from './DeleteHabitModal.module.css';

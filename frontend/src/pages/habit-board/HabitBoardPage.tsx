@@ -1,5 +1,5 @@
 import { HabitKanbanBoard } from '@/features/habit-kanban';
-import { CreateHabitModalTrigger } from '@/features/habit/create/ui/create-habit-modal-trigger';
+import { CreateHabitModalTrigger } from '@/features/habit/create';
 import { Container } from '@/shared/ui/container';
 import styles from './HabitBoardPage.module.css';
 

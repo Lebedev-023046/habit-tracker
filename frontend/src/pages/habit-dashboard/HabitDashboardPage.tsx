@@ -1,8 +1,8 @@
 import { useDashboardHabit } from '@/entities/habit/model/view/useDashboardHabit';
-import { HabitCharts } from './section/habit-charts';
-import { HabitStatusBanner } from './section/habit-status-banner';
-import { StatisticBricks } from './section/statistic-bricks/StatisticBricks';
-import { SubHeader } from './section/sub-header';
+import { HabitCharts } from './sections/habit-charts';
+import { HabitStatusBanner } from './sections/habit-status-banner';
+import { StatisticBricks } from './sections/statistic-bricks/StatisticBricks';
+import { SubHeader } from './sections/sub-header';
 
 export default function HabitDashboardPage() {
   const { dashboardHabit, isLoading, isError, error } = useDashboardHabit();
@@ -30,7 +30,7 @@ export default function HabitDashboardPage() {
 
   return (
     <>
-      <SubHeader title={title} steak={currentStreak} restDays={restDays} />
+      <SubHeader title={title} streak={currentStreak} restDays={restDays} />
       <HabitCharts
         completedDays={completedDays}
         missedDays={missedDays}

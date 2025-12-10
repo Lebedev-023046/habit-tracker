@@ -28,6 +28,20 @@ class HabitDashoardService extends HabitService {
     super();
   }
 
+  emptyDashboardHabit: DashboardHabitViewModel = {
+    id: '',
+    title: '',
+    plannedEndDate: '',
+    restDays: 0,
+    progress: 0,
+    completedDays: 0,
+    missedDays: 0,
+    lastDaysProgress: [],
+    currentStreak: 0,
+    bestStreak: 0,
+    status: 'planned',
+  };
+
   getDayStatusStats(dayLogs: HabitDayLog[]) {
     if (!dayLogs?.length) {
       return { completedDays: 0, missedDays: 0 };
@@ -75,27 +89,11 @@ class HabitDashoardService extends HabitService {
   }
 
   buildDashboardModel(habit?: Habit): DashboardHabitViewModel {
-    if (!habit) {
-      return {
-        id: '',
-        title: '',
-        plannedEndDate: '',
-        restDays: 0,
-        progress: 0,
-        completedDays: 0,
-        missedDays: 0,
-        lastDaysProgress: [],
-        currentStreak: 0,
-        bestStreak: 0,
-        status: 'planned',
-      };
-    }
+    if (!habit) return this.emptyDashboardHabit;
 
     const { id, title, status, dayLogs, totalDays } = habit;
 
     const { completedDays, missedDays } = this.getDayStatusStats(dayLogs);
-
-    console.log(dayLogs);
 
     return {
       id,

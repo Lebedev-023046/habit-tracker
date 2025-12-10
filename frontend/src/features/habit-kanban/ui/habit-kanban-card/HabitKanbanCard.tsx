@@ -1,7 +1,7 @@
 import type { UpdateHabitFormValues } from '@/entities/habit/model/form/schema';
 import type { BoardHabitViewModel } from '@/entities/habit/model/services/habitBoard.service';
-import { DeleteHabitModalTrigger } from '@/features/habit/delete/ui/delete-habit-modal-trigger';
-import { UpdateHabitModalTrigger } from '@/features/habit/update/ui/update-habit-modal-trigger';
+import { DeleteHabitModalTrigger } from '@/features/habit/delete';
+import { UpdateHabitModalTrigger } from '@/features/habit/update';
 import { ROUTES } from '@/shared/config/routes';
 import { useClickOutside } from '@/shared/hooks/useClickOutside';
 import { Button } from '@/shared/ui/button';
