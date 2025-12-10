@@ -1,5 +1,7 @@
-import type { UpdateHabitFormValues } from '@/entities/habit/model/form/schema';
-import type { BoardHabitViewModel } from '@/entities/habit/model/services/habitBoard.service';
+import type {
+  BoardHabitViewModel,
+  UpdateHabitFormValues,
+} from '@/entities/habit';
 import { DeleteHabitModalTrigger } from '@/features/habit/delete';
 import { UpdateHabitModalTrigger } from '@/features/habit/update';
 import { ROUTES } from '@/shared/config/routes';

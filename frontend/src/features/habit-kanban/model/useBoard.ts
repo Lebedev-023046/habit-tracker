@@ -1,13 +1,12 @@
 import type { DropResult } from '@hello-pangea/dnd';
 import { useEffect, useState } from 'react';
 
-import type { Habit } from '../model/types';
-import { useReorderHabits } from './hooks';
-
+import type { Habit } from '@/entities/habit';
 import {
   habitBoardService,
   type HabitKanbanBoardState,
-} from '../model/services/habitBoard.service';
+} from '@/entities/habit';
+import { useReorderHabits } from './useReorderHabits';
 
 export function useBoard(habits: Habit[]) {
   const [board, setBoard] = useState<HabitKanbanBoardState | null>(null);
@@ -23,14 +22,20 @@ export function useBoard(habits: Habit[]) {
       const next = applyDragToBoard(prev, result);
 
       const payload = buildReorderDiffPayload(prev, next);
-      reorderHabits(payload);
+
+      if (payload.length) {
+        reorderHabits(payload);
+      }
 
       return next;
     });
   };
 
   useEffect(() => {
-    if (!habits.length) return;
+    if (!habits.length) {
+      setBoard(null);
+      return;
+    }
     setBoard(buildHabitBoard(habits));
   }, [habits]);
 

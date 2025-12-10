@@ -1,5 +1,6 @@
 import type { DateType } from '@/shared/types';
-import type { DayProgress } from '@/shared/ui/daily-calendar-progress/DailyCalendarProgress';
+
+import type { DayProgress } from '@/shared/model/habit-day.model';
 import type { DraggableLocation, DropResult } from '@hello-pangea/dnd';
 import type { HabitReorderPayload } from '../../api/types';
 import { HABIT_STATUS } from '../constants';
@@ -161,7 +162,7 @@ class HabitBoardService extends HabitService {
       startDate: startDate,
       position: position,
       daySinceStart: this.getDayNumberSinceStart(dayLogs, totalDays),
-      lastDaysProgress: habitBoardService.getLastDaysProgress(dayLogs, 7),
+      lastDaysProgress: this.getLastDaysProgress(dayLogs, 7),
     };
   }
 

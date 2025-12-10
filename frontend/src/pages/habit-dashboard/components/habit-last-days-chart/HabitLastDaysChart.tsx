@@ -1,5 +1,6 @@
 import { Container } from '@/shared/ui/container';
-import type { DayProgress } from '@/shared/ui/daily-calendar-progress/DailyCalendarProgress';
+
+import type { DayProgress } from '@/shared/model/habit-day.model';
 import { Subtitle } from '@/shared/ui/subtitle';
 import styles from './HabitLastDaysChart.module.css';
 

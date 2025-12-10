@@ -1,5 +1,5 @@
 // features/habit-log/upsert/ui/HabitActionsContainer.tsx
-import type { HabitDayStatus } from '@/entities/habit/model/types';
+import type { HabitDayStatus } from '@/entities/habit';
 import { HabitActions } from '@/pages/habit-daily/components/habit-actions';
 import type { UpsertHabitLogPayload } from '../../model/types';
 import { useUpsertHabit } from '../../model/useUpsertHabitLog';

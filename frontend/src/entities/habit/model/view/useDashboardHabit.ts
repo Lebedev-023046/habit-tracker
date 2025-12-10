@@ -1,10 +1,7 @@
-import { useParams } from 'react-router-dom';
 import { useGetHabit } from '../query/habitBaseHooks';
 import { habitDashboardService } from '../services/habitDashboard.service';
 
-export function useDashboardHabit() {
-  const { habitId } = useParams<{ habitId: string }>();
-
+export function useDashboardHabit(habitId: string) {
   if (!habitId) {
     return {
       dashboardHabit: habitDashboardService.emptyDashboardHabit,

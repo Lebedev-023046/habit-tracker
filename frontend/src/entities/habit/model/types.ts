@@ -1,7 +1,7 @@
+import type { HabitDayStatus } from '@/shared/model/habit-day.model';
 import type { DateType } from '@/shared/types';
 import type {
   CREATE_HABIT_STATUS,
-  HABIT_DAY_STATUS,
   HABIT_STATUS,
   TOTAL_DAYS_VALUES,
 } from './constants';
@@ -9,8 +9,6 @@ import type {
 export type HabitStatus = (typeof HABIT_STATUS)[number];
 export type HabitTotalDays = (typeof TOTAL_DAYS_VALUES)[number];
 export type CreateHabitPayloadStatus = (typeof CREATE_HABIT_STATUS)[number];
-
-export type HabitDayStatus = (typeof HABIT_DAY_STATUS)[number];
 
 export interface Habit {
   id: string;
@@ -23,14 +21,6 @@ export interface Habit {
   createdAt: DateType;
   updatedAt: DateType;
   dayLogs: HabitDayLog[];
-
-  // что нужно для daily habits page
-  // currentDay: number; // вычисляемое, можно не добавлять
-  // steak: number; // вычисляемое
-  // bestSteak: number;
-  // dayLogs: {
-  // 	date, status: 'done' | 'missed'
-  // }
 }
 
 export interface HabitDayLog {

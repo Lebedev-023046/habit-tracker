@@ -1,4 +1,4 @@
-import type { HabitStatus } from '@/entities/habit/model/types';
+import type { HabitStatus } from '@/entities/habit';
 import type { DateType } from '@/shared/types';
 import { Container } from '@/shared/ui/container';
 import { FaFontAwesomeFlag } from 'react-icons/fa';

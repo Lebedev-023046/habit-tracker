@@ -1,4 +1,4 @@
-import type { UpdateHabitFormValues } from '@/entities/habit/model/form/schema';
+import type { UpdateHabitFormValues } from '@/entities/habit';
 import { UpdateHabitForm } from '@/features/habit/update';
 import type { ModalBaseProps } from '@/shared/modal/types';
 import { Subtitle } from '@/shared/ui/subtitle';

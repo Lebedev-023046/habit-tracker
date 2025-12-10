@@ -1,11 +1,12 @@
 import { getTodayUserDayUTC } from '@/shared/utils/time';
 import { format, isSameDay, subDays } from 'date-fns';
-import { HABIT_DAY_STATUS_MAP } from '../constants';
+
+import { HABIT_DAY_STATUS_MAP } from '@/shared/model/habit-day.model';
 import { type HabitDayLog } from '../types';
 
 export class HabitService {
   protected getHabitProgress(habitLogs: HabitDayLog[], totalDays: number) {
-    if (!habitLogs || habitLogs.length === 0) return 0;
+    if (!totalDays || !habitLogs || habitLogs.length === 0) return 0;
 
     let completed = 0;
     for (const log of habitLogs) {

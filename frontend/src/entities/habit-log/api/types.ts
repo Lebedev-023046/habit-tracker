@@ -1,4 +1,4 @@
-import type { HabitDayLog } from '@/entities/habit/model/types';
+import type { HabitDayLog } from '@/entities/habit';
 
 export type UpsertHabitLogPayload = Partial<Pick<HabitDayLog, 'date'>> &
   Pick<HabitDayLog, 'status' | 'habitId'>;

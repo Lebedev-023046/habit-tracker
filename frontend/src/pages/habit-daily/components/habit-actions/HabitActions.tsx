@@ -1,4 +1,4 @@
-import type { HabitDayStatus } from '@/entities/habit/model/types';
+import type { HabitDayStatus } from '@/entities/habit';
 import { Button } from '@/shared/ui/button';
 import { Subtitle } from '@/shared/ui/subtitle';
 import Skeleton from 'react-loading-skeleton';

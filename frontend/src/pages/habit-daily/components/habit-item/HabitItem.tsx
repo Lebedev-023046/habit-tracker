@@ -1,7 +1,7 @@
-import { HABIT_DAY_STATUS_MAP } from '@/entities/habit/model/constants';
-import type { DailyHabitViewModel } from '@/entities/habit/model/services/habitDaily.service';
+import type { DailyHabitViewModel } from '@/entities/habit';
 import { HabitActionsContainer } from '@/features/habit-log';
 import { usePlural } from '@/shared/hooks/usePlural';
+import { HABIT_DAY_STATUS_MAP } from '@/shared/model/habit-day.model';
 import { Container } from '@/shared/ui/container';
 import { DailyCalendarProgress } from '@/shared/ui/daily-calendar-progress';
 import { Diagram } from '@/shared/ui/diagram/Diagram';

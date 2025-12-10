@@ -1,13 +1,6 @@
+import type { DayProgress } from '@/shared/model/habit-day.model';
 import Skeleton from 'react-loading-skeleton';
 import styles from './DailyCalendarProgress.module.css';
-
-const DayStatuses = ['completed', 'missed', 'unmarked'] as const;
-type DayStatus = (typeof DayStatuses)[number];
-
-export interface DayProgress {
-  weekday: string;
-  status: DayStatus;
-}
 
 interface CommonProps {
   showWeekdayLabels?: boolean;

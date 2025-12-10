@@ -1,4 +1,4 @@
-import type { DayProgress } from '@/shared/ui/daily-calendar-progress/DailyCalendarProgress';
+import type { DayProgress } from '@/shared/model/habit-day.model';
 import { HabitCompletionOverview } from '../../components/habit-completion-overview';
 import { HabitLastDaysChart } from '../../components/habit-last-days-chart';
 import styles from './HabitCharts.module.css';

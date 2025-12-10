@@ -1,10 +1,10 @@
-import { HabitForm } from '@/entities/habit/ui/habit-form';
+import { HabitForm } from '@/entities/habit';
 
 import {
   createHabitSchema,
   type CreateHabitFormValues,
   type HabitFormValues,
-} from '@/entities/habit/model/form/schema';
+} from '@/entities/habit';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useCreateHabit } from '../../model/useCreateHabit';

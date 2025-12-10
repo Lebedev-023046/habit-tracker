@@ -1,4 +1,4 @@
-import type { HabitStatus } from '@/entities/habit/model/types';
+import type { HabitStatus } from '@/entities/habit';
 
 export interface HabitKanbanColumnConfig {
   id: HabitStatus;

@@ -1,4 +1,4 @@
-import type { HabitDayStatus } from '@/entities/habit/model/types';
+import type { HabitDayStatus } from '@/entities/habit';
 
 export interface UpsertHabitLogPayload {
   habitId: string;

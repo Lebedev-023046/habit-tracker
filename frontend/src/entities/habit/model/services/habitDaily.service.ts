@@ -1,8 +1,11 @@
-import type { DayProgress } from '@/shared/ui/daily-calendar-progress/DailyCalendarProgress';
+import {
+  HABIT_DAY_STATUS_MAP,
+  type DayProgress,
+  type HabitDayStatus,
+} from '@/shared/model/habit-day.model';
 import { getTodayUserDayUTC } from '@/shared/utils/time';
 import { isSameDay } from 'date-fns';
-import { HABIT_DAY_STATUS_MAP } from '../constants';
-import type { Habit, HabitDayLog, HabitDayStatus } from '../types';
+import type { Habit, HabitDayLog } from '../types';
 import { HabitService } from './habit.service';
 
 export interface DailyHabitViewModel {

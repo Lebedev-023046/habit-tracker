@@ -1,4 +1,4 @@
-import { useCreateHabitBase } from '@/entities/habit/model/query/habitBaseHooks';
+import { useCreateHabitBase } from '@/entities/habit';
 
 export function useCreateHabit() {
   const mutation = useCreateHabitBase();

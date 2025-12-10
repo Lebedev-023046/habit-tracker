@@ -1,4 +1,4 @@
-import type { HabitStatus } from '@/entities/habit/model/types';
+import type { HabitStatus } from '@/entities/habit';
 import styles from '../HabitStatusBanner.module.css';
 
 const classNameMap = {

@@ -1,8 +1,8 @@
-import { HABIT_KANBAN_COLUMNS } from '@/entities/habit/kanban/columns';
-import { useGetHabitsWithStale } from '@/entities/habit/model/query/habitBaseHooks';
+import { HABIT_KANBAN_COLUMNS, useGetHabitsWithStale } from '@/entities/habit';
+
 import { DragDropContext } from '@hello-pangea/dnd';
 
-import { useBoard } from '@/entities/habit/kanban';
+import { useBoard } from '../../model/useBoard';
 import { HabitKanbanColumn } from '../habit-kanban-column';
 import styles from './HabitKanbanBoard.module.css';
 

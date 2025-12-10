@@ -1,4 +1,4 @@
-import { useDailyHabits } from '@/entities/habit/model/view/useDailyHabits';
+import { useDailyHabits } from '@/entities/habit';
 import { HabitItems } from './sections/habit-items';
 import { Overview } from './sections/overview/Overview';
 

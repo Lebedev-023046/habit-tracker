@@ -1,4 +1,4 @@
-import { useUpsertHabitLogBase } from '@/entities/habit-log/model/habitLogBaseHooks';
+import { useUpsertHabitLogBase } from '@/entities/habit-log';
 
 export function useUpsertHabit() {
   const mutation = useUpsertHabitLogBase();

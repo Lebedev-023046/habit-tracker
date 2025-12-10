@@ -1,4 +1,4 @@
-import type { DailyHabitViewModel } from '@/entities/habit/model';
+import type { DailyHabitViewModel } from '@/entities/habit';
 import { HabitItem } from '../../components/habit-item';
 import styles from './HabitItems.module.css';
 

@@ -1,7 +1,11 @@
 import type { DateType } from '@/shared/types';
-import type { DayProgress } from '@/shared/ui/daily-calendar-progress/DailyCalendarProgress';
+
 import { getTodayUserDayUTC, getUserDayUTC } from '@/shared/utils/time';
-import { HABIT_DAY_STATUS_MAP } from '../constants';
+
+import {
+  HABIT_DAY_STATUS_MAP,
+  type DayProgress,
+} from '@/shared/model/habit-day.model';
 import type { Habit, HabitDayLog, HabitStatus } from '../types';
 import { HabitService } from './habit.service';
 
@@ -42,14 +46,13 @@ class HabitDashoardService extends HabitService {
     status: 'planned',
   };
 
-  getDayStatusStats(dayLogs: HabitDayLog[]) {
+  private getDayStatusStats(dayLogs: HabitDayLog[]) {
     if (!dayLogs?.length) {
       return { completedDays: 0, missedDays: 0 };
     }
 
     let completedDays = 0;
     let missedDays = 0;
-    let remainingDays = 0;
 
     for (const log of dayLogs) {
       switch (log.status) {
@@ -59,23 +62,20 @@ class HabitDashoardService extends HabitService {
         case HABIT_DAY_STATUS_MAP.missed:
           missedDays++;
           break;
-        case HABIT_DAY_STATUS_MAP.unmarked:
-          remainingDays++;
-          break;
       }
     }
 
-    return { completedDays, missedDays, remainingDays };
+    return { completedDays, missedDays };
   }
 
-  getPlannedEndDate(startDate: DateType, totalDays: number): Date {
+  private getPlannedEndDate(startDate: DateType, totalDays: number): Date {
     const end = new Date(startDate as string);
     end.setUTCDate(end.getUTCDate() + totalDays - 1);
 
     return getUserDayUTC(end);
   }
 
-  getrestDays(
+  private getRestDays(
     startDate: DateType,
     totalDays: number,
     today: Date = getTodayUserDayUTC(),
@@ -101,7 +101,7 @@ class HabitDashoardService extends HabitService {
       status,
       completedDays,
       missedDays,
-      restDays: this.getrestDays(habit.startDate, totalDays),
+      restDays: this.getRestDays(habit.startDate, totalDays),
       plannedEndDate: this.getPlannedEndDate(habit.startDate, totalDays),
       progress: this.getHabitProgress(dayLogs, totalDays),
       lastDaysProgress: this.getLastDaysProgress(dayLogs, 14),

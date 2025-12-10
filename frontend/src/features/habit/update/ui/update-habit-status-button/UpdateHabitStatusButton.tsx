@@ -1,4 +1,4 @@
-import type { HabitStatus } from '@/entities/habit/model/types';
+import type { HabitStatus } from '@/entities/habit';
 import { Button } from '@/shared/ui/button';
 import { useUpdateHabit } from '../../model/useUpdateHabit';
 
