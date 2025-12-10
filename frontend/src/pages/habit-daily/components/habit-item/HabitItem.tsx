@@ -27,7 +27,7 @@ export function HabitItem({ isLoading, habit }: HabitItemProps) {
     currentStreak,
     title,
     bestStreak,
-    lastWeekProgress,
+    lastDaysProgress,
     todayStatus,
   } = habit;
 
@@ -91,7 +91,7 @@ export function HabitItem({ isLoading, habit }: HabitItemProps) {
             )}
           </p>
         </div>
-        <DailyCalendarProgress lastWeekProgress={lastWeekProgress} />
+        <DailyCalendarProgress lastDaysProgress={lastDaysProgress} />
       </div>
     </Container>
   );

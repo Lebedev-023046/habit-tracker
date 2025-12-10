@@ -1,7 +1,8 @@
 import type { UpdateHabitFormValues } from '@/entities/habit/model/form/schema';
-import type { HabitBoardViewModel } from '@/entities/habit/model/services/habitBoard.service';
+import type { BoardHabitViewModel } from '@/entities/habit/model/services/habitBoard.service';
 import { DeleteHabitModalTrigger } from '@/features/habit/delete/ui/delete-habit-modal-trigger';
 import { UpdateHabitModalTrigger } from '@/features/habit/update/ui/update-habit-modal-trigger';
+import { ROUTES } from '@/shared/config/routes';
 import { useClickOutside } from '@/shared/hooks/useClickOutside';
 import { Button } from '@/shared/ui/button';
 import { DailyCalendarProgress } from '@/shared/ui/daily-calendar-progress';
@@ -11,11 +12,10 @@ import { getUserDayUTC } from '@/shared/utils/time';
 import { Draggable } from '@hello-pangea/dnd';
 import { useState } from 'react';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
 import styles from './HabitKanbanCard.module.css';
 
-type HabitCardProps = HabitBoardViewModel;
-
-export function HabitKanbanCard(props: HabitCardProps) {
+export function HabitKanbanCard(props: BoardHabitViewModel) {
   const {
     id: habitId,
     title,
@@ -24,7 +24,7 @@ export function HabitKanbanCard(props: HabitCardProps) {
     startDate,
     position,
     daySinceStart,
-    lastWeekProgress,
+    lastDaysProgress,
   } = props;
 
   const updatePayload: UpdateHabitFormValues = {
@@ -68,14 +68,16 @@ export function HabitKanbanCard(props: HabitCardProps) {
               <ProgressBar barHeight="1px" progress={barProgress} />
 
               <DailyCalendarProgress
-                lastWeekProgress={lastWeekProgress}
+                lastDaysProgress={lastDaysProgress}
                 showWeekdayLabels={false}
                 dayIndicatorSize="1.3rem"
                 dayIndicatorsGap="0.5rem"
               />
 
               <div className={styles.controls}>
-                <Button variant="neutral">Dashboard</Button>
+                <Button variant="neutral">
+                  <Link to={ROUTES.habitDashboard(habitId)}>Dashboard</Link>
+                </Button>
                 <Button variant="icon" onClick={handleMenuClick}>
                   <HiOutlineDotsHorizontal size="2.5rem" />
                 </Button>

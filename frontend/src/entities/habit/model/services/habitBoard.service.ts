@@ -6,7 +6,7 @@ import { HABIT_STATUS } from '../constants';
 import type { Habit, HabitStatus, HabitTotalDays } from '../types';
 import { HabitService } from './habit.service';
 
-export interface HabitBoardViewModel {
+export interface BoardHabitViewModel {
   id: string;
   title: string;
   status: HabitStatus;
@@ -14,10 +14,10 @@ export interface HabitBoardViewModel {
   startDate?: DateType;
   position: number;
   daySinceStart: number;
-  lastWeekProgress: DayProgress[];
+  lastDaysProgress: DayProgress[];
 }
 
-export type HabitKanbanBoardState = Record<HabitStatus, HabitBoardViewModel[]>;
+export type HabitKanbanBoardState = Record<HabitStatus, BoardHabitViewModel[]>;
 
 class HabitBoardService extends HabitService {
   constructor() {
@@ -87,7 +87,7 @@ class HabitBoardService extends HabitService {
     const [moved] = sourceColumn.splice(source.index, 1);
     if (!moved) return board;
 
-    const movedWithStatus: HabitBoardViewModel = {
+    const movedWithStatus: BoardHabitViewModel = {
       ...moved,
       status: destStatus,
     };
@@ -136,7 +136,7 @@ class HabitBoardService extends HabitService {
     return updates;
   }
 
-  buildBoardModel(habit: Habit): HabitBoardViewModel {
+  buildBoardModel(habit: Habit): BoardHabitViewModel {
     if (!habit) {
       return {
         id: '',
@@ -146,7 +146,7 @@ class HabitBoardService extends HabitService {
         startDate: undefined,
         position: 0,
         daySinceStart: 0,
-        lastWeekProgress: [],
+        lastDaysProgress: [],
       };
     }
 
@@ -161,7 +161,7 @@ class HabitBoardService extends HabitService {
       startDate: startDate,
       position: position,
       daySinceStart: this.getDayNumberSinceStart(dayLogs, totalDays),
-      lastWeekProgress: habitBoardService.getLastDaysProgress(dayLogs, 7),
+      lastDaysProgress: habitBoardService.getLastDaysProgress(dayLogs, 7),
     };
   }
 

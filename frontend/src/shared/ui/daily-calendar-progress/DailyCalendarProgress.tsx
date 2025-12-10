@@ -14,7 +14,7 @@ interface CommonProps {
 }
 
 interface DailyCalendarProgressProps extends CommonProps {
-  lastWeekProgress: DayProgress[];
+  lastDaysProgress: DayProgress[];
   isLoading?: boolean;
   dayIndicatorSize?: string;
   dayIndicatorsGap?: string;
@@ -68,13 +68,13 @@ const DayStatus = ({
  * @returns JSX
  */
 export function DailyCalendarProgress({
-  lastWeekProgress,
+  lastDaysProgress,
   isLoading,
   showWeekdayLabels = true,
   dayIndicatorSize = '2rem',
   dayIndicatorsGap = '1rem',
 }: DailyCalendarProgressProps) {
-  //   const lastWeekProgress = useMemo(
+  //   const lastDaysProgress = useMemo(
   //   () => buildLast7DaysProgress(logs),
   //   [logs],
   // );
@@ -89,7 +89,7 @@ export function DailyCalendarProgress({
         } as React.CSSProperties
       }
     >
-      {(lastWeekProgress ?? []).map((day, index) => (
+      {(lastDaysProgress ?? []).map((day, index) => (
         <DayStatus
           key={index}
           day={day}
