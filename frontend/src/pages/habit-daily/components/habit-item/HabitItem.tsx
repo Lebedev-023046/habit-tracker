@@ -10,7 +10,7 @@ import Skeleton from 'react-loading-skeleton';
 import styles from './HabitItem.module.css';
 
 interface HabitItemProps {
-  isLoading: boolean;
+  isLoading?: boolean;
   habit?: DailyHabitViewModel;
 }
 

@@ -4,7 +4,7 @@ import styles from './HabitItems.module.css';
 
 interface HabitItemsProps {
   activeHabits: DailyHabitViewModel[];
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 export function HabitItems({ activeHabits, isLoading }: HabitItemsProps) {
   if (isLoading) {

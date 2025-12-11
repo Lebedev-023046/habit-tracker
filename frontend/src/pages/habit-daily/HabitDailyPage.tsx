@@ -1,24 +1,25 @@
 import { useDailyHabits } from '@/entities/habit';
+import { GlobalFallback } from '@/shared/ui/error-boundary/global-fallback';
 import { HabitItems } from './sections/habit-items';
 import { Overview } from './sections/overview/Overview';
+import { OverviewLoading } from './sections/overview/OverviewLoading';
 
 export default function HabitDailyPage() {
-  const { viewModel, isLoading, isError, error } = useDailyHabits();
-  const isInitialLoading = isLoading && !viewModel;
+  const { viewModel, isInitialLoading, isError, error } = useDailyHabits();
 
   if (isError) {
-    return <div>{error?.message}</div>;
-  }
-
-  if (isLoading) {
-    return <div>Loading...</div>;
+    return <GlobalFallback error={error} />;
   }
 
   const { totalCount, completedCount, habits } = viewModel;
 
   return (
     <>
-      <Overview totalCount={totalCount} completedCount={completedCount} />
+      {isInitialLoading ? (
+        <OverviewLoading />
+      ) : (
+        <Overview totalCount={totalCount} completedCount={completedCount} />
+      )}
       <HabitItems activeHabits={habits} isLoading={isInitialLoading} />
     </>
   );

@@ -20,6 +20,12 @@ export interface DailyHabitViewModel {
   lastDaysProgress: DayProgress[];
 }
 
+export interface DailyHabitsViewModel {
+  totalCount: number;
+  completedCount: number;
+  habits: DailyHabitViewModel[];
+}
+
 export class HabitDailyService extends HabitService {
   constructor() {
     super();
@@ -70,6 +76,20 @@ export class HabitDailyService extends HabitService {
       bestStreak: this.getBestStreak(dayLogs),
       lastDaysProgress: this.getLastDaysProgress(dayLogs, 7),
       todayStatus: this.getTodayStatus(dayLogs),
+    };
+  }
+
+  buildDailyHabitsViewModel(habits: Habit[]): DailyHabitsViewModel {
+    const activeHabits = habits.filter(habit => habit.status === 'active');
+    const dailyHabits = activeHabits.map(habit => this.buildDailyModel(habit));
+    const completedCount = dailyHabits.filter(
+      habit => habit.todayStatus === 'completed',
+    ).length;
+
+    return {
+      totalCount: activeHabits.length,
+      completedCount,
+      habits: dailyHabits,
     };
   }
 }

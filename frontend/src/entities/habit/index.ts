@@ -1,6 +1,8 @@
 export { HABIT_KANBAN_COLUMNS } from './kanban/columns';
 export { useReorderHabitsBase } from './kanban/useReorderHabitsBase';
 
+export { habitRepo } from './api//habitRepo';
+
 export {
   createHabitSchema,
   habitFormSchema,
@@ -29,7 +31,11 @@ export {
   type HabitKanbanBoardState,
 } from './model/services/habitBoard.service';
 
-export { type DailyHabitViewModel } from './model/services/habitDaily.service';
+export {
+  habitDailyService,
+  type DailyHabitsViewModel,
+  type DailyHabitViewModel,
+} from './model/services/habitDaily.service';
 
 export { useDailyHabits } from './model/view/useDailyHabits';
 export { useDashboardHabit } from './model/view/useDashboardHabit';

@@ -11,9 +11,6 @@ export function HabitKanbanBoard() {
 
   const isInitialLoading = isLoading && !habitsInfo;
 
-  if (habitsInfo?.error) {
-    return <div>{habitsInfo?.error}</div>;
-  }
   const habits = habitsInfo?.data ?? [];
   const { board, handleDragEnd } = useBoard(habits);
 

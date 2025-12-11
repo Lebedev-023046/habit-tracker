@@ -1,10 +1,22 @@
-import HabitDailyPage from '@/pages/habit-daily/HabitDailyPage';
-import NotFound from '@/pages/not-found/NotFound';
 import { ROUTES } from '@/shared/config/routes';
-import HabitBoardPage from '@pages/habit-board/HabitBoardPage';
-import HabitDashboardPage from '@pages/habit-dashboard/HabitDashboardPage';
+
+import { habitBoardLoader } from '@/pages/habit-board/loader';
+import { dailyHabitsLoader } from '@/pages/habit-daily/loader';
+import { habitDashboardLoader } from '@/pages/habit-dashboard/loader';
+import { RouterErrorBoundary } from '@/shared/ui/error-boundary/RouterErrorBoundary';
+import { PageLoader } from '@/shared/ui/page-loader';
+import { lazy, Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import AppLayout from '../layout/AppLayout';
+
+const HabitDailyPage = lazy(() => import('@/pages/habit-daily/HabitDailyPage'));
+const HabitBoardPage = lazy(() => import('@pages/habit-board/HabitBoardPage'));
+const HabitDashboardPage = lazy(
+  () => import('@pages/habit-dashboard/HabitDashboardPage'),
+);
+const NotFound = lazy(() => import('@/pages/not-found/NotFound'));
+
+const PageFallback = () => <PageLoader />;
 
 export const router = createBrowserRouter([
   {
@@ -13,18 +25,36 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <HabitDailyPage />,
         handle: { title: 'Today habits' },
+        loader: dailyHabitsLoader,
+        element: (
+          <Suspense fallback={<PageFallback />}>
+            <HabitDailyPage />
+          </Suspense>
+        ),
+        errorElement: <RouterErrorBoundary />,
       },
       {
         path: ROUTES.habitBoard(),
-        element: <HabitBoardPage />,
         handle: { title: 'Habit Management' },
+        loader: habitBoardLoader,
+        element: (
+          <Suspense fallback={<PageFallback />}>
+            <HabitBoardPage />
+          </Suspense>
+        ),
+        errorElement: <RouterErrorBoundary />,
       },
       {
         path: ROUTES.habitDashboard(':habitId'),
-        element: <HabitDashboardPage />,
         handle: { title: 'Habit Dashboard' },
+        loader: habitDashboardLoader,
+        element: (
+          <Suspense fallback={<PageFallback />}>
+            <HabitDashboardPage />
+          </Suspense>
+        ),
+        errorElement: <RouterErrorBoundary />,
       },
       {
         path: '*',
