@@ -7,9 +7,15 @@ import {
   Patch,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { HabitStatus } from '@prisma/client';
-import { CreateHabitDto, ReorderHabitsDto, UpdateHabitDto } from './habit.dto';
+import {
+  CreateHabitDto,
+  GetHabitsQueryDto,
+  ReorderHabitsDto,
+  UpdateHabitDto,
+} from './habit.dto';
 import { HabitService } from './habit.service';
 
 @Controller('habits')
@@ -17,8 +23,8 @@ export class HabitController {
   constructor(private readonly habitService: HabitService) {}
 
   @Get()
-  getAllHabits() {
-    return this.habitService.getAllHabits();
+  getAllHabits(@Query() query: GetHabitsQueryDto) {
+    return this.habitService.getAllHabits({ status: query.status });
   }
 
   @Get(':id')

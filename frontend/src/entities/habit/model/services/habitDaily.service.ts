@@ -80,14 +80,13 @@ export class HabitDailyService extends HabitService {
   }
 
   buildDailyHabitsViewModel(habits: Habit[]): DailyHabitsViewModel {
-    const activeHabits = habits.filter(habit => habit.status === 'active');
-    const dailyHabits = activeHabits.map(habit => this.buildDailyModel(habit));
+    const dailyHabits = habits.map(habit => this.buildDailyModel(habit));
     const completedCount = dailyHabits.filter(
       habit => habit.todayStatus === 'completed',
     ).length;
 
     return {
-      totalCount: activeHabits.length,
+      totalCount: habits.length,
       completedCount,
       habits: dailyHabits,
     };

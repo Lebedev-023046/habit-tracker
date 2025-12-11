@@ -2,7 +2,12 @@ import { habitDailyService } from '..';
 import { useGetHabits } from '../query/habitBaseHooks';
 
 export function useDailyHabits() {
-  const { data: habitsInfo, isLoading, isError, error } = useGetHabits();
+  const {
+    data: habitsInfo,
+    isLoading,
+    isError,
+    error,
+  } = useGetHabits({ status: 'active' });
 
   const habits = habitsInfo?.data || [];
   const viewModel = habitDailyService.buildDailyHabitsViewModel(habits);

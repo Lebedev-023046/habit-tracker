@@ -1,16 +1,19 @@
 import { api as AxiosApiInstance } from '@/shared/api/instance';
 import type { AxiosInstance } from 'axios';
 
+import { buildQueryString } from '@/shared/api/buildQueryString';
 import type {
   CreateHabitPayload,
   DeleteHabitPayload,
+  GetAllHabitsQuery,
   HabitReorderPayload,
   UpdateHabitPayload,
   UpdateHabitStatusPayload,
 } from './types';
 
 const ENDPOINTS = {
-  getAllHabits: () => `/habits`,
+  getAllHabits: (params?: GetAllHabitsQuery) =>
+    `/habits${buildQueryString(params)}`,
   getHabit: (id: string) => `/habits/${id}`,
   createHabit: () => '/habits/create',
   updateHabit: (id: string) => `/habits/update/${id}`,
@@ -33,9 +36,9 @@ class HabitRepo {
   }
   // private baseHabitKey = ['habit'];
 
-  async getAllHabits() {
+  async getAllHabits(params?: GetAllHabitsQuery) {
     try {
-      return this.api.get(ENDPOINTS.getAllHabits()).then(res => res.data);
+      return this.api.get(ENDPOINTS.getAllHabits(params)).then(res => res.data);
     } catch (error) {
       throw error;
     }

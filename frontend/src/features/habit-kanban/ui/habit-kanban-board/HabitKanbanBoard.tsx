@@ -1,13 +1,14 @@
-import { HABIT_KANBAN_COLUMNS, useGetHabitsWithStale } from '@/entities/habit';
+import { HABIT_KANBAN_COLUMNS } from '@/entities/habit';
 
 import { DragDropContext } from '@hello-pangea/dnd';
 
+import { useGetHabits } from '@/entities/habit/model/query/habitBaseHooks';
 import { useBoard } from '../../model/useBoard';
 import { HabitKanbanColumn } from '../habit-kanban-column';
 import styles from './HabitKanbanBoard.module.css';
 
 export function HabitKanbanBoard() {
-  const { data: habitsInfo, isLoading } = useGetHabitsWithStale();
+  const { data: habitsInfo, isLoading } = useGetHabits();
 
   const isInitialLoading = isLoading && !habitsInfo;
 

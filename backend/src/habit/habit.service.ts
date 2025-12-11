@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { HabitStatus } from '@prisma/client';
+import { HabitStatus, Prisma } from '@prisma/client';
 import { throwError } from 'src/common/helper/error-handling';
 import { ResponseUtil } from 'src/common/utils/response';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -9,16 +9,25 @@ import { CreateHabitDto, ReorderHabitDto, UpdateHabitDto } from './habit.dto';
 export class HabitService {
   constructor(private prisma: PrismaService) {}
 
-  async getAllHabits() {
+  async getAllHabits(params?: { status?: HabitStatus }) {
     try {
-      const habits = await this.prisma.habit.findMany({
+      const prismaQuery: Prisma.HabitFindManyArgs = {
         orderBy: { position: 'asc' },
         include: {
           dayLogs: {
             orderBy: { date: 'asc' },
           },
         },
-      });
+      };
+
+      if (params?.status) {
+        prismaQuery.where = {
+          ...prismaQuery.where,
+          status: params.status,
+        };
+      }
+
+      const habits = await this.prisma.habit.findMany(prismaQuery);
 
       console.log(`Found ${habits.length} habits`);
       return ResponseUtil.success(habits);

@@ -12,6 +12,12 @@ import {
   ValidateNested,
 } from 'class-validator';
 
+export class GetHabitsQueryDto {
+  @IsOptional()
+  @IsString()
+  status?: HabitStatus;
+}
+
 export class CreateHabitDto {
   @IsString()
   @IsNotEmpty({ message: 'Title is required' })

@@ -9,6 +9,7 @@ import { habitRepo } from '../../api/habitRepo';
 import type {
   CreateHabitPayload,
   DeleteHabitPayload,
+  GetAllHabitsQuery,
   UpdateHabitPayload,
   UpdateHabitStatusPayload,
 } from '../../api/types';
@@ -18,8 +19,8 @@ import {
   getOneHabitQueryOptions,
 } from './queryOptions';
 
-export function useGetHabits() {
-  const queryOptions = getAllHabitsQueryOptions();
+export function useGetHabits(params?: GetAllHabitsQuery) {
+  const queryOptions = getAllHabitsQueryOptions(params);
   return useQuery(queryOptions);
 }
 export function useGetHabitsWithStale() {
