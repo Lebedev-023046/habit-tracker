@@ -32,6 +32,7 @@ export const router = createBrowserRouter([
             <HabitDailyPage />
           </Suspense>
         ),
+        hydrateFallbackElement: <PageFallback />,
         errorElement: <RouterErrorBoundary />,
       },
       {
@@ -43,6 +44,7 @@ export const router = createBrowserRouter([
             <HabitBoardPage />
           </Suspense>
         ),
+        hydrateFallbackElement: <PageFallback />,
         errorElement: <RouterErrorBoundary />,
       },
       {
@@ -54,6 +56,7 @@ export const router = createBrowserRouter([
             <HabitDashboardPage />
           </Suspense>
         ),
+        hydrateFallbackElement: <PageFallback />,
         errorElement: <RouterErrorBoundary />,
       },
       {
