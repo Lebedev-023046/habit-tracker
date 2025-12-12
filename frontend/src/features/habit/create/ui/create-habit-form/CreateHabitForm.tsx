@@ -18,7 +18,7 @@ export function CreateHabitForm({
   onSuccess: handleSuccess,
   onCancel,
 }: CreateHabitFormProps) {
-  const { mutate: createHabit, isPending, error } = useCreateHabit();
+  const { mutate: createHabit, isPending } = useCreateHabit();
 
   const form = useForm<CreateHabitFormValues>({
     resolver: zodResolver(createHabitSchema),
@@ -44,7 +44,6 @@ export function CreateHabitForm({
       form={form}
       submitLabel="Create habit"
       isSubmitting={isPending}
-      errorMessage={error ? (error as Error).message : undefined}
       showCancelButton={Boolean(onCancel)}
       onCancel={onCancel}
       onSubmit={handleSubmit}

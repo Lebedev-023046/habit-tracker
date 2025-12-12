@@ -49,14 +49,10 @@ export function HabitForm({
   form,
   submitLabel = 'Save habit',
   isSubmitting = false,
-  errorMessage,
   showCancelButton = false,
   onSubmit,
   onCancel,
 }: HabitFormProps) {
-  const hasError = Boolean(errorMessage);
-  const errorOpenClassName = hasError ? styles.errorOpen : '';
-
   const { control, handleSubmit, watch } = form;
 
   const status = watch('status') as CreateHabitPayloadStatus;
@@ -92,14 +88,6 @@ export function HabitForm({
       <p key={status} className={styles.info}>
         {hint.text}
       </p>
-
-      {hasError && (
-        <div className={`${styles.error} ${errorOpenClassName}`}>
-          <div className={styles.errorContent}>
-            <p className={styles.errorText}>{errorMessage}</p>
-          </div>
-        </div>
-      )}
 
       <div className={styles.actions}>
         {showCancelButton && onCancel && (

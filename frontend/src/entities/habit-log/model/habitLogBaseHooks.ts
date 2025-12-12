@@ -16,8 +16,5 @@ export function useUpsertHabitLogBase() {
       const queryOptions = getAllHabitsQueryOptions();
       await queryClient.invalidateQueries(queryOptions);
     },
-    async onError(error) {
-      console.error('Failed to upsert habit log', error);
-    },
   });
 }

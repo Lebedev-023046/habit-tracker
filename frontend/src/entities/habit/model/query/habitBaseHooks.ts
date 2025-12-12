@@ -48,9 +48,6 @@ export function useCreateHabitBase() {
       console.log(`Habit with id: ${response.data?.id} was created!`);
       await queryClient.invalidateQueries(queryOptions);
     },
-    async onError(error) {
-      throw new Error(error.message);
-    },
   });
 }
 
@@ -69,9 +66,6 @@ export function useUpdateHabitBase() {
       const queryOptions = getAllHabitsQueryOptions();
       await queryClient.invalidateQueries(queryOptions);
     },
-    async onError(error) {
-      throw new Error(error.message);
-    },
   });
 }
 
@@ -87,9 +81,6 @@ export function useUpdateHabitStatusBase() {
       const queryOptions = getAllHabitsQueryOptions();
       await queryClient.invalidateQueries(queryOptions);
     },
-    async onError(error) {
-      throw new Error(error.message);
-    },
   });
 }
 
@@ -101,9 +92,6 @@ export function useDeleteHabitBase() {
     async onSuccess(response) {
       console.log(`Habit with id: ${response.data?.id} was deleted!`);
       await queryClient.invalidateQueries(getAllHabitsQueryOptions());
-    },
-    async onError(error) {
-      throw new Error(error.message);
     },
   });
 }
