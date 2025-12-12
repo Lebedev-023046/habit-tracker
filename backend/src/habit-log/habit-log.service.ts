@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { throwError } from 'src/common/helper/error-handling';
+import { throwError } from 'src/common/errors';
 import { ResponseUtil } from 'src/common/utils/response';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { getUserDayUTC } from 'src/utils/time';
