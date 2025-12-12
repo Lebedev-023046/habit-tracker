@@ -24,8 +24,6 @@ export const habitFormSchema = z.object({
   title: titleSchema,
   status: habitStatusSchema,
   totalDays: totalDaysSchema,
-  startDate: z.date().nullable().optional(),
-  endDate: z.date().nullable().optional(),
 });
 
 export type HabitFormValues = z.infer<typeof habitFormSchema>;
@@ -34,22 +32,9 @@ export type HabitFormValues = z.infer<typeof habitFormSchema>;
 // Схема для создания (ограниченный статус)
 // ─────────────────────────────
 
-export const createHabitSchema = habitFormSchema
-  .extend({
-    status: habitStatusSchema,
-  })
-  .refine(
-    data => {
-      if (data.status === 'active') {
-        return !!data.startDate;
-      }
-      return true;
-    },
-    {
-      path: ['startDate'],
-      message: 'Active habit must have a start date',
-    },
-  );
+export const createHabitSchema = habitFormSchema.extend({
+  status: habitStatusSchema,
+});
 export const updateHabitSchema = habitFormSchema.extend({
   status: habitStatusSchema,
 });

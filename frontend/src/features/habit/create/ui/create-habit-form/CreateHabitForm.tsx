@@ -26,8 +26,6 @@ export function CreateHabitForm({
       title: '',
       status: 'planned',
       totalDays: 30,
-      startDate: undefined,
-      endDate: undefined,
     },
     mode: 'onSubmit',
   });

@@ -37,10 +37,10 @@ export class CreateHabitDto {
   @Type(() => Date)
   startDate?: Date;
 
-  @IsOptional()
-  @IsDate({ message: 'End date must be a valid date' })
-  @Type(() => Date)
-  endDate?: Date;
+  // @IsOptional()
+  // @IsDate({ message: 'End date must be a valid date' })
+  // @Type(() => Date)
+  // endDate?: Date;
 }
 
 export class UpdateHabitDto {
@@ -65,10 +65,10 @@ export class UpdateHabitDto {
   @Type(() => Date)
   startDate?: Date;
 
-  @IsOptional()
-  @IsDate({ message: 'End date must be a valid date' })
-  @Type(() => Date)
-  endDate?: Date;
+  // @IsOptional()
+  // @IsDate({ message: 'End date must be a valid date' })
+  // @Type(() => Date)
+  // endDate?: Date;
 }
 
 export class ReorderHabitDto {

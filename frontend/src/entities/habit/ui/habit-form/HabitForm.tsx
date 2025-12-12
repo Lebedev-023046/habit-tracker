@@ -1,6 +1,5 @@
 import { Button } from '@/shared/ui/button';
 
-import { DateField } from '@/shared/ui/form-fields/RHF/date-field';
 import { InputField } from '@/shared/ui/form-fields/RHF/input-field';
 import { SelectField } from '@/shared/ui/form-fields/RHF/select-field';
 import { type UseFormReturn } from 'react-hook-form';
@@ -14,6 +13,16 @@ import type {
   HabitFormValues,
   UpdateHabitFormValues,
 } from '../../model/form/schema';
+import type { CreateHabitPayloadStatus } from '../../model/types';
+
+const STATUS_HINTS: Record<CreateHabitPayloadStatus, { text: string }> = {
+  active: {
+    text: 'This habit will start today',
+  },
+  planned: {
+    text: 'You can activate this habit anytime',
+  },
+};
 
 interface HabitFormProps {
   form: UseFormReturn<HabitFormValues>;
@@ -48,7 +57,10 @@ export function HabitForm({
   const hasError = Boolean(errorMessage);
   const errorOpenClassName = hasError ? styles.errorOpen : '';
 
-  const { control, handleSubmit } = form;
+  const { control, handleSubmit, watch } = form;
+
+  const status = watch('status') as CreateHabitPayloadStatus;
+  const hint = STATUS_HINTS[status];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form}`}>
@@ -77,12 +89,9 @@ export function HabitForm({
         isClearable={false}
       />
 
-      <DateField
-        control={control}
-        name="startDate"
-        label="Start date (optional)"
-        placeholder="Pick start date"
-      />
+      <p key={status} className={styles.info}>
+        {hint.text}
+      </p>
 
       {hasError && (
         <div className={`${styles.error} ${errorOpenClassName}`}>
