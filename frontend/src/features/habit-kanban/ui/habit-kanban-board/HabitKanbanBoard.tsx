@@ -1,4 +1,4 @@
-import { HABIT_KANBAN_COLUMNS } from '@/entities/habit';
+import { HABIT_KANBAN_COLUMNS, habitBoardService } from '@/entities/habit';
 
 import { DragDropContext } from '@hello-pangea/dnd';
 
@@ -9,16 +9,29 @@ import styles from './HabitKanbanBoard.module.css';
 
 export function HabitKanbanBoard() {
   const { data: habitsInfo, isLoading } = useGetHabits();
-
   const isInitialLoading = isLoading && !habitsInfo;
 
   const habits = habitsInfo?.data ?? [];
-  const { board, handleDragEnd } = useBoard(habits);
+  const { board, dragMeta, handleDragStart, handleDragEnd } = useBoard(habits, {
+    onInvalidMove: ({ from, to }) => {
+      console.warn(`You can’t move a habit from ${from} to ${to}.`);
+      // toast({
+      //   title: 'Move not allowed',
+      //   description: `You can’t move a habit from ${statusLabel[from] ?? from} to ${statusLabel[to] ?? to}.`,
+      //   variant: 'warning',
+      // });
+    },
+  });
 
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
+    <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <div className={styles.kanban}>
         {HABIT_KANBAN_COLUMNS.map(column => {
+          const isDropDisabled = habitBoardService.isDropDisabled(
+            column.id,
+            dragMeta,
+          );
+
           return (
             <HabitKanbanColumn
               key={column.id}
@@ -26,6 +39,7 @@ export function HabitKanbanBoard() {
               columnHabits={board ? board[column.id] : []}
               columnId={column.id}
               isLoading={isInitialLoading}
+              isDropDisabled={isDropDisabled}
             />
           );
         })}

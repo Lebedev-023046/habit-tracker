@@ -7,9 +7,7 @@ import type { Habit } from '../model/types';
 export function useReorderHabitsBase() {
   return useMutation<ApiResponse<Habit>, Error, HabitReorderPayload[]>({
     mutationFn: habitRepo.reorderHabits,
-    async onSuccess(response) {
-      console.log(`Habit with id: ${response.data?.id} was created!`);
-    },
+
     async onError(error) {
       throw new Error(error.message);
     },

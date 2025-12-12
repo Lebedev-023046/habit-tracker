@@ -16,6 +16,7 @@ interface HabitKanbanColumnProps {
   title: string;
   columnHabits: BoardHabitViewModel[];
   isLoading: boolean;
+  isDropDisabled: boolean;
 }
 
 export function HabitKanbanColumn({
@@ -23,11 +24,15 @@ export function HabitKanbanColumn({
   columnHabits,
   columnId,
   isLoading,
+  isDropDisabled,
 }: HabitKanbanColumnProps) {
   return (
-    <Droppable droppableId={columnId}>
+    <Droppable droppableId={columnId} isDropDisabled={isDropDisabled}>
       {provided => (
-        <div className={styles.column}>
+        <div
+          className={`${styles.column} ${isDropDisabled && styles.columnDisabled}`}
+          aria-disabled={isDropDisabled}
+        >
           <div className={styles.columnHeader}>
             <h3 className={styles.columnTitle}>{title}</h3>
             <Subtitle className={styles.columnCount}>

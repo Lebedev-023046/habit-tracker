@@ -7,6 +7,12 @@ import { HABIT_STATUS } from '../constants';
 import type { Habit, HabitStatus, HabitTotalDays } from '../types';
 import { HabitService } from './habit.service';
 
+export type ColumnId = HabitStatus;
+
+export interface DragMeta {
+  sourceColumnId: ColumnId;
+}
+
 export interface BoardHabitViewModel {
   id: string;
   title: string;
@@ -20,12 +26,24 @@ export interface BoardHabitViewModel {
 
 export type HabitKanbanBoardState = Record<HabitStatus, BoardHabitViewModel[]>;
 
+const ALLOWED_TRANSITIONS: Record<ColumnId, ColumnId[]> = {
+  planned: ['planned', 'active', 'cancelled'],
+  active: ['active', 'paused', 'built', 'cancelled'],
+  paused: ['paused', 'active', 'cancelled'],
+  built: ['built'],
+  cancelled: ['cancelled'],
+};
+
 class HabitBoardService extends HabitService {
   constructor() {
     super();
     this.buildHabitBoard = this.buildHabitBoard.bind(this);
     this.applyDragToBoard = this.applyDragToBoard.bind(this);
     this.buildReorderDiffPayload = this.buildReorderDiffPayload.bind(this);
+
+    // dnd methods
+    this.isAllowedResult = this.isAllowedResult.bind(this);
+    this.buildDragMeta = this.buildDragMeta.bind(this);
   }
 
   private hasValidDestination(
@@ -135,6 +153,40 @@ class HabitBoardService extends HabitService {
     }
 
     return updates;
+  }
+
+  private canDrop(
+    sourceColumnId: ColumnId,
+    destinationColumnId: ColumnId,
+  ): boolean {
+    if (sourceColumnId === destinationColumnId) return true;
+    return (
+      ALLOWED_TRANSITIONS[sourceColumnId]?.includes(destinationColumnId) ??
+      false
+    );
+  }
+
+  buildDragMeta(sourceColumnId: ColumnId): DragMeta | null {
+    if (!sourceColumnId) return null;
+    return { sourceColumnId: sourceColumnId as ColumnId };
+  }
+
+  isDropDisabled(
+    destinationColumnId: ColumnId,
+    dragMeta: DragMeta | null,
+  ): boolean {
+    if (!dragMeta) return false;
+    return !this.canDrop(dragMeta.sourceColumnId, destinationColumnId);
+  }
+
+  isAllowedResult(result: DropResult): boolean {
+    const { destination, source } = result;
+    if (!destination) return false;
+
+    const from = source.droppableId as ColumnId;
+    const to = destination.droppableId as ColumnId;
+
+    return this.canDrop(from, to);
   }
 
   buildBoardModel(habit: Habit): BoardHabitViewModel {

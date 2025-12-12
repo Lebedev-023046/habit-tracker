@@ -37,3 +37,18 @@
   justify-content: center;
   margin-top: 1rem;
 }
+
+.columnDisabled {
+  opacity: 0.45;
+  filter: grayscale(0.2);
+}
+
+.columnDisabled .columnBody {
+  pointer-events: none;
+}
+
+.dragOver {
+  outline: 2px dashed rgb(255 255 255 / 18%);
+  outline-offset: 6px;
+  border-radius: 12px;
+}

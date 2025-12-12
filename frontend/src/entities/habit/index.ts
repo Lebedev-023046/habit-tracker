@@ -28,6 +28,8 @@ export {
 export {
   habitBoardService,
   type BoardHabitViewModel,
+  type ColumnId,
+  type DragMeta,
   type HabitKanbanBoardState,
 } from './model/services/habitBoard.service';
 
