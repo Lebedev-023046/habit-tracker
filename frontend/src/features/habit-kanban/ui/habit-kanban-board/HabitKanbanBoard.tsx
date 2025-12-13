@@ -3,6 +3,7 @@ import { HABIT_KANBAN_COLUMNS, habitBoardService } from '@/entities/habit';
 import { DragDropContext } from '@hello-pangea/dnd';
 
 import { useGetHabits } from '@/entities/habit/model/query/habitBaseHooks';
+import { toast } from '@/shared/lib/toast';
 import { useBoard } from '../../model/useBoard';
 import { HabitKanbanColumn } from '../habit-kanban-column';
 import styles from './HabitKanbanBoard.module.css';
@@ -12,15 +13,11 @@ export function HabitKanbanBoard() {
   const isInitialLoading = isLoading && !habitsInfo;
 
   const habits = habitsInfo?.data ?? [];
+
+  console.log({ habits });
+
   const { board, dragMeta, handleDragStart, handleDragEnd } = useBoard(habits, {
-    onInvalidMove: ({ from, to }) => {
-      console.warn(`You can’t move a habit from ${from} to ${to}.`);
-      // toast({
-      //   title: 'Move not allowed',
-      //   description: `You can’t move a habit from ${statusLabel[from] ?? from} to ${statusLabel[to] ?? to}.`,
-      //   variant: 'warning',
-      // });
-    },
+    onInvalidMove: () => toast.warning('Move not allowed'),
   });
 
   return (
