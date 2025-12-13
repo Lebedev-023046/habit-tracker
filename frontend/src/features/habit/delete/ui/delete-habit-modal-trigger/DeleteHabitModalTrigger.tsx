@@ -1,7 +1,7 @@
 import { useModal } from '@/shared/modal/modal-context';
 import { Button } from '@/shared/ui/button';
 
-import { DeleteHabitModal } from '@/features/habit/delete';
+import { preloadModalRoot } from '@/shared/modal/modal-root/preload';
 import styles from './DeleteHabitModalTrigger.module.css';
 
 interface DeleteHabitModalTriggerProps {
@@ -15,17 +15,22 @@ export function DeleteHabitModalTrigger({
   habitTitle,
   onClick,
 }: DeleteHabitModalTriggerProps) {
-  const { openModal } = useModal();
+  const { openLazyModal } = useModal();
 
   const handleClick = () => {
-    openModal(DeleteHabitModal, {
-      habitId,
-      habitTitle,
-    });
+    openLazyModal(
+      () =>
+        import('../delete-habit-modal').then(m => ({
+          Modal: m.DeleteHabitModal,
+        })),
+      { habitId, habitTitle },
+    );
     onClick?.();
   };
+
   return (
     <Button
+      onMouseEnter={preloadModalRoot}
       onClick={handleClick}
       className={styles.buttonTextDanger}
       variant="plain"

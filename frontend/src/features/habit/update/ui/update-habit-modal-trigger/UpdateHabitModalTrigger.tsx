@@ -1,6 +1,6 @@
 import type { UpdateHabitFormValues } from '@/entities/habit';
-import { UpdateHabitModal } from '@/features/habit/update';
 import { useModal } from '@/shared/modal/modal-context';
+import { preloadModalRoot } from '@/shared/modal/modal-root/preload';
 import { Button } from '@/shared/ui/button';
 
 interface UpdateHabitModalTriggerProps {
@@ -14,18 +14,25 @@ export function UpdateHabitModalTrigger({
   habitId,
   defaultValues,
 }: UpdateHabitModalTriggerProps) {
-  const { openModal } = useModal();
+  const { openLazyModal } = useModal();
 
   const handleClick = () => {
-    openModal(UpdateHabitModal, {
-      habitId,
-      defaultValues,
-    });
+    openLazyModal(
+      () =>
+        import('../update-habit-modal').then(m => ({
+          Modal: m.UpdateHabitModal,
+        })),
+      { habitId, defaultValues },
+    );
     onClick?.();
   };
 
   return (
-    <Button onClick={handleClick} variant="plain">
+    <Button
+      onMouseEnter={preloadModalRoot}
+      onClick={handleClick}
+      variant="plain"
+    >
       Edit
     </Button>
   );

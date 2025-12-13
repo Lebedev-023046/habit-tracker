@@ -14,12 +14,8 @@ export function DeleteHabitForm({
   onSuccess: handleSuccess,
   onCancel,
 }: DeleteHabitFormProps) {
-  const { mutate: deleteHabit, isPending, error } = useDeleteHabit();
+  const { mutate: deleteHabit, isPending } = useDeleteHabit();
   const deleteButtonRef = useRef<HTMLButtonElement | null>(null);
-
-  const errorMessage = error ? (error as Error).message : undefined;
-  const hasError = Boolean(errorMessage);
-  const errorOpenClassName = hasError ? styles.errorOpen : '';
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,13 +50,6 @@ export function DeleteHabitForm({
           Delete
         </Button>
       </div>
-      {hasError && (
-        <div className={`${styles.error} ${errorOpenClassName}`}>
-          <div className={styles.errorContent}>
-            <p className={styles.errorText}>{errorMessage}</p>
-          </div>
-        </div>
-      )}
     </form>
   );
 }

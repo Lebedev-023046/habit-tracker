@@ -6,7 +6,9 @@ import {
   type ReactNode,
 } from 'react';
 
+import { toast } from '@/shared/lib/toast';
 import type {
+  LazyModalFactory,
   ModalBaseProps,
   ModalComponent,
   ModalExternalProps,
@@ -24,7 +26,12 @@ interface ModalContextValue {
   modals: ModalState[];
   openModal: <P extends ModalBaseProps>(
     Component: ModalComponent<P>,
-    props: ModalExternalProps<P>,
+    props?: ModalExternalProps<P>,
+  ) => string;
+
+  openLazyModal: <P extends ModalBaseProps>(
+    factory: LazyModalFactory<P>,
+    props?: ModalExternalProps<P>,
   ) => string;
   closeModal: (id: string) => void;
   closeAll: () => void;
@@ -36,6 +43,17 @@ interface ModalProviderProps {
 
 const ModalContext = createContext<ModalContextValue | null>(null);
 
+const createId = () => `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+function resolveLazyModule<P extends ModalBaseProps>(
+  mod: any,
+): ModalComponent<P> {
+  if (typeof mod === 'function') return mod as ModalComponent<P>;
+  if (mod?.default) return mod.default as ModalComponent<P>;
+  if (mod?.Modal) return mod.Modal as ModalComponent<P>;
+  throw new Error('Lazy modal factory did not return a component');
+}
+
 export const ModalProvider = ({ children }: ModalProviderProps) => {
   const [modals, setModals] = useState<ModalState[]>([]);
 
@@ -43,10 +61,34 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
     Component: ModalComponent<P>,
     props: ModalExternalProps<P> = {} as ModalExternalProps<P>,
   ) {
-    const id = `${Date.now()}-${Math.random()}`;
+    const id = createId();
     setModals(prev => [...prev, { id, Component, props: props || {} }]);
     return id;
   }
+
+  const openLazyModal = useCallback(
+    <P extends ModalBaseProps>(
+      factory: LazyModalFactory<P>,
+      props: ModalExternalProps<P> = {} as ModalExternalProps<P>,
+    ) => {
+      const id = createId();
+
+      void factory()
+        .then(mod => {
+          const Component = resolveLazyModule<P>(mod);
+
+          setModals(prev => [...prev, { id, Component, props: props || {} }]);
+        })
+        .catch(err => {
+          console.error('Failed to load modal', err);
+          toast.error('Failed to load modal');
+          setModals(prev => prev.filter(m => m.id !== id));
+        });
+
+      return id;
+    },
+    [],
+  );
 
   const closeModal = useCallback((id: string) => {
     setModals(prev => prev.filter(m => m.id !== id));
@@ -61,6 +103,7 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
       value={{
         modals,
         openModal,
+        openLazyModal,
         closeModal,
         closeAll,
       }}

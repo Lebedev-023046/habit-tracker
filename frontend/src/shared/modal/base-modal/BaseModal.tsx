@@ -22,12 +22,8 @@ export const BaseModal = ({ children, onClose }: BaseModalProps) => {
 
     document.addEventListener('keydown', onKeyDown);
 
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-
     return () => {
       document.removeEventListener('keydown', onKeyDown);
-      document.body.style.overflow = originalOverflow;
     };
   }, [onClose]);
 

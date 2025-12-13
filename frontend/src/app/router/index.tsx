@@ -1,8 +1,5 @@
 import { ROUTES } from '@/shared/config/routes';
 
-import { habitBoardLoader } from '@/pages/habit-board/loader';
-import { dailyHabitsLoader } from '@/pages/habit-daily/loader';
-import { habitDashboardLoader } from '@/pages/habit-dashboard/loader';
 import { RouterErrorBoundary } from '@/shared/ui/error-boundary/RouterErrorBoundary';
 import { PageLoader } from '@/shared/ui/page-loader';
 import { lazy, Suspense } from 'react';
@@ -26,7 +23,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         handle: { title: 'Today habits' },
-        loader: dailyHabitsLoader,
+        loader: async () => {
+          const mod = await import('@/pages/habit-daily/loader');
+          return mod.dailyHabitsLoader();
+        },
         element: (
           <Suspense fallback={<PageFallback />}>
             <HabitDailyPage />
@@ -38,7 +38,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.habitBoard(),
         handle: { title: 'Habit Management' },
-        loader: habitBoardLoader,
+        loader: async () => {
+          const mod = await import('@/pages/habit-board/loader');
+          return mod.habitBoardLoader();
+        },
         element: (
           <Suspense fallback={<PageFallback />}>
             <HabitBoardPage />
@@ -50,7 +53,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.habitDashboard(':habitId'),
         handle: { title: 'Habit Dashboard' },
-        loader: habitDashboardLoader,
+        loader: async args => {
+          const mod = await import('@/pages/habit-dashboard/loader');
+          return mod.habitDashboardLoader(args);
+        },
         element: (
           <Suspense fallback={<PageFallback />}>
             <HabitDashboardPage />

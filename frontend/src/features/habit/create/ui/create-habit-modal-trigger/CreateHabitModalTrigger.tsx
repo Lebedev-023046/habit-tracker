@@ -1,8 +1,8 @@
 import { useModal } from '@/shared/modal/modal-context/ModalContext';
+import { preloadModalRoot } from '@/shared/modal/modal-root/preload';
 import { Button } from '@/shared/ui/button';
 
 import { GoPlus } from 'react-icons/go';
-import { CreateHabitModal } from '../create-habit-modal';
 
 interface CreateHabitModalTriggerProps {
   label?: string;
@@ -13,15 +13,26 @@ export function CreateHabitModalTrigger({
   label = 'Add habit',
   className,
 }: CreateHabitModalTriggerProps) {
-  const { openModal } = useModal();
+  const { openLazyModal } = useModal();
 
   const handleClick = () => {
-    openModal(CreateHabitModal, {});
+    openLazyModal(
+      () =>
+        import('../create-habit-modal').then(m => ({
+          Modal: m.CreateHabitModal,
+        })),
+      {},
+    );
   };
 
   return (
     <>
-      <Button variant="primary" onClick={handleClick} className={className}>
+      <Button
+        onMouseEnter={preloadModalRoot}
+        variant="primary"
+        onClick={handleClick}
+        className={className}
+      >
         <GoPlus size="2.5rem" />
         {label}
       </Button>

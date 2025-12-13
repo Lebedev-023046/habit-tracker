@@ -21,7 +21,7 @@ export function UpdateHabitForm({
   habitId,
   defaultValues,
 }: UpdateHabitFormProps) {
-  const { mutate: updateHabit, isPending, error } = useUpdateHabit();
+  const { mutate: updateHabit, isPending } = useUpdateHabit();
 
   const form = useForm<HabitFormValues>({
     resolver: zodResolver(updateHabitSchema),
@@ -48,7 +48,6 @@ export function UpdateHabitForm({
       form={form}
       submitLabel="Update habit"
       isSubmitting={isPending}
-      errorMessage={error ? (error as Error).message : undefined}
       showCancelButton={Boolean(onCancel)}
       onCancel={onCancel}
       onSubmit={handleSubmit}
