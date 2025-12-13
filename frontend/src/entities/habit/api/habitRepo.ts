@@ -2,6 +2,8 @@ import { api as AxiosApiInstance } from '@/shared/api/instance';
 import type { AxiosInstance } from 'axios';
 
 import { buildQueryString } from '@/shared/api/buildQueryString';
+import { unwrapResponse } from '@/shared/api/unwrapResponse';
+import type { Habit } from '../model/types';
 import type {
   CreateHabitPayload,
   DeleteHabitPayload,
@@ -36,31 +38,35 @@ class HabitRepo {
   }
   // private baseHabitKey = ['habit'];
 
-  async getAllHabits(params?: GetAllHabitsQuery) {
+  async getAllHabits(params?: GetAllHabitsQuery): Promise<Habit[]> {
     try {
-      return this.api.get(ENDPOINTS.getAllHabits(params)).then(res => res.data);
+      return this.api
+        .get(ENDPOINTS.getAllHabits(params))
+        .then(res => unwrapResponse<Habit[]>(res.data));
     } catch (error) {
       throw error;
     }
   }
-  async getHabit(id: string) {
+  async getHabit(id: string): Promise<Habit> {
     try {
-      return this.api.get(ENDPOINTS.getHabit(id)).then(res => res.data);
+      return this.api
+        .get(ENDPOINTS.getHabit(id))
+        .then(res => unwrapResponse<Habit>(res.data));
     } catch (error) {
       throw error;
     }
   }
-  async createHabit(payload: CreateHabitPayload) {
+  async createHabit(payload: CreateHabitPayload): Promise<Habit> {
     try {
       return this.api
         .post(ENDPOINTS.createHabit(), payload)
-        .then(res => res.data);
+        .then(res => unwrapResponse<Habit>(res.data));
     } catch (error) {
       throw error;
     }
   }
 
-  async updateHabit(payload: UpdateHabitPayload) {
+  async updateHabit(payload: UpdateHabitPayload): Promise<Habit> {
     if (!payload.id) {
       throw new Error('Habit id is required');
     }
@@ -69,37 +75,39 @@ class HabitRepo {
 
       return this.api
         .put(ENDPOINTS.updateHabit(id), data)
-        .then(res => res.data);
+        .then(res => unwrapResponse<Habit>(res.data));
     } catch (error) {
       throw error;
     }
   }
 
-  async updateHabitStatus(payload: UpdateHabitStatusPayload) {
+  async updateHabitStatus(payload: UpdateHabitStatusPayload): Promise<Habit> {
     try {
       const { id, status } = payload;
       return this.api
         .patch(ENDPOINTS.updateHabitStatus(id), { status })
-        .then(res => res.data);
+        .then(res => unwrapResponse<Habit>(res.data));
     } catch (error) {
       throw error;
     }
   }
 
-  async reorderHabits(payload: HabitReorderPayload[]) {
+  async reorderHabits(payload: HabitReorderPayload[]): Promise<Habit[]> {
     try {
       return this.api
         .patch(ENDPOINTS.reorderHabits(), { updates: payload })
-        .then(res => res.data);
+        .then(res => unwrapResponse<Habit[]>(res.data));
     } catch (error) {
       throw error;
     }
   }
 
-  async deleteHabit(payload: DeleteHabitPayload) {
+  async deleteHabit(payload: DeleteHabitPayload): Promise<string> {
     try {
       const { id } = payload;
-      return this.api.delete(ENDPOINTS.deleteHabit(id)).then(res => res.data);
+      return this.api
+        .delete(ENDPOINTS.deleteHabit(id))
+        .then(res => unwrapResponse<string>(res.data));
     } catch (error) {
       throw error;
     }

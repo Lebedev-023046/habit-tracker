@@ -13,9 +13,11 @@ export function useDashboardHabit(habitId: string) {
 
   const { data: habitInfo, isLoading, error } = useGetHabit(habitId ?? '');
 
-  const habit = habitInfo?.data;
+  const habit = habitInfo;
 
-  const dashboardHabit = habitDashboardService.buildDashboardModel(habit);
+  const dashboardHabit = habit
+    ? habitDashboardService.buildDashboardModel(habit)
+    : habitDashboardService.emptyDashboardHabit;
 
   return {
     dashboardHabit,

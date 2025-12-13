@@ -9,7 +9,7 @@ export function useDailyHabits() {
     error,
   } = useGetHabits({ status: 'active' });
 
-  const habits = habitsInfo?.data || [];
+  const habits = habitsInfo || [];
   const viewModel = habitDailyService.buildDailyHabitsViewModel(habits);
 
   const hasData = habits.length > 0;
