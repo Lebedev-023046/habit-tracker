@@ -10,6 +10,7 @@ import { CreateHabitDto, ReorderHabitDto, UpdateHabitDto } from './habit.dto';
 export class HabitService {
   constructor(private prisma: PrismaService) {}
 
+  // TODO: разобрать поведения при изменении статуса (начать с active)
   private ALLOWED_TRANSITIONS = {
     planned: ['planned', 'active', 'cancelled'],
     active: ['active', 'paused', 'built', 'cancelled'],
@@ -20,6 +21,37 @@ export class HabitService {
 
   private canTransition(from: string, to: string) {
     return this.ALLOWED_TRANSITIONS[from]?.includes(to) ?? false;
+  }
+
+  private applyStatusTransition({
+    prevStatus,
+    nextStatus,
+    startDate,
+    today,
+  }: {
+    prevStatus: HabitStatus;
+    nextStatus: HabitStatus;
+    startDate: Date | null;
+    today: Date;
+  }): Pick<Prisma.HabitUpdateInput, 'status' | 'startDate'> {
+    if (!this.canTransition(prevStatus, nextStatus)) {
+      throw new BadRequestException(
+        `Transition ${prevStatus} -> ${nextStatus} is not allowed`,
+      );
+    }
+
+    // planned -> active => старт
+    if (prevStatus === 'planned' && nextStatus === 'active') {
+      return {
+        status: nextStatus,
+        startDate: startDate ?? today,
+      };
+    }
+
+    // ВСЕ остальные кейсы — startDate не трогаем
+    return {
+      status: nextStatus,
+    };
   }
 
   async getAllHabits(params?: { status?: HabitStatus }) {
@@ -126,18 +158,18 @@ export class HabitService {
     }
   }
 
-  async updateHabitStatus(id: string, status: HabitStatus) {
-    try {
-      const updatedHabit = await this.prisma.habit.update({
-        where: { id },
-        data: { status },
-      });
-      console.log(`Habit with id: ${updatedHabit.id} status updated`);
-      return ResponseUtil.success(updatedHabit);
-    } catch (error) {
-      throwError({ error, errorMessage: 'Error updating habit status: ' });
-    }
-  }
+  // async updateHabitStatus(id: string, status: HabitStatus) {
+  //   try {
+  //     const updatedHabit = await this.prisma.habit.update({
+  //       where: { id },
+  //       data: { status },
+  //     });
+  //     console.log(`Habit with id: ${updatedHabit.id} status updated`);
+  //     return ResponseUtil.success(updatedHabit);
+  //   } catch (error) {
+  //     throwError({ error, errorMessage: 'Error updating habit status: ' });
+  //   }
+  // }
 
   async reorderHabits(data: ReorderHabitDto[]) {
     try {
@@ -149,36 +181,26 @@ export class HabitService {
       });
 
       const currentById = new Map(current.map((h) => [h.id, h]));
+      const today = getTodayUserDayUTC();
 
       await this.prisma.$transaction(async (tx) => {
-        const today = getTodayUserDayUTC();
         for (const { id, status: nextStatus, position } of data) {
           const prev = currentById.get(id);
           if (!prev) continue;
 
-          if (!this.canTransition(prev.status, nextStatus)) {
-            throw new BadRequestException(
-              `Transition ${prev.status} -> ${nextStatus} is not allowed`,
-            );
-          }
-
-          const updateData: Prisma.HabitUpdateInput = {
-            status: nextStatus,
-            position,
-          };
-
-          // planned -> active => проставить startDate, если его не было
-          const isPlannedToActive =
-            prev.status === 'planned' && nextStatus === 'active';
-          const shouldSetStartDate = isPlannedToActive && !prev.startDate;
-
-          if (shouldSetStartDate) {
-            updateData.startDate = today;
-          }
+          const transition = this.applyStatusTransition({
+            prevStatus: prev.status,
+            nextStatus,
+            startDate: prev.startDate,
+            today,
+          });
 
           await tx.habit.update({
             where: { id },
-            data: updateData,
+            data: {
+              ...transition,
+              position,
+            },
           });
         }
       });
