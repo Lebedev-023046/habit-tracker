@@ -9,7 +9,6 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { HabitStatus } from '@prisma/client';
 import {
   CreateHabitDto,
   GetHabitsQueryDto,
@@ -42,10 +41,10 @@ export class HabitController {
     return this.habitService.updateHabit(id, data);
   }
 
-  @Patch('update-status/:id')
-  updateHabitStatus(@Param('id') id: string, @Body() status: HabitStatus) {
-    return this.habitService.updateHabitStatus(id, status);
-  }
+  // @Patch('update-status/:id')
+  // updateHabitStatus(@Param('id') id: string, @Body() status: HabitStatus) {
+  //   return this.habitService.updateHabitStatus(id, status);
+  // }
 
   @Patch('reorder')
   reorderHabits(@Body() data: ReorderHabitsDto) {
