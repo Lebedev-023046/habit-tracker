@@ -6,6 +6,16 @@
   gap: 1rem;
 }
 
+.title {
+  font-weight: 500;
+  font-size: 3.5rem;
+}
+
+.subtitle {
+  font-size: 1.8rem;
+  font-weight: 300;
+}
+
 .stats {
   display: flex;
   justify-content: space-between;
@@ -16,6 +26,7 @@
   display: inline-block;
   width: fit-content;
   padding: 1rem 1.5rem;
+  font-size: 1.7rem;
   border-radius: var(--rounded-md);
   color: var(--text-color-primary);
   background-color: var(--bg-accent);

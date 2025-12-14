@@ -17,8 +17,10 @@ export function Overview({ totalCount, completedCount }: OverviewProps) {
     <Container className={styles.overview}>
       <h2 className={styles.title}>Today's habits</h2>
       <div className={styles.stats}>
-        <Subtitle>Stay consistent small wins add up.</Subtitle>
-        <Subtitle>
+        <Subtitle className={styles.subtitle}>
+          Stay consistent small wins add up.
+        </Subtitle>
+        <Subtitle className={styles.subtitle}>
           {completedCount} / {totalCount} completed
         </Subtitle>
       </div>

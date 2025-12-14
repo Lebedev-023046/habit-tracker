@@ -1,13 +1,13 @@
 import { ROUTES } from '@/shared/config/routes';
 import type { IconType } from 'react-icons';
-import { HiOutlineViewBoards } from 'react-icons/hi';
 import { PiStarFour } from 'react-icons/pi';
+import { TfiList } from 'react-icons/tfi';
 import { NavLink } from 'react-router-dom';
 import styles from './Footer.module.css';
 
 const navItems = [
   { to: ROUTES.home, label: 'Daily', Icon: PiStarFour },
-  { to: ROUTES.habitBoard, label: 'Board', Icon: HiOutlineViewBoards },
+  { to: ROUTES.HabitManagement, label: 'Habits', Icon: TfiList },
 ];
 
 const Link = ({
