@@ -14,7 +14,6 @@ export interface Habit {
   id: string;
   title: string;
   status: HabitStatus;
-  position: number;
   totalDays: HabitTotalDays;
   startDate: DateType;
   endDate: DateType;

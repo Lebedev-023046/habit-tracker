@@ -1,6 +1,3 @@
-export { HABIT_KANBAN_COLUMNS } from './kanban/columns';
-export { useReorderHabitsBase } from './kanban/useReorderHabitsBase';
-
 export { habitRepo } from './api//habitRepo';
 
 export {
@@ -25,17 +22,17 @@ export {
   useUpdateHabitStatusBase,
 } from './model/query/habitBaseHooks';
 
-export {
-  habitBoardService,
-  type BoardHabitViewModel,
-  type ColumnId,
-  type DragMeta,
-  type HabitKanbanBoardState,
-} from './model/services/habitBoard.service';
+// export {
+//   habitBoardService,
+//   type BoardHabitViewModel,
+//   type ColumnId,
+//   type DragMeta,
+//   type HabitKanbanBoardState,
+// } from './model/services/habitManagement.service';
 
 export {
   habitDailyService,
-  type DailyHabitsViewModel,
+  type DailyHabitItem,
   type DailyHabitViewModel,
 } from './model/services/habitDaily.service';
 
