@@ -8,7 +8,7 @@ import { isSameDay } from 'date-fns';
 import type { Habit, HabitDayLog } from '../types';
 import { HabitService } from './habit.service';
 
-export interface DailyHabitViewModel {
+export interface DailyHabitItem {
   id: string;
   title: string;
   daySinceStart: number;
@@ -20,16 +20,29 @@ export interface DailyHabitViewModel {
   lastDaysProgress: DayProgress[];
 }
 
-export interface DailyHabitsViewModel {
+export interface DailyHabitViewModel {
   totalCount: number;
   completedCount: number;
-  habits: DailyHabitViewModel[];
+  habits: DailyHabitItem[];
 }
 
 export class HabitDailyService extends HabitService {
   constructor() {
     super();
+    this.buildDailyHabitsViewModel = this.buildDailyHabitsViewModel.bind(this);
   }
+
+  readonly emptyItem = {
+    id: '',
+    title: '',
+    daySinceStart: 0,
+    totalDays: 0,
+    progress: 0,
+    currentStreak: 0,
+    bestStreak: 0,
+    todayStatus: HABIT_DAY_STATUS_MAP.unmarked,
+    lastDaysProgress: [],
+  };
 
   private getTodayStatus(dayLogs: HabitDayLog[]): HabitDayStatus {
     try {
@@ -50,19 +63,8 @@ export class HabitDailyService extends HabitService {
     }
   }
 
-  buildDailyModel(habit: Habit): DailyHabitViewModel {
-    if (!habit)
-      return {
-        id: '',
-        title: '',
-        daySinceStart: 0,
-        totalDays: 0,
-        progress: 0,
-        currentStreak: 0,
-        bestStreak: 0,
-        todayStatus: HABIT_DAY_STATUS_MAP.unmarked,
-        lastDaysProgress: [],
-      };
+  buildDailyHabitItem(habit: Habit): DailyHabitItem {
+    if (!habit) return this.emptyItem;
 
     const { id, title, dayLogs, totalDays } = habit;
 
@@ -79,8 +81,8 @@ export class HabitDailyService extends HabitService {
     };
   }
 
-  buildDailyHabitsViewModel(habits: Habit[]): DailyHabitsViewModel {
-    const dailyHabits = habits.map(habit => this.buildDailyModel(habit));
+  buildDailyHabitsViewModel(habits: Habit[]): DailyHabitViewModel {
+    const dailyHabits = habits.map(habit => this.buildDailyHabitItem(habit));
     const completedCount = dailyHabits.filter(
       habit => habit.todayStatus === 'completed',
     ).length;

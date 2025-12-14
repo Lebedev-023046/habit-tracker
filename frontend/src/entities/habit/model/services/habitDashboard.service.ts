@@ -9,7 +9,7 @@ import {
 import type { Habit, HabitDayLog, HabitStatus } from '../types';
 import { HabitService } from './habit.service';
 
-export interface DashboardHabitViewModel {
+export interface DashboardHabitItem {
   id: string;
   title: string;
   status: HabitStatus;
@@ -30,9 +30,10 @@ export interface DashboardHabitViewModel {
 class HabitDashoardService extends HabitService {
   constructor() {
     super();
+    this.buildDashboardViewModel = this.buildDashboardViewModel.bind(this);
   }
 
-  emptyDashboardHabit: DashboardHabitViewModel = {
+  emptyDashboardHabit: DashboardHabitItem = {
     id: '',
     title: '',
     plannedEndDate: '',
@@ -88,7 +89,7 @@ class HabitDashoardService extends HabitService {
     return Math.max(diffDays, 0);
   }
 
-  buildDashboardModel(habit?: Habit): DashboardHabitViewModel {
+  buildDashboardViewModel(habit?: Habit): DashboardHabitItem {
     if (!habit) return this.emptyDashboardHabit;
 
     const { id, title, status, dayLogs, totalDays } = habit;
