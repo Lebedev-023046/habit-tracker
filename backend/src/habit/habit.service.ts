@@ -13,7 +13,6 @@ export class HabitService {
   async getAllHabits(params?: { status?: HabitStatus }) {
     try {
       const prismaQuery: Prisma.HabitFindManyArgs = {
-        orderBy: { position: 'asc' },
         include: {
           dayLogs: {
             orderBy: { date: 'asc' },
