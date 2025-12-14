@@ -4,55 +4,11 @@ import { throwError } from 'src/common/errors';
 import { ResponseUtil } from 'src/common/utils/response';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { getTodayUserDayUTC } from 'src/utils/time';
-import { CreateHabitDto, ReorderHabitDto, UpdateHabitDto } from './habit.dto';
+import { CreateHabitDto, UpdateHabitDto } from './habit.dto';
 
 @Injectable()
 export class HabitService {
   constructor(private prisma: PrismaService) {}
-
-  // TODO: разобрать поведения при изменении статуса (начать с active)
-  private ALLOWED_TRANSITIONS = {
-    planned: ['planned', 'active', 'cancelled'],
-    active: ['active', 'paused', 'built', 'cancelled'],
-    paused: ['paused', 'active', 'cancelled'],
-    built: ['built'],
-    cancelled: ['cancelled'],
-  } as const;
-
-  private canTransition(from: string, to: string) {
-    return this.ALLOWED_TRANSITIONS[from]?.includes(to) ?? false;
-  }
-
-  private applyStatusTransition({
-    prevStatus,
-    nextStatus,
-    startDate,
-    today,
-  }: {
-    prevStatus: HabitStatus;
-    nextStatus: HabitStatus;
-    startDate: Date | null;
-    today: Date;
-  }): Pick<Prisma.HabitUpdateInput, 'status' | 'startDate'> {
-    if (!this.canTransition(prevStatus, nextStatus)) {
-      throw new BadRequestException(
-        `Transition ${prevStatus} -> ${nextStatus} is not allowed`,
-      );
-    }
-
-    // planned -> active => старт
-    if (prevStatus === 'planned' && nextStatus === 'active') {
-      return {
-        status: nextStatus,
-        startDate: startDate ?? today,
-      };
-    }
-
-    // ВСЕ остальные кейсы — startDate не трогаем
-    return {
-      status: nextStatus,
-    };
-  }
 
   async getAllHabits(params?: { status?: HabitStatus }) {
     try {
@@ -106,41 +62,19 @@ export class HabitService {
 
   async createHabit(data: CreateHabitDto) {
     try {
-      if (!data.title || data.title.trim().length === 0) {
-        throw new Error('Habit title is required');
-      }
-
-      if (!data.totalDays || data.totalDays <= 0) {
-        throw new Error('Total days must be positive number');
-      }
-
       const isActive = data.status === 'active';
 
-      const startDate = isActive
-        ? (data.startDate ?? getTodayUserDayUTC())
-        : null;
-
-      return this.prisma.$transaction(async (tx) => {
-        await tx.habit.updateMany({
-          where: { status: data.status },
-          data: { position: { increment: 1 } },
-        });
-
-        const newHabit = await this.prisma.habit.create({
-          data: {
-            ...data,
-            position: 0,
-            status: data.status || 'planned',
-            startDate,
-          },
-        });
-        console.log(
-          `New Habit "${newHabit.title}" with id: ${newHabit.id} Created`,
-        );
-        return ResponseUtil.success(newHabit);
+      const habit = await this.prisma.habit.create({
+        data: {
+          ...data,
+          status: data.status ?? 'planned',
+          startDate: isActive ? (data.startDate ?? getTodayUserDayUTC()) : null,
+        },
       });
+
+      return ResponseUtil.success(habit);
     } catch (error) {
-      throwError({ error, errorMessage: 'Error creating habit: ' });
+      throwError({ error, errorMessage: 'Error creating habit' });
     }
   }
 
@@ -158,56 +92,26 @@ export class HabitService {
     }
   }
 
-  // async updateHabitStatus(id: string, status: HabitStatus) {
-  //   try {
-  //     const updatedHabit = await this.prisma.habit.update({
-  //       where: { id },
-  //       data: { status },
-  //     });
-  //     console.log(`Habit with id: ${updatedHabit.id} status updated`);
-  //     return ResponseUtil.success(updatedHabit);
-  //   } catch (error) {
-  //     throwError({ error, errorMessage: 'Error updating habit status: ' });
-  //   }
-  // }
-
-  async reorderHabits(data: ReorderHabitDto[]) {
+  async updateHabitStatus(id: string, status: HabitStatus) {
     try {
-      const ids = data.map((x) => x.id);
+      const habit = await this.prisma.habit.findUnique({ where: { id } });
+      if (!habit) throw new BadRequestException('Habit not found');
 
-      const current = await this.prisma.habit.findMany({
-        where: { id: { in: ids } },
-        select: { id: true, status: true, startDate: true },
+      const shouldStart = habit.status === 'planned' && status === 'active';
+
+      const updated = await this.prisma.habit.update({
+        where: { id },
+        data: {
+          status,
+          startDate: shouldStart
+            ? (habit.startDate ?? getTodayUserDayUTC())
+            : habit.startDate,
+        },
       });
 
-      const currentById = new Map(current.map((h) => [h.id, h]));
-      const today = getTodayUserDayUTC();
-
-      await this.prisma.$transaction(async (tx) => {
-        for (const { id, status: nextStatus, position } of data) {
-          const prev = currentById.get(id);
-          if (!prev) continue;
-
-          const transition = this.applyStatusTransition({
-            prevStatus: prev.status,
-            nextStatus,
-            startDate: prev.startDate,
-            today,
-          });
-
-          await tx.habit.update({
-            where: { id },
-            data: {
-              ...transition,
-              position,
-            },
-          });
-        }
-      });
-
-      return ResponseUtil.success(true);
+      return ResponseUtil.success(updated);
     } catch (error) {
-      throwError({ error, errorMessage: 'Error reordering habits: ' });
+      throwError({ error, errorMessage: 'Error updating habit status' });
     }
   }
 

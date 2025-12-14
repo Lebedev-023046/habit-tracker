@@ -26,7 +26,6 @@ model Habit {
   id        String      @id @default(uuid())
   title     String
   status    HabitStatus
-  position  Int         @default(0)
   totalDays Int
   startDate DateTime?
   endDate   DateTime?

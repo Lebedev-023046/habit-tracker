@@ -1,7 +1,6 @@
 import { HabitStatus } from '@prisma/client';
 import { Type } from 'class-transformer';
 import {
-  IsArray,
   IsDate,
   IsEnum,
   IsNotEmpty,
@@ -9,7 +8,6 @@ import {
   IsOptional,
   IsString,
   Min,
-  ValidateNested,
 } from 'class-validator';
 
 export class GetHabitsQueryDto {
@@ -36,11 +34,6 @@ export class CreateHabitDto {
   @IsDate({ message: 'Start date must be a valid date' })
   @Type(() => Date)
   startDate?: Date;
-
-  // @IsOptional()
-  // @IsDate({ message: 'End date must be a valid date' })
-  // @Type(() => Date)
-  // endDate?: Date;
 }
 
 export class UpdateHabitDto {
@@ -64,21 +57,4 @@ export class UpdateHabitDto {
   @IsDate({ message: 'Start date must be a valid date' })
   @Type(() => Date)
   startDate?: Date;
-
-  // @IsOptional()
-  // @IsDate({ message: 'End date must be a valid date' })
-  // @Type(() => Date)
-  // endDate?: Date;
-}
-
-export class ReorderHabitDto {
-  id: string;
-  status: HabitStatus;
-  position: number;
-}
-
-export class ReorderHabitsDto {
-  @IsArray()
-  @ValidateNested({ each: true })
-  updates: ReorderHabitDto[];
 }
