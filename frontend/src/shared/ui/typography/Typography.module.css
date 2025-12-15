@@ -1,44 +1,70 @@
-/* Styles for Typography */
+/* Styles for Typography — 1rem = 10px */
 
 .display {
-  font-size: 4rem;
+  font-size: 4rem; /* 40px */
   font-weight: 600;
+  line-height: 1.1; /* 44px */
+  letter-spacing: -0.02em;
 }
 
 .pageTitle {
-  font-size: 3rem;
+  font-size: 3rem; /* 30px */
   font-weight: 600;
+  line-height: 1.2; /* 36px */
+  letter-spacing: -0.015em;
 }
 
 .sectionTitle {
-  font-size: 2.5rem;
+  font-size: 2.4rem; /* 24px */
+  font-weight: 600;
+  line-height: 1.3; /* ~31px */
 }
 
 .cardTitle {
-  font-size: 2.3rem;
+  font-size: 2rem; /* 20px */
   font-weight: 600;
+  line-height: 1.35; /* 27px */
 }
 
 .subtitle {
-  font-size: 1.8rem;
+  font-size: 1.8rem; /* 18px */
+  font-weight: 500;
+  line-height: 1.4; /* ~25px */
 }
 
 .subtitleMuted {
   font-size: 1.8rem;
+  font-weight: 500;
+  line-height: 1.4;
   color: var(--text-color-secondary);
 }
 
+/* Базовый текст */
 .body {
-  font-size: inherit;
+  font-size: 1.6rem; /* 16px */
+  font-weight: 400;
+  line-height: 1.6; /* ~26px */
+  color: var(--text-color-primary);
 }
 
 .bodyMuted {
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--text-color-secondary);
 }
 
+/* Мелкий текст */
 .caption {
+  font-size: 1.4rem; /* 14px */
+  font-weight: 400;
+  line-height: 1.4; /* ~20px */
+  color: var(--text-color-primary);
 }
 
 .captionMuted {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.4;
   color: var(--text-color-secondary);
 }
