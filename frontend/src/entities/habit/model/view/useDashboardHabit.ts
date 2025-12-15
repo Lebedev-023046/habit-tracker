@@ -16,7 +16,7 @@ export function useDashboardHabit(habitId: string) {
   const habit = habitInfo;
 
   const dashboardHabit = habit
-    ? habitDashboardService.buildDashboardModel(habit)
+    ? habitDashboardService.buildDashboardViewModel(habit)
     : habitDashboardService.emptyDashboardHabit;
 
   return {

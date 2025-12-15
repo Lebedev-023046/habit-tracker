@@ -9,8 +9,10 @@ export function useDailyHabits() {
     error,
   } = useGetHabits({ status: 'active' });
 
+  const { buildDailyHabitsViewModel } = habitDailyService;
+
   const habits = habitsInfo || [];
-  const viewModel = habitDailyService.buildDailyHabitsViewModel(habits);
+  const viewModel = buildDailyHabitsViewModel(habits);
 
   const hasData = habits.length > 0;
   const isInitialLoading = isLoading && !hasData;

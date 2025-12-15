@@ -1,9 +1,9 @@
-import type { DailyHabitViewModel } from '@/entities/habit';
+import type { DailyHabitItem } from '@/entities/habit';
 import { HabitItem } from '../../components/habit-item';
 import styles from './HabitItems.module.css';
 
 interface HabitItemsProps {
-  activeHabits: DailyHabitViewModel[];
+  activeHabits: DailyHabitItem[];
   isLoading?: boolean;
 }
 export function HabitItems({ activeHabits, isLoading }: HabitItemsProps) {
