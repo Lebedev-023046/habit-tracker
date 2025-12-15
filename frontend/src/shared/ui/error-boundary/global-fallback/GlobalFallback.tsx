@@ -2,7 +2,7 @@ import { ROUTES } from '@/shared/config/routes';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Button } from '../../button';
-import { Subtitle } from '../../subtitle';
+import { Typography } from '../../typography';
 import styles from './GlobalFallback.module.css';
 import ErrorBoundaryPic from '/error-boundary-pic.webp';
 
@@ -18,8 +18,6 @@ export function GlobalFallback({ error }: GlobalFallbackProps) {
 
   const handleRetry = () => navigate(0);
 
-  console.log({ error });
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.fallback}>
@@ -27,11 +25,11 @@ export function GlobalFallback({ error }: GlobalFallbackProps) {
           <img src={ErrorBoundaryPic} alt="error-img" />
         </div>
 
-        <h2 className={styles.title}>We can't reach your data</h2>
-        <Subtitle className={styles.subtitle}>
+        <Typography variant="display">We can't reach your data</Typography>
+        <Typography variant="subtitleMuted" className={styles.subtitle}>
           Your progress is safe, but we're having trouble refreshing your latest
           updates. This is usually fixed by a quick retry
-        </Subtitle>
+        </Typography>
         <p className={styles.error}>Error message: {errorText}</p>
         <div className={styles.controls}>
           <Button className={styles.retry} onClick={handleRetry}>

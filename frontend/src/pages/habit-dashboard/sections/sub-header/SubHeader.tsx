@@ -1,5 +1,5 @@
 import { Container } from '@/shared/ui/container';
-import { Subtitle } from '@/shared/ui/subtitle';
+import { Typography } from '@/shared/ui/typography';
 import styles from './SubHeader.module.css';
 
 interface SubHeaderProps {
@@ -11,10 +11,10 @@ interface SubHeaderProps {
 export function SubHeader({ title, streak, restDays }: SubHeaderProps) {
   return (
     <Container className={styles.sectionHeader}>
-      <h2>{title}</h2>
+      <Typography variant="sectionTitle">{title}</Typography>
       <div className={styles.info}>
-        <Subtitle as="h3">{streak}-day steak</Subtitle>
-        <Subtitle as="h3">{restDays} days left</Subtitle>
+        <Typography variant="subtitleMuted">{streak}-day steak</Typography>
+        <Typography variant="subtitleMuted">{restDays} days left</Typography>
       </div>
     </Container>
   );

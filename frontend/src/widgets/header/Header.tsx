@@ -1,4 +1,5 @@
 import { usePageTitle } from '@/shared/lib/usePageTitle';
+import { Typography } from '@/shared/ui/typography';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { GiProgression } from 'react-icons/gi';
 import { IoSettingsOutline } from 'react-icons/io5';
@@ -15,7 +16,7 @@ export function Header() {
           <Link to="/">Habit Flow</Link>
         </div>
         <div className={styles.titleContainer}>
-          <h1 className={styles.title}>{title}</h1>
+          <Typography variant="pageTitle">{title}</Typography>
         </div>
         <div className={styles.controls}>
           <AiOutlineQuestionCircle />

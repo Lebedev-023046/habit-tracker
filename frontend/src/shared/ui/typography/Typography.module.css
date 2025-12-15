@@ -1,0 +1,44 @@
+/* Styles for Typography */
+
+.display {
+  font-size: 4rem;
+  font-weight: 600;
+}
+
+.pageTitle {
+  font-size: 3rem;
+  font-weight: 600;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+}
+
+.cardTitle {
+  font-size: 2.3rem;
+  font-weight: 600;
+}
+
+.subtitle {
+  font-size: 1.8rem;
+}
+
+.subtitleMuted {
+  font-size: 1.8rem;
+  color: var(--text-color-secondary);
+}
+
+.body {
+  font-size: inherit;
+}
+
+.bodyMuted {
+}
+
+.caption {
+}
+
+.captionMuted {
+  font-size: 1.6rem;
+  color: var(--text-color-secondary);
+}

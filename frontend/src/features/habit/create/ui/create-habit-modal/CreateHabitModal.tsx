@@ -1,6 +1,6 @@
 import type { ModalBaseProps } from '@/shared/modal/types';
-import { Subtitle } from '@/shared/ui/subtitle';
 
+import { Typography } from '@/shared/ui/typography';
 import { CreateHabitForm } from '../create-habit-form';
 import styles from './CreateHabitModal.module.css';
 
@@ -17,8 +17,8 @@ export const CreateHabitModal: React.FC<CreateHabitModalProps> = ({
   return (
     <>
       <div className={styles.header}>
-        <h2 className={styles.title}>{title}</h2>
-        <Subtitle className={styles.subtitle}>{subtitle}</Subtitle>
+        <Typography variant="cardTitle">{title}</Typography>
+        <Typography variant="subtitle">{subtitle}</Typography>
       </div>
       <CreateHabitForm onSuccess={close} onCancel={close} />
     </>

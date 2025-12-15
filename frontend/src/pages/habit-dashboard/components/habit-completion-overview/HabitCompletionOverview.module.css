@@ -42,6 +42,14 @@
   background-color: var(--neutral);
 }
 
+.completed {
+  background-color: var(--success);
+}
+
+.missed {
+  background-color: var(--error);
+}
+
 .neutral {
   background-color: var(--neutral);
 }

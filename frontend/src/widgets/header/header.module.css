@@ -33,11 +33,6 @@
   transform: translateX(-50%);
 }
 
-.title {
-  font-size: 3rem;
-  font-weight: 600;
-}
-
 .controls {
   height: 100%;
   display: flex;

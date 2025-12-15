@@ -1,6 +1,5 @@
 import { Container } from '@/shared/ui/container';
 import { ProgressBar } from '@/shared/ui/progress-bar';
-import { Subtitle } from '@/shared/ui/subtitle';
 import Skeleton from 'react-loading-skeleton';
 import styles from './Overview.module.css';
 
@@ -11,12 +10,12 @@ export function OverviewLoading() {
         <Skeleton width={300} height={32} />
       </h2>
       <div className={styles.stats}>
-        <Subtitle>
+        <div>
           <Skeleton width={360} height={24} />
-        </Subtitle>
-        <Subtitle>
+        </div>
+        <div>
           <Skeleton />
-        </Subtitle>
+        </div>
       </div>
       <ProgressBar progress={0} />
       <span>

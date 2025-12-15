@@ -1,17 +1,17 @@
-import type { DailyHabitViewModel } from '@/entities/habit';
+import type { DailyHabitItem } from '@/entities/habit';
 import { HabitActionsContainer } from '@/features/habit-log';
 import { usePlural } from '@/shared/hooks/usePlural';
 import { HABIT_DAY_STATUS_MAP } from '@/shared/model/habit-day.model';
 import { Container } from '@/shared/ui/container';
 import { DailyCalendarProgress } from '@/shared/ui/daily-calendar-progress';
 import { Diagram } from '@/shared/ui/diagram/Diagram';
-import { Subtitle } from '@/shared/ui/subtitle';
+import { Typography } from '@/shared/ui/typography';
 import Skeleton from 'react-loading-skeleton';
 import styles from './HabitItem.module.css';
 
 interface HabitItemProps {
   isLoading?: boolean;
-  habit?: DailyHabitViewModel;
+  habit?: DailyHabitItem;
 }
 
 export function HabitItem({ isLoading, habit }: HabitItemProps) {
@@ -49,23 +49,23 @@ export function HabitItem({ isLoading, habit }: HabitItemProps) {
   return (
     <Container as="div" className={styles.habitCard}>
       <Diagram progress={progress} className={styles.progressDiagram}>
-        <Subtitle>
+        <Typography variant="captionMuted">
           {isLoading ? (
             <Skeleton width={100} height={16} />
           ) : (
             `Day ${daySinceStart} of ${totalDays}`
           )}
-        </Subtitle>
-        <p className={styles.percentage}>
+        </Typography>
+        <Typography variant="sectionTitle">
           {isLoading ? <Skeleton width={75} height={24} /> : `${progress}%`}
-        </p>
-        <Subtitle>
+        </Typography>
+        <Typography variant="captionMuted">
           {isLoading ? (
             <Skeleton width={100} height={16} />
           ) : (
             `Streak: ${currentStreak}`
           )}
-        </Subtitle>
+        </Typography>
       </Diagram>
       <HabitActionsContainer
         todayStatus={todayStatus}
@@ -76,20 +76,20 @@ export function HabitItem({ isLoading, habit }: HabitItemProps) {
       />
       <div className={styles.activitySection}>
         <div className={styles.activityHeader}>
-          <p>
+          <Typography variant="subtitleMuted">
             {isLoading ? (
               <Skeleton width={100} height={16} />
             ) : (
               '7-day activity'
             )}
-          </p>
-          <p>
+          </Typography>
+          <Typography variant="subtitleMuted">
             {isLoading ? (
               <Skeleton width={130} height={16} />
             ) : (
               `Best Streak: ${pluralize(bestStreak)}`
             )}
-          </p>
+          </Typography>
         </div>
         <DailyCalendarProgress lastDaysProgress={lastDaysProgress} />
       </div>

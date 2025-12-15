@@ -1,5 +1,5 @@
 import { Diagram } from '@/shared/ui/diagram';
-import { Subtitle } from '@/shared/ui/subtitle';
+import { Typography } from '@/shared/ui/typography';
 import styles from './HabitCompletionOverview.module.css';
 
 interface DiadramProps {
@@ -18,28 +18,32 @@ export function HabitCompletionOverview({
 }: DiadramProps) {
   return (
     <div className={styles.overview}>
-      <h3>Completion Overview</h3>
+      <Typography variant="cardTitle">Completion Overview</Typography>
       <div className={styles.content}>
         <Diagram
           progress={progress}
           className={styles.diagram}
           widthVar="30rem"
         >
-          <h4 className={styles.percentage}>{progress}%</h4>
-          <Subtitle>overall completion</Subtitle>
+          <Typography variant="sectionTitle">{progress}%</Typography>
+          <Typography variant="subtitleMuted">overall completion</Typography>
         </Diagram>
         <ul className={styles.legend}>
           <li className={styles.legendItem}>
-            <span className={`${styles.legendIndicator} completed`} />
-            Completed days: {completedDays}
+            <span className={`${styles.legendIndicator} ${styles.completed}`} />
+            <Typography variant="subtitle">
+              Completed days: {completedDays}
+            </Typography>
           </li>
           <li className={styles.legendItem}>
-            <span className={`${styles.legendIndicator} missed`} />
-            Missed days: {missedDays}
+            <span className={`${styles.legendIndicator} ${styles.missed}`} />
+            <Typography variant="subtitle">
+              Missed days: {missedDays}
+            </Typography>
           </li>
           <li className={styles.legendItem}>
             <span className={`${styles.legendIndicator} ${styles.neutral}`} />
-            Remaining days: {restDays}
+            <Typography variant="subtitle">Rest days: {restDays}</Typography>
           </li>
         </ul>
       </div>

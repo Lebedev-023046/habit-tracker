@@ -1,6 +1,6 @@
-import type { HabitDayStatus } from '@/entities/habit';
+import type { HabitDayStatus } from '@/shared/model/habit-day.model';
 import { Button } from '@/shared/ui/button';
-import { Subtitle } from '@/shared/ui/subtitle';
+import { Typography } from '@/shared/ui/typography';
 import Skeleton from 'react-loading-skeleton';
 import styles from './HabitActions.module.css';
 
@@ -37,16 +37,16 @@ export function HabitActions({
 
   return (
     <div className={styles.habitActions}>
-      <h3 className={styles.title}>
+      <Typography variant="cardTitle">
         {isLoading ? <Skeleton width={100} height={24} /> : `${habitName}`}
-      </h3>
-      <Subtitle>
+      </Typography>
+      <Typography variant="subtitleMuted">
         {isLoading ? (
           <Skeleton width={360} height={16} />
         ) : (
           `${subtitleText[todayStatus]}`
         )}
-      </Subtitle>
+      </Typography>
       <div className={styles.controls}>
         {isLoading ? (
           <>

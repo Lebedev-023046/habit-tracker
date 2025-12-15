@@ -1,6 +1,6 @@
 import { DeleteHabitForm } from '@/features/habit/delete';
 import type { ModalBaseProps } from '@/shared/modal/types';
-import { Subtitle } from '@/shared/ui/subtitle';
+import { Typography } from '@/shared/ui/typography';
 import styles from './DeleteHabitModal.module.css';
 
 interface DeleteHabitModalProps extends ModalBaseProps {
@@ -16,10 +16,10 @@ export function DeleteHabitModal({
   return (
     <div className={styles.confirm}>
       <h2 className={styles.title}>Delete Habit?</h2>
-      <Subtitle className={styles.subtitle}>
+      <Typography variant="subtitle">
         This action can't be undone. You'll lose all history for this habit:
         <span className={styles.habitTitle}>{habitTitle}</span>
-      </Subtitle>
+      </Typography>
       <DeleteHabitForm habitId={habitId} onCancel={close} onSuccess={close} />
     </div>
   );

@@ -6,16 +6,6 @@
   gap: 1rem;
 }
 
-.title {
-  font-weight: 500;
-  font-size: 3.5rem;
-}
-
-.subtitle {
-  font-size: 1.8rem;
-  font-weight: 300;
-}
-
 .stats {
   display: flex;
   justify-content: space-between;

@@ -1,7 +1,7 @@
 import { Container } from '@/shared/ui/container';
 
 import type { DayProgress } from '@/shared/model/habit-day.model';
-import { Subtitle } from '@/shared/ui/subtitle';
+import { Typography } from '@/shared/ui/typography';
 import styles from './HabitLastDaysChart.module.css';
 
 interface ChartProps {
@@ -28,7 +28,9 @@ const DayBar = ({ day }: { day: DayProgress }) => {
   return (
     <div className={styles.bar}>
       <div className={`${styles.indicator} ${statusClassName}`}></div>
-      <Subtitle className={styles.label}>{weekdayLetter}</Subtitle>
+      <Typography variant="captionMuted" className={styles.label}>
+        {weekdayLetter}
+      </Typography>
     </div>
   );
 };
@@ -36,7 +38,7 @@ const DayBar = ({ day }: { day: DayProgress }) => {
 export function HabitLastDaysChart({ lastDaysProgress }: ChartProps) {
   return (
     <div className={styles.chart}>
-      <h3>Last 14 days</h3>
+      <Typography variant="cardTitle">Last 14 days</Typography>
       <div className={styles.content}>
         <Container as="div">
           <div className={styles.bars}>

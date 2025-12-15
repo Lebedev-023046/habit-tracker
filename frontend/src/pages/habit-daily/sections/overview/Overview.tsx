@@ -1,6 +1,6 @@
 import { Container } from '@/shared/ui/container';
 import { ProgressBar } from '@/shared/ui/progress-bar';
-import { Subtitle } from '@/shared/ui/subtitle';
+import { Typography } from '@/shared/ui/typography';
 import styles from './Overview.module.css';
 
 interface OverviewProps {
@@ -13,23 +13,25 @@ export function Overview({ totalCount, completedCount }: OverviewProps) {
 
   const barProgress = (completedCount / totalCount) * 100;
 
+  // TODO: create chip component
   return (
     <Container className={styles.overview}>
-      <h2 className={styles.title}>Today's habits</h2>
+      <Typography variant="pageTitle">Today's habits</Typography>
       <div className={styles.stats}>
-        <Subtitle className={styles.subtitle}>
+        <Typography variant="subtitleMuted">
           Stay consistent small wins add up.
-        </Subtitle>
-        <Subtitle className={styles.subtitle}>
+        </Typography>
+        <Typography variant="subtitleMuted">
           {completedCount} / {totalCount} completed
-        </Subtitle>
+        </Typography>
       </div>
       <ProgressBar progress={barProgress} />
-      <span className={styles.message}>
+
+      <Typography variant="body" className={styles.message}>
         {restCount > 0
           ? `Nice start! Complete ${restCount} more to close your rings!`
           : 'Great! You completed all your habits today!'}
-      </span>
+      </Typography>
     </Container>
   );
 }

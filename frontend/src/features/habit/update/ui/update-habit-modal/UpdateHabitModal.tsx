@@ -1,7 +1,7 @@
 import type { UpdateHabitFormValues } from '@/entities/habit';
 import { UpdateHabitForm } from '@/features/habit/update';
 import type { ModalBaseProps } from '@/shared/modal/types';
-import { Subtitle } from '@/shared/ui/subtitle';
+import { Typography } from '@/shared/ui/typography';
 import styles from './UpdateHabitModal.module.css';
 
 interface UpdateHabitModalProps extends ModalBaseProps {
@@ -21,8 +21,8 @@ export function UpdateHabitModal({
   return (
     <>
       <div className={styles.header}>
-        <h2 className={styles.title}>{title}</h2>
-        <Subtitle className={styles.subtitle}>{subtitle}</Subtitle>
+        <Typography variant="cardTitle">{title}</Typography>
+        <Typography variant="subtitle">{subtitle}</Typography>
       </div>
       <UpdateHabitForm
         onSuccess={close}

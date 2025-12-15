@@ -1,7 +1,7 @@
 import { usePlural } from '@/shared/hooks/usePlural';
 import { Container } from '@/shared/ui/container';
 import { ProgressBar } from '@/shared/ui/progress-bar';
-import { Subtitle } from '@/shared/ui/subtitle';
+import { Typography } from '@/shared/ui/typography';
 import styles from './StatisticBricks.module.css';
 
 interface BrickProps {
@@ -19,7 +19,7 @@ interface StatisticBricksProps {
 const BrickProgressBar = ({ barProgress }: { barProgress: number }) => {
   return (
     <div className={styles.progress}>
-      <h2>{barProgress}%</h2>
+      <Typography variant="sectionTitle">{barProgress}%</Typography>
       <ProgressBar progress={barProgress} />
     </div>
   );
@@ -28,9 +28,9 @@ const BrickProgressBar = ({ barProgress }: { barProgress: number }) => {
 const Brick = ({ title, subtitle, children }: BrickProps) => {
   return (
     <Container className={styles.brick}>
-      <Subtitle as="h3">{title}</Subtitle>
+      <Typography variant="subtitleMuted">{title}</Typography>
       {children}
-      <Subtitle as="h3">{subtitle}</Subtitle>
+      <Typography variant="subtitleMuted">{subtitle}</Typography>
     </Container>
   );
 };
@@ -48,13 +48,15 @@ export function StatisticBricks({
         title="Current Streak"
         subtitle={`Only ${bestStreak - currentStreak} days away from your longest streak.`}
       >
-        <h2>{pluralize(currentStreak)}</h2>
+        <Typography variant="sectionTitle">
+          {pluralize(currentStreak)}
+        </Typography>
       </Brick>
       <Brick
         title="Longest Streak"
         subtitle="Set a new personal best this month."
       >
-        <h2>{pluralize(bestStreak)}</h2>
+        <Typography variant="sectionTitle">{pluralize(bestStreak)}</Typography>
       </Brick>
       <Brick
         title="Overall completion"

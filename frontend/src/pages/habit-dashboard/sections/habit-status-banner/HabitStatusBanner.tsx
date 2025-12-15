@@ -1,6 +1,7 @@
 import type { HabitStatus } from '@/entities/habit';
 import type { DateType } from '@/shared/types';
 import { Container } from '@/shared/ui/container';
+import { Typography } from '@/shared/ui/typography';
 import { FaFontAwesomeFlag } from 'react-icons/fa';
 import styles from './HabitStatusBanner.module.css';
 import { getBannerColorClass } from './helpers/getBannerColorClass';
@@ -32,8 +33,8 @@ export function HabitStatusBanner({
         <FaFontAwesomeFlag color="var(--bg-accent)" size="2rem" />
       </div>
       <div className={styles.content}>
-        <h3 className={styles.title}>{title}</h3>
-        <p>{subtitle(formattedDate)}</p>
+        <Typography variant="sectionTitle">{title}</Typography>
+        <Typography variant="subtitle">{subtitle(formattedDate)}</Typography>
       </div>
     </Container>
   );
