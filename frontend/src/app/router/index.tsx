@@ -8,7 +8,7 @@ import AppLayout from '../layout/AppLayout';
 
 const HabitDailyPage = lazy(() => import('@/pages/habit-daily/HabitDailyPage'));
 const HabitManagementPage = lazy(
-  () => import('@pages/habit-management/HabitManagementPage'),
+  () => import('@/pages/habit-management/HabitManagementPage'),
 );
 const HabitDashboardPage = lazy(
   () => import('@pages/habit-dashboard/HabitDashboardPage'),
