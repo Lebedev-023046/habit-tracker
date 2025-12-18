@@ -1,54 +1,74 @@
-import { PrismaClient } from '@prisma/client';
+// import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
-// const dayLogStatus = ['completed', 'missed'];
+// async function main() {
+//   console.log('🚀 Starting Habit → HabitRun migration');
 
-async function seedHabitLogs(habitId: string, startDate: Date, count: number) {
-  try {
-    await prisma.habitDayLog.deleteMany({
-      where: {
-        habitId,
-      },
-    });
+//   const habits = await prisma.habit.findMany({
+//     include: {
+//       dayLogs: {
+//         orderBy: { date: 'asc' },
+//       },
+//     },
+//   });
 
-    console.log('Deleted previous logs');
+//   console.log(`Found ${habits.length} habits`);
 
-    // const logs = [] as any[];
+//   for (const habit of habits) {
+//     // защита от повторного запуска
+//     const existingRun = await prisma.habitRun.findFirst({
+//       where: { habitId: habit.id },
+//     });
 
-    // for (let i = 0; i < count; i++) {
-    //   const date = new Date(startDate);
-    //   date.setDate(startDate.getDate() + i);
+//     if (existingRun) {
+//       console.log(`⏭ Habit ${habit.id} already has a run, skipping`);
+//       continue;
+//     }
 
-    //   logs.push({
-    //     date: date.toISOString(),
-    //     status:
-    //       Math.random() > 0.3
-    //         ? HabitDayStatus.completed
-    //         : HabitDayStatus.missed,
-    //     habitId,
-    //   });
-    // }
+//     const firstLogDate = habit.dayLogs[0]?.date;
+//     const startDate = firstLogDate ?? new Date();
 
-    // await prisma.habitDayLog.createMany({
-    //   data: logs,
-    //   skipDuplicates: true,
-    // });
+//     const runStatus =
+//       habit.status === 'built'
+//         ? 'built'
+//         : habit.status === 'cancelled'
+//           ? 'cancelled'
+//           : 'active';
 
-    // console.log(`Inserted ${logs.length} logs for habit ${habitId}`);
-  } catch (error) {
-    console.log(error);
-  }
-}
+//     const run = await prisma.habitRun.create({
+//       data: {
+//         habitId: habit.id,
+//         status: runStatus,
+//         totalDays: 21, // ⚠️ если раньше было поле в Habit — подставь его
+//         startDate,
+//         builtAt: habit.status === 'built' ? new Date() : null,
+//         cancelledAt: habit.status === 'cancelled' ? new Date() : null,
+//       },
+//     });
 
-async function main() {
-  await seedHabitLogs(
-    '4de728e3-d087-4440-bcd7-433769dd27f0',
-    new Date('2025-11-23T12:34:56.789Z'),
-    10,
-  );
-}
+//     if (habit.dayLogs.length > 0) {
+//       await prisma.habitDayLog.updateMany({
+//         where: {
+//           id: { in: habit.dayLogs.map((l) => l.id) },
+//         },
+//         data: {
+//           habitRunId: run.id,
+//         },
+//       });
+//     }
 
-main()
-  .catch((err) => console.error(err))
-  .finally(() => prisma.$disconnect());
+//     console.log(`✅ Migrated habit ${habit.id}`);
+//   }
+
+//   console.log('🎉 Migration finished successfully');
+// }
+
+// main()
+//   .catch((e) => {
+//     console.error('❌ Migration failed', e);
+//     process.exit(1);
+//   })
+//   .finally(async () => {
+//     await prisma.$disconnect();
+//   });

@@ -1,38 +1,35 @@
-import { Body, Controller, Delete, Get, Param, Put } from '@nestjs/common';
-import { UpsertHabitLogDto } from './habit-log.dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Put,
+  Query,
+} from '@nestjs/common';
+
+import { UpsertHabitDayLogDto } from './habit-log.dto';
 import { HabitLogService } from './habit-log.service';
 
 @Controller('habit-logs')
 export class HabitLogController {
   constructor(private readonly habitLogService: HabitLogService) {}
 
+  @Put()
+  upsert(@Param('habitId') habitId: string, @Body() dto: UpsertHabitDayLogDto) {
+    return this.habitLogService.upsert(habitId, dto.status, dto.date);
+  }
+
+  @Delete()
+  remove(@Param('habitId') habitId: string, @Query('date') date?: string) {
+    return this.habitLogService.remove(
+      habitId,
+      date ? new Date(date) : undefined,
+    );
+  }
+
   @Get()
-  getAllHAbitLogs() {
-    return this.habitLogService.getAllHabitLogs();
-  }
-
-  @Get(':id')
-  getHabitLogById(@Param('id') id: string) {
-    return this.habitLogService.getHabitLogById(id);
-  }
-
-  @Put('upsert')
-  upsertHabitLog(@Body() data: UpsertHabitLogDto) {
-    return this.habitLogService.upsertHabitLog(data);
-  }
-
-  // @Post('create')
-  // createHabit(@Body() data: CreateHabitLogDto) {
-  //   return this.habitLogService.createHabitLog(data);
-  // }
-
-  // @Put('update/:id')
-  // updateHabit(@Param('id') id: string, @Body() data: UpdateHabitLogDto) {
-  //   return this.habitLogService.updateHabitLog(id, data);
-  // }
-
-  @Delete('delete/:id')
-  remove(@Param('id') id: string) {
-    return this.habitLogService.deleteHabitLog(id);
+  getLogs(@Param('habitId') habitId: string) {
+    return this.habitLogService.getCurrentRunLogs(habitId);
   }
 }

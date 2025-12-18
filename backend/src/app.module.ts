@@ -6,6 +6,7 @@ import { HabitModule } from './habit/habit.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 import { ScheduleModule } from '@nestjs/schedule';
+import { HabitRunModule } from './habit-run/habit-run.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     PrismaModule,
     HabitModule,
     HabitLogModule,
+    HabitRunModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,112 +1,77 @@
-import { Injectable } from '@nestjs/common';
-import { throwError } from 'src/common/errors';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { HabitDayStatus } from '@prisma/client';
 import { ResponseUtil } from 'src/common/utils/response';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { getUserDayUTC } from 'src/utils/time';
-import {
-  CreateHabitLogDto,
-  UpdateHabitLogDto,
-  UpsertHabitLogDto,
-} from './habit-log.dto';
-
-// assuming habitLog as habitDayLog => one log per day!
 
 @Injectable()
 export class HabitLogService {
   constructor(private prisma: PrismaService) {}
 
-  async getAllHabitLogs() {
-    try {
-      const habitLogs = await this.prisma.habitDayLog.findMany();
-      console.log(`Found ${habitLogs.length} habitLog logs`);
-      return ResponseUtil.success(habitLogs);
-    } catch (error) {
-      throwError({ error, errorMessage: 'Error getting all habitLog logs' });
+  private async getActiveRunOrThrow(habitId: string) {
+    const run = await this.prisma.habitRun.findFirst({
+      where: {
+        habitId,
+        status: 'active',
+      },
+    });
+
+    if (!run) {
+      throw new BadRequestException('No active habit run');
     }
+
+    return run;
   }
 
-  async getHabitLogById(id: string) {
-    try {
-      if (!id) {
-        throw new Error('HabitLog ID is required');
-      }
-      const habitLog = await this.prisma.habitDayLog.findUnique({
-        where: { id },
-      });
-      if (!habitLog) {
-        throw new Error(`habitLog with id ${id} not found`);
-      }
-      console.log(` habitLog with id: ${habitLog?.id} found`);
-      return ResponseUtil.success(habitLog);
-    } catch (error) {
-      throwError({ error, errorMessage: 'Error getting habitLog: ' });
-    }
-  }
+  async upsert(habitId: string, status: HabitDayStatus, date?: Date) {
+    const run = await this.getActiveRunOrThrow(habitId);
 
-  async upsertHabitLog(data: UpsertHabitLogDto) {
-    try {
-      const { habitId, date, status } = data;
+    const normalizedDate = getUserDayUTC(date ?? new Date());
 
-      const rawDate = date ? new Date(date) : new Date();
-      const normalizedDate = getUserDayUTC(rawDate);
-
-      const habitLog = await this.prisma.habitDayLog.upsert({
-        where: {
-          habitId_date: {
-            habitId,
-            date: normalizedDate,
-          },
-        },
-        update: { status },
-        create: {
-          habitId,
+    const log = await this.prisma.habitDayLog.upsert({
+      where: {
+        habitRunId_date: {
+          habitRunId: run.id,
           date: normalizedDate,
-          status,
         },
-      });
+      },
+      update: { status },
+      create: {
+        habitRunId: run.id,
+        date: normalizedDate,
+        status,
+      },
+    });
 
-      console.log(
-        `habitLog for habitId=${habitId} date=${normalizedDate.toISOString()} upserted with status=${status}`,
-      );
-      return ResponseUtil.success(habitLog);
-    } catch (error) {
-      throwError({ error, errorMessage: 'Error upserting habitLog: ' });
-    }
+    return ResponseUtil.success(log);
   }
 
-  async createHabitLog(data: CreateHabitLogDto) {
-    try {
-      const newHabitLog = await this.prisma.habitDayLog.create({ data });
-      console.log(`New HabitLog with id: ${newHabitLog.id} Created`);
-      return ResponseUtil.success(newHabitLog);
-    } catch (error) {
-      throwError({ error, errorMessage: 'Error creating habitLog: ' });
-    }
+  async remove(habitId: string, date?: Date) {
+    const run = await this.getActiveRunOrThrow(habitId);
+    const normalizedDate = getUserDayUTC(date ?? new Date());
+
+    await this.prisma.habitDayLog.delete({
+      where: {
+        habitRunId_date: {
+          habitRunId: run.id,
+          date: normalizedDate,
+        },
+      },
+    });
+
+    return ResponseUtil.success(true);
   }
 
-  async updateHabitLog(id: string, data: UpdateHabitLogDto) {
-    try {
-      const updatedHabitLog = await this.prisma.habitDayLog.update({
-        where: { id },
-        data,
-      });
+  async getCurrentRunLogs(habitId: string) {
+    const run = await this.getActiveRunOrThrow(habitId);
 
-      console.log(`habitLog with id: ${updatedHabitLog.id} updated`);
-      return ResponseUtil.success(updatedHabitLog);
-    } catch (error) {
-      throwError({ error, errorMessage: 'Error updating habitLog: ' });
-    }
-  }
+    const logs = await this.prisma.habitDayLog.findMany({
+      where: {
+        habitRunId: run.id,
+      },
+      orderBy: { date: 'asc' },
+    });
 
-  async deleteHabitLog(id: string) {
-    try {
-      const deletedHabit = await this.prisma.habitDayLog.delete({
-        where: { id },
-      });
-      console.log(`habitLog with id: ${deletedHabit.id} deleted`);
-      return ResponseUtil.success(deletedHabit.id);
-    } catch (error) {
-      throwError({ error, errorMessage: 'Error deleting habitLog: ' });
-    }
+    return ResponseUtil.success(logs);
   }
 }

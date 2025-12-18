@@ -10,7 +10,7 @@ import {
 } from '@prisma/client';
 import { addDays, isAfter, isBefore } from 'date-fns';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { getTodayUserDayUTC, getUserDayUTC } from 'src/utils/time';
+import { getTodayUTC, getUserDayUTC } from 'src/utils/time';
 // import { getTodayUTCStartForUser, getUTCStartOfUserDay } from 'src/utils/time';
 
 type HabitWithLogs = Habit & { dayLogs: HabitDayLog[] };
@@ -25,7 +25,7 @@ export class HabitsCronService {
   async backfillAllHabitsDaily() {
     this.logger.log('Starting daily habits backfill');
 
-    const today = getTodayUserDayUTC();
+    const today = getTodayUTC();
     const habits = await this.prisma.habit.findMany({
       where: { status: HabitStatus.active },
       include: {

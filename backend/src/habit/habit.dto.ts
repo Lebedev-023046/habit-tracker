@@ -1,14 +1,5 @@
 import { HabitStatus } from '@prisma/client';
-import { Type } from 'class-transformer';
-import {
-  IsDate,
-  IsEnum,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-  Min,
-} from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class GetHabitsQueryDto {
   @IsOptional()
@@ -18,51 +9,13 @@ export class GetHabitsQueryDto {
 
 export class CreateHabitDto {
   @IsString()
-  @IsNotEmpty({ message: 'Title is required' })
+  @IsNotEmpty()
   title: string;
-
-  @IsEnum(HabitStatus, {
-    message: `Status must be one of: ${Object.values(HabitStatus).join(', ')}`,
-  })
-  status: HabitStatus;
-
-  @IsNumber()
-  @Min(21, { message: 'Total days must be at least 21' })
-  totalDays: number;
-
-  @IsOptional()
-  @IsDate({ message: 'Start date must be a valid date' })
-  @Type(() => Date)
-  startDate?: Date;
 }
 
 export class UpdateHabitDto {
   @IsOptional()
   @IsString()
-  @IsNotEmpty({ message: 'Title cannot be empty' })
+  @IsNotEmpty()
   title?: string;
-
-  @IsOptional()
-  @IsEnum(HabitStatus, {
-    message: `Status must be one of: ${Object.values(HabitStatus).join(', ')}`,
-  })
-  status?: HabitStatus;
-
-  @IsOptional()
-  @IsNumber()
-  @Min(21, { message: 'Total days must be at least 21' })
-  totalDays?: number;
-
-  @IsOptional()
-  @IsDate({ message: 'Start date must be a valid date' })
-  @Type(() => Date)
-  startDate?: Date;
-}
-
-export class UpdateHabitStatusDto {
-  @IsOptional()
-  @IsEnum(HabitStatus, {
-    message: `Status must be one of: ${Object.values(HabitStatus).join(', ')}`,
-  })
-  status: HabitStatus;
 }
