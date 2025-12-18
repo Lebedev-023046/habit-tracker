@@ -104,14 +104,14 @@ export class HabitService {
 
       if (!habit) throw new BadRequestException('Habit not found');
 
-      const shouldStart =
+      const isStartingForFirstTime =
         habit.status === 'planned' && data.status === 'active';
 
       const updated = await this.prisma.habit.update({
         where: { id },
         data: {
           status: data.status ?? habit.status,
-          startDate: shouldStart
+          startDate: isStartingForFirstTime
             ? (habit.startDate ?? getTodayUserDayUTC())
             : habit.startDate,
         },
