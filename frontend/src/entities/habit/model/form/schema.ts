@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { HABIT_STATUS, TOTAL_DAYS_VALUES } from '../constants';
+import { HABIT_STATUSES, TOTAL_DAYS_VALUES } from '../constants';
 
 const titleSchema = z
   .string()
@@ -7,7 +7,7 @@ const titleSchema = z
   .max(30, 'Max 30 characters');
 
 // Для общей формы (edit может иметь любой статус)
-const habitStatusSchema = z.enum(HABIT_STATUS);
+const habitStatusSchema = z.enum(HABIT_STATUSES);
 
 // Для создания (только planned | active)
 // const createHabitStatusSchema = z.enum(CREATE_HABIT_STATUS);

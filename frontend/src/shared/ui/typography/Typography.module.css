@@ -26,6 +26,14 @@
   line-height: 1.35; /* 27px */
 }
 
+.cardTitleMuted {
+  font-size: 3rem; /* 30px */
+  font-weight: 600;
+  line-height: 1.2; /* 36px */
+  letter-spacing: -0.015em;
+  color: var(--text-color-secondary);
+}
+
 .subtitle {
   font-size: 1.8rem; /* 18px */
   font-weight: 500;
@@ -57,14 +65,14 @@
 /* Мелкий текст */
 .caption {
   font-size: 1.4rem; /* 14px */
-  font-weight: 400;
+  font-weight: 300;
   line-height: 1.4; /* ~20px */
   color: var(--text-color-primary);
 }
 
 .captionMuted {
   font-size: 1.4rem;
-  font-weight: 400;
+  font-weight: 300;
   line-height: 1.4;
   color: var(--text-color-secondary);
 }

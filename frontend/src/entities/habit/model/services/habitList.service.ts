@@ -1,6 +1,6 @@
 import { type DayProgress } from '@/shared/model/habit-day.model';
 import { HABIT_STATUS_MAP } from '../constants';
-import type { Habit, HabitStatus } from '../types';
+import type { Habit, HabitStatus, HabitTotalDays } from '../types';
 import { HabitService } from './habit.service';
 
 export interface HabitListItem {
@@ -11,13 +11,15 @@ export interface HabitListItem {
   currentStreak: number;
   bestStreak: number;
   daySinceStart: number;
-  totalDays: number;
+  totalDays: HabitTotalDays;
   lastDaysProgress: DayProgress[];
 }
 
-class HabitBoardService extends HabitService {
+class HabitListService extends HabitService {
   constructor() {
     super();
+
+    this.buildHabitListViewModel = this.buildHabitListViewModel.bind(this);
   }
 
   readonly emptyViewModel: HabitListItem = {
@@ -28,11 +30,11 @@ class HabitBoardService extends HabitService {
     currentStreak: 0,
     bestStreak: 0,
     daySinceStart: 0,
-    totalDays: 0,
+    totalDays: 30,
     lastDaysProgress: [],
   };
 
-  mapToListItem(habit: Habit): HabitListItem {
+  private mapToListItem(habit: Habit): HabitListItem {
     if (!habit) return this.emptyViewModel;
 
     const { id, title, status, totalDays, dayLogs } = habit;
@@ -54,8 +56,21 @@ class HabitBoardService extends HabitService {
   }
 
   buildHabitListViewModel(habits: Habit[]) {
-    return habits.map(habit => this.mapToListItem(habit));
+    const groupedHabits: Record<HabitStatus, HabitListItem[]> = {
+      active: [],
+      paused: [],
+      planned: [],
+      built: [],
+      cancelled: [],
+    };
+
+    for (const habit of habits) {
+      const habitView = this.mapToListItem(habit);
+      groupedHabits[habit.status].push(habitView);
+    }
+
+    return groupedHabits;
   }
 }
 
-export const habitBoardService = new HabitBoardService();
+export const habitListService = new HabitListService();

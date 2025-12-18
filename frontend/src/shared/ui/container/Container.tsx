@@ -3,21 +3,26 @@ import styles from './Container.module.css';
 // tag type for as prop
 type TagType = 'section' | 'div' | 'article' | 'header' | 'footer';
 
-interface SectionProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ContainerProps extends React.HTMLAttributes<HTMLElement> {
   as?: TagType;
+  unstyled?: boolean;
   children: React.ReactNode;
 }
 
 export function Container({
   as: As = 'section',
+  unstyled = false,
+  className,
   children,
-  ...props
-}: SectionProps) {
-  // извлекаем класс из props
-  const { className, ...rest } = props;
-
+  ...rest
+}: ContainerProps) {
   return (
-    <As className={`${styles.container} ${className}`} {...rest}>
+    <As
+      className={[styles.base, !unstyled && styles.card, className]
+        .filter(Boolean)
+        .join(' ')}
+      {...rest}
+    >
       {children}
     </As>
   );

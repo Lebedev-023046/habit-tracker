@@ -8,7 +8,6 @@ import type {
   CreateHabitPayload,
   DeleteHabitPayload,
   GetAllHabitsQuery,
-  HabitReorderPayload,
   UpdateHabitPayload,
   UpdateHabitStatusPayload,
 } from './types';
@@ -28,11 +27,10 @@ class HabitRepo {
   private api: AxiosInstance;
   constructor(api: AxiosInstance) {
     this.api = api;
-    this.createHabit = this.createHabit.bind(this);
     this.getAllHabits = this.getAllHabits.bind(this);
     this.getHabit = this.getHabit.bind(this);
+    this.createHabit = this.createHabit.bind(this);
     this.updateHabit = this.updateHabit.bind(this);
-    this.reorderHabits = this.reorderHabits.bind(this);
     this.updateHabitStatus = this.updateHabitStatus.bind(this);
     this.deleteHabit = this.deleteHabit.bind(this);
   }
@@ -84,19 +82,10 @@ class HabitRepo {
   async updateHabitStatus(payload: UpdateHabitStatusPayload): Promise<Habit> {
     try {
       const { id, status } = payload;
+
       return this.api
         .patch(ENDPOINTS.updateHabitStatus(id), { status })
         .then(res => unwrapResponse<Habit>(res.data));
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async reorderHabits(payload: HabitReorderPayload[]): Promise<Habit[]> {
-    try {
-      return this.api
-        .patch(ENDPOINTS.reorderHabits(), { updates: payload })
-        .then(res => unwrapResponse<Habit[]>(res.data));
     } catch (error) {
       throw error;
     }

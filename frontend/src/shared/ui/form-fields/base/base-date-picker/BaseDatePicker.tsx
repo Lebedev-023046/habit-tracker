@@ -38,7 +38,9 @@ export function BaseDatePicker({
   const hasError = Boolean(errorText);
   const errorOpenClassName = hasError ? styles.errorOpen : '';
 
-  const popoverRef = useClickOutside<HTMLDivElement>(() => setOpen(false));
+  const { ref: popoverRef } = useClickOutside<HTMLDivElement>(() =>
+    setOpen(false),
+  );
 
   const [open, setOpen] = useState(false);
 

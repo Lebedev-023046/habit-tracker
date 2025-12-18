@@ -1,8 +1,11 @@
 /* Styles for Section */
 
-.container {
+.base {
   padding: 2rem 1.5rem;
   font-size: 1.6rem;
+}
+
+.card {
   background-color: var(--bg-color-primary);
   border-radius: var(--rounded-block);
   box-shadow: var(--shadow-common);

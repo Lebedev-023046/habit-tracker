@@ -1,51 +1,46 @@
 import { forwardRef } from 'react';
 import styles from './Button.module.css';
-
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
-  variant?:
-    | 'primary'
-    | 'ghost'
-    | 'plain'
-    | 'neutral'
-    | 'danger'
-    | 'outlined'
-    | 'icon';
-  animation?: 'light-sweep' | 'none';
-  borderRadius?: string;
-  ref?: React.Ref<HTMLButtonElement>;
-}
-
-const variantClassMap = {
-  primary: styles.primary,
-  outlined: styles.outlined,
-  ghost: styles.ghost,
-  plain: styles.plain,
-  neutral: styles.neutral,
-  danger: styles.danger,
-  icon: styles.icon,
-};
-
-const animationClassMap = {
-  'light-sweep': styles.lightSweep,
-  none: '',
-};
+import {
+  animationClassMap,
+  textToneClassMap,
+  variantClassMap,
+} from './constants';
+import type { ButtonProps, StatefulVariant } from './types';
+import { resolveVariantStateClass } from './utils';
 
 function BaseButton({
   children,
+  active = false,
   variant = 'primary',
   animation = 'light-sweep',
+  textTone = 'default',
   borderRadius,
   ...props
 }: ButtonProps) {
   const { className, ...rest } = props;
 
   const variantClass = variantClassMap[variant];
+  const textToneClass = textToneClassMap[textTone];
   const animationClass = animationClassMap[animation];
+
+  const stateClass = resolveVariantStateClass({
+    variant: variant as StatefulVariant,
+    active,
+  });
 
   return (
     <button
-      className={`${styles.button} ${variantClass} ${animationClass} ${className}`}
+      className={[
+        styles.button,
+        variantClass,
+        textToneClass,
+        animationClass,
+        stateClass,
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+      {...rest}
       style={
         {
           '--border-radius': borderRadius,

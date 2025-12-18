@@ -1,0 +1,13 @@
+/* Styles for HabitGroup */
+
+.label {
+  margin-bottom: 1.5rem;
+  margin-left: 1.5rem;
+  text-transform: capitalize;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}

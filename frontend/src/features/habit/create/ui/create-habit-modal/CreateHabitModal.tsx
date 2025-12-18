@@ -18,7 +18,7 @@ export const CreateHabitModal: React.FC<CreateHabitModalProps> = ({
     <>
       <div className={styles.header}>
         <Typography variant="cardTitle">{title}</Typography>
-        <Typography variant="subtitle">{subtitle}</Typography>
+        <Typography variant="subtitleMuted">{subtitle}</Typography>
       </div>
       <CreateHabitForm onSuccess={close} onCancel={close} />
     </>

@@ -5,6 +5,7 @@ export type TypographyVariant =
   | 'pageTitle' // h1
   | 'sectionTitle' // h2
   | 'cardTitle' // h3
+  | 'cardTitleMuted'
   | 'subtitle'
   | 'subtitleMuted'
   | 'body'
@@ -28,6 +29,10 @@ export const VARIANT_MAP = {
   cardTitle: {
     as: 'h3',
     className: styles.cardTitle,
+  },
+  cardTitleMuted: {
+    as: 'h3',
+    className: styles.cardTitleMuted,
   },
   subtitle: {
     as: 'p',

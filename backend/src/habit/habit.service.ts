@@ -4,7 +4,11 @@ import { throwError } from 'src/common/errors';
 import { ResponseUtil } from 'src/common/utils/response';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { getTodayUserDayUTC } from 'src/utils/time';
-import { CreateHabitDto, UpdateHabitDto } from './habit.dto';
+import {
+  CreateHabitDto,
+  UpdateHabitDto,
+  UpdateHabitStatusDto,
+} from './habit.dto';
 
 @Injectable()
 export class HabitService {
@@ -13,6 +17,9 @@ export class HabitService {
   async getAllHabits(params?: { status?: HabitStatus }) {
     try {
       const prismaQuery: Prisma.HabitFindManyArgs = {
+        orderBy: {
+          updatedAt: 'desc',
+        },
         include: {
           dayLogs: {
             orderBy: { date: 'asc' },
@@ -91,17 +98,19 @@ export class HabitService {
     }
   }
 
-  async updateHabitStatus(id: string, status: HabitStatus) {
+  async updateHabitStatus(id: string, data: UpdateHabitStatusDto) {
     try {
       const habit = await this.prisma.habit.findUnique({ where: { id } });
+
       if (!habit) throw new BadRequestException('Habit not found');
 
-      const shouldStart = habit.status === 'planned' && status === 'active';
+      const shouldStart =
+        habit.status === 'planned' && data.status === 'active';
 
       const updated = await this.prisma.habit.update({
         where: { id },
         data: {
-          status,
+          status: data.status ?? habit.status,
           startDate: shouldStart
             ? (habit.startDate ?? getTodayUserDayUTC())
             : habit.startDate,

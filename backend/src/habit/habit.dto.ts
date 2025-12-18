@@ -58,3 +58,11 @@ export class UpdateHabitDto {
   @Type(() => Date)
   startDate?: Date;
 }
+
+export class UpdateHabitStatusDto {
+  @IsOptional()
+  @IsEnum(HabitStatus, {
+    message: `Status must be one of: ${Object.values(HabitStatus).join(', ')}`,
+  })
+  status: HabitStatus;
+}
