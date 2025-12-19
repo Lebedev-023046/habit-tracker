@@ -1,37 +1,32 @@
 import {
   HabitForm,
   updateHabitSchema,
-  type HabitFormValues,
   type UpdateHabitFormValues,
 } from '@/entities/habit';
+import { UpdateHabitFields } from '@/entities/habit/ui/habit-form/UpdateHabitFields';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useUpdateHabit } from '../../model/useUpdateHabit';
 
 export interface UpdateHabitFormProps {
-  onSuccess: () => void;
-  onCancel: () => void;
   habitId: string;
   defaultValues: UpdateHabitFormValues;
+  onSuccess: () => void;
+  onCancel: () => void;
 }
 
 export function UpdateHabitForm({
-  onSuccess: handleSuccess,
-  onCancel,
   habitId,
   defaultValues,
+  onSuccess: handleSuccess,
+  onCancel,
 }: UpdateHabitFormProps) {
   const { mutate: updateHabit, isPending } = useUpdateHabit();
 
-  const form = useForm<HabitFormValues>({
+  const form = useForm<UpdateHabitFormValues>({
     resolver: zodResolver(updateHabitSchema),
-    defaultValues: defaultValues ?? {
-      title: '',
-      status: 'planned',
-      totalDays: 30,
-      startDate: undefined,
-      endDate: undefined,
-    },
+    defaultValues,
+    mode: 'onSubmit',
   });
 
   const handleSubmit = (values: UpdateHabitFormValues) => {
@@ -44,13 +39,17 @@ export function UpdateHabitForm({
   };
 
   return (
-    <HabitForm
-      form={form}
-      submitLabel="Update habit"
-      isSubmitting={isPending}
-      showCancelButton={Boolean(onCancel)}
-      onCancel={onCancel}
-      onSubmit={handleSubmit}
-    />
+    <FormProvider {...form}>
+      <HabitForm
+        form={form}
+        submitLabel="Update habit"
+        isSubmitting={isPending}
+        showCancelButton
+        onCancel={onCancel}
+        onSubmit={handleSubmit}
+      >
+        <UpdateHabitFields />
+      </HabitForm>
+    </FormProvider>
   );
 }

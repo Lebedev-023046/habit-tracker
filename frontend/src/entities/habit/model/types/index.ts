@@ -1,10 +1,10 @@
 import type { HabitDayStatus } from '@/shared/model/habit-day.model';
-import type { DateType } from '@/shared/types';
+import type { DateValue } from '@/shared/types';
 import type {
   CREATE_HABIT_STATUS,
   HABIT_STATUSES,
   TOTAL_DAYS_VALUES,
-} from './constants';
+} from '../constants';
 
 export type HabitStatus = (typeof HABIT_STATUSES)[number];
 export type HabitTotalDays = (typeof TOTAL_DAYS_VALUES)[number];
@@ -23,18 +23,18 @@ export interface Habit {
   title: string;
   status: HabitStatus;
   totalDays: HabitTotalDays;
-  startDate: DateType;
-  endDate: DateType;
-  createdAt: DateType;
-  updatedAt: DateType;
+  startDate: DateValue;
+  endDate: DateValue;
+  createdAt: DateValue;
+  updatedAt: DateValue;
   dayLogs: HabitDayLog[];
 }
 
 export interface HabitDayLog {
   id: string;
   habitId: string;
-  date: DateType;
+  date: DateValue;
   status: HabitDayStatus;
-  createdAt: DateType;
+  createdAt: DateValue;
   habit: Habit;
 }

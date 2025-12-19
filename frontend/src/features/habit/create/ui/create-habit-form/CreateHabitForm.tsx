@@ -3,10 +3,10 @@ import { HabitForm } from '@/entities/habit';
 import {
   createHabitSchema,
   type CreateHabitFormValues,
-  type HabitFormValues,
 } from '@/entities/habit';
+import { CreateHabitFields } from '@/entities/habit/ui/habit-form/CreateHabitFields';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useCreateHabit } from '../../model/useCreateHabit';
 
 interface CreateHabitFormProps {
@@ -24,14 +24,18 @@ export function CreateHabitForm({
     resolver: zodResolver(createHabitSchema),
     defaultValues: {
       title: '',
-      status: 'planned',
-      totalDays: 30,
+      startImmediately: false,
+      totalDays: undefined,
     },
     mode: 'onSubmit',
   });
 
-  const handleSubmit = (values: HabitFormValues) => {
-    const payload = values;
+  const handleSubmit = (values: CreateHabitFormValues) => {
+    const payload = {
+      title: values.title,
+      startImmediately: values.startImmediately,
+      totalDays: values.startImmediately ? values.totalDays : undefined,
+    };
     createHabit(payload, {
       onSuccess: () => {
         handleSuccess?.();
@@ -40,13 +44,17 @@ export function CreateHabitForm({
   };
 
   return (
-    <HabitForm
-      form={form}
-      submitLabel="Create habit"
-      isSubmitting={isPending}
-      showCancelButton={Boolean(onCancel)}
-      onCancel={onCancel}
-      onSubmit={handleSubmit}
-    />
+    <FormProvider {...form}>
+      <HabitForm
+        form={form}
+        submitLabel="Create habit"
+        onSubmit={handleSubmit}
+        isSubmitting={isPending}
+        onCancel={onCancel}
+        showCancelButton
+      >
+        <CreateHabitFields />
+      </HabitForm>
+    </FormProvider>
   );
 }

@@ -3,7 +3,7 @@ import {
   type DayProgress,
   type HabitDayStatus,
 } from '@/shared/model/habit-day.model';
-import { getTodayUserDayUTC } from '@/shared/utils/time';
+import { getTodayUTC } from '@/shared/utils/time';
 import { isSameDay } from 'date-fns';
 import type { Habit, HabitDayLog } from '../types';
 import { HabitService } from './habit.service';
@@ -50,7 +50,7 @@ export class HabitDailyService extends HabitService {
         return HABIT_DAY_STATUS_MAP.unmarked;
       }
 
-      const todayUTC = getTodayUserDayUTC();
+      const todayUTC = getTodayUTC();
 
       const logForToday = dayLogs.find(log =>
         isSameDay(new Date(log.date as string), todayUTC),

@@ -1,25 +1,27 @@
-import type { DateType } from '@/shared/types';
+import type { DateValue } from '@/shared/types';
 
-import { getTodayUserDayUTC, getUserDayUTC } from '@/shared/utils/time';
+import { getTodayUTC, getUserDayUTC } from '@/shared/utils/time';
 
 import {
   HABIT_DAY_STATUS_MAP,
   type DayProgress,
+  type HabitDayStatus,
 } from '@/shared/model/habit-day.model';
-import type { Habit, HabitDayLog, HabitStatus } from '../types';
-import { HabitService } from './habit.service';
+import { format, isSameDay, subDays } from 'date-fns';
+import type { HabitStatus } from '../types';
+import type { DashboardResponse } from '../types/dashboard';
 
 export interface DashboardHabitItem {
   id: string;
   title: string;
   status: HabitStatus;
 
-  plannedEndDate: DateType;
-  restDays: number;
-  progress: number;
-
   completedDays: number;
   missedDays: number;
+
+  plannedEndDate: DateValue;
+  restDays: number;
+  progress: number;
 
   lastDaysProgress: DayProgress[];
 
@@ -27,60 +29,66 @@ export interface DashboardHabitItem {
   bestStreak: number;
 }
 
-class HabitDashoardService extends HabitService {
+class HabitDashoardService {
   constructor() {
-    super();
     this.buildDashboardViewModel = this.buildDashboardViewModel.bind(this);
   }
 
   emptyDashboardHabit: DashboardHabitItem = {
     id: '',
     title: '',
-    plannedEndDate: '',
+    status: 'planned',
+
+    plannedEndDate: new Date(),
     restDays: 0,
+
     progress: 0,
+
     completedDays: 0,
     missedDays: 0,
+
     lastDaysProgress: [],
+
     currentStreak: 0,
     bestStreak: 0,
-    status: 'planned',
   };
 
-  private getDayStatusStats(dayLogs: HabitDayLog[]) {
-    if (!dayLogs?.length) {
-      return { completedDays: 0, missedDays: 0 };
+  buildDashboardViewModel(data?: DashboardResponse): DashboardHabitItem {
+    if (!data || !data.run) {
+      return this.emptyDashboardHabit;
     }
 
-    let completedDays = 0;
-    let missedDays = 0;
+    const { habit, run, logs } = data;
 
-    for (const log of dayLogs) {
-      switch (log.status) {
-        case HABIT_DAY_STATUS_MAP.completed:
-          completedDays++;
-          break;
-        case HABIT_DAY_STATUS_MAP.missed:
-          missedDays++;
-          break;
-      }
-    }
+    const startDate = new Date(run.startDate).toISOString();
 
-    return { completedDays, missedDays };
+    return {
+      id: habit.id,
+      title: habit.title,
+      status: habit.status,
+
+      completedDays: run.stats.completedDays,
+      missedDays: run.stats.missedDays,
+
+      progress: run.progress.percent,
+      currentStreak: run.streak.current,
+      bestStreak: run.streak.best,
+
+      plannedEndDate: this.getPlannedEndDate(startDate, run.totalDays),
+      restDays: this.getRestDays(startDate, run.totalDays),
+
+      lastDaysProgress: this.getLastDaysProgress(logs, 14),
+    };
   }
 
-  private getPlannedEndDate(startDate: DateType, totalDays: number): Date {
-    const end = new Date(startDate as string);
+  private getPlannedEndDate(startDate: string, totalDays: number): Date {
+    const end = new Date(startDate);
     end.setUTCDate(end.getUTCDate() + totalDays - 1);
-
     return getUserDayUTC(end);
   }
 
-  private getRestDays(
-    startDate: DateType,
-    totalDays: number,
-    today: Date = getTodayUserDayUTC(),
-  ): number {
+  private getRestDays(startDate: string, totalDays: number): number {
+    const today = getTodayUTC();
     const plannedEnd = this.getPlannedEndDate(startDate, totalDays);
 
     const diffMs = plannedEnd.getTime() - today.getTime();
@@ -89,26 +97,27 @@ class HabitDashoardService extends HabitService {
     return Math.max(diffDays, 0);
   }
 
-  buildDashboardViewModel(habit?: Habit): DashboardHabitItem {
-    if (!habit) return this.emptyDashboardHabit;
+  private getLastDaysProgress(
+    logs: { date: string; status: HabitDayStatus }[],
+    period: number,
+  ) {
+    const today = getTodayUTC();
 
-    const { id, title, status, dayLogs, totalDays } = habit;
+    const normalizedLogs = logs.map(log => ({
+      ...log,
+      date: getUserDayUTC(new Date(log.date)),
+    }));
 
-    const { completedDays, missedDays } = this.getDayStatusStats(dayLogs);
+    return Array.from({ length: period }).map((_, index) => {
+      const day = subDays(today, period - index - 1);
 
-    return {
-      id,
-      title,
-      status,
-      completedDays,
-      missedDays,
-      restDays: this.getRestDays(habit.startDate, totalDays),
-      plannedEndDate: this.getPlannedEndDate(habit.startDate, totalDays),
-      progress: this.getHabitProgress(dayLogs, totalDays),
-      lastDaysProgress: this.getLastDaysProgress(dayLogs, 14),
-      currentStreak: this.getCurrentStreak(dayLogs),
-      bestStreak: this.getBestStreak(dayLogs),
-    };
+      const foundLog = normalizedLogs.find(l => isSameDay(l.date, day));
+
+      return {
+        weekday: format(day, 'EEE'),
+        status: foundLog?.status ?? HABIT_DAY_STATUS_MAP.unmarked,
+      };
+    });
   }
 }
 

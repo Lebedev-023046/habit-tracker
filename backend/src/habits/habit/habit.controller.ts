@@ -26,7 +26,7 @@ export class HabitController {
 
   @Post()
   createHabit(@Body() data: CreateHabitDto) {
-    return this.habitService.createHabit(data);
+    return this.habitService.createHabitWithOptionalStart(data);
   }
 
   @Put(':id')

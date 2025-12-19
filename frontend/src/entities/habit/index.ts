@@ -2,10 +2,8 @@ export { habitRepo } from './api//habitRepo';
 
 export {
   createHabitSchema,
-  habitFormSchema,
   updateHabitSchema,
   type CreateHabitFormValues,
-  type HabitFormValues,
   type UpdateHabitFormValues,
 } from './model/form/schema';
 

@@ -63,3 +63,7 @@
 .errorOpen {
   grid-template-rows: 1fr;
 }
+
+.description {
+  margin: 1rem 0;
+}

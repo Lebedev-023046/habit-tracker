@@ -2,11 +2,15 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { HabitStatus } from '@prisma/client';
 import { ResponseUtil } from 'src/common/utils/response';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { HabitRunService } from '../habit-run/habit-run.service';
 import { CreateHabitDto, UpdateHabitDto } from './habit.dto';
 
 @Injectable()
 export class HabitService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private habitRunService: HabitRunService,
+  ) {}
 
   async getAllHabits(params?: { status?: HabitStatus }) {
     const habits = await this.prisma.habit.findMany({
@@ -33,13 +37,21 @@ export class HabitService {
     return ResponseUtil.success(habit);
   }
 
-  async createHabit(data: CreateHabitDto) {
+  async createHabitWithOptionalStart(data: CreateHabitDto) {
     const habit = await this.prisma.habit.create({
       data: {
         title: data.title,
         status: 'planned',
       },
     });
+
+    if (data.startImmediately) {
+      if (!data.totalDays) {
+        throw new BadRequestException('totalDays required to start habit');
+      }
+
+      await this.habitRunService.start(habit.id, data.totalDays);
+    }
 
     return ResponseUtil.success(habit);
   }

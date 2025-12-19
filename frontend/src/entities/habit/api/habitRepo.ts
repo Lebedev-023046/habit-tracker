@@ -9,18 +9,16 @@ import type {
   DeleteHabitPayload,
   GetAllHabitsQuery,
   UpdateHabitPayload,
-  UpdateHabitStatusPayload,
 } from './types';
 
 const ENDPOINTS = {
   getAllHabits: (params?: GetAllHabitsQuery) =>
     `/habits${buildQueryString(params)}`,
   getHabit: (id: string) => `/habits/${id}`,
-  createHabit: () => '/habits/create',
-  updateHabit: (id: string) => `/habits/update/${id}`,
-  updateHabitStatus: (id: string) => `habits/update-status/${id}`,
-  reorderHabits: () => `/habits/reorder`,
-  deleteHabit: (id: string) => `/habits/delete/${id}`,
+  createHabit: () => '/habits',
+  updateHabit: (id: string) => `/habits/${id}`,
+  // updateHabitStatus: (id: string) => `habits/update-status/${id}`,
+  deleteHabit: (id: string) => `/habits/${id}`,
 };
 
 class HabitRepo {
@@ -31,7 +29,7 @@ class HabitRepo {
     this.getHabit = this.getHabit.bind(this);
     this.createHabit = this.createHabit.bind(this);
     this.updateHabit = this.updateHabit.bind(this);
-    this.updateHabitStatus = this.updateHabitStatus.bind(this);
+    // this.updateHabitStatus = this.updateHabitStatus.bind(this);
     this.deleteHabit = this.deleteHabit.bind(this);
   }
   // private baseHabitKey = ['habit'];
@@ -79,17 +77,17 @@ class HabitRepo {
     }
   }
 
-  async updateHabitStatus(payload: UpdateHabitStatusPayload): Promise<Habit> {
-    try {
-      const { id, status } = payload;
+  // async updateHabitStatus(payload: UpdateHabitStatusPayload): Promise<Habit> {
+  //   try {
+  //     const { id, status } = payload;
 
-      return this.api
-        .patch(ENDPOINTS.updateHabitStatus(id), { status })
-        .then(res => unwrapResponse<Habit>(res.data));
-    } catch (error) {
-      throw error;
-    }
-  }
+  //     return this.api
+  //       .patch(ENDPOINTS.updateHabitStatus(id), { status })
+  //       .then(res => unwrapResponse<Habit>(res.data));
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
 
   async deleteHabit(payload: DeleteHabitPayload): Promise<string> {
     try {

@@ -11,6 +11,8 @@ export class CreateHabitDto {
   @IsString()
   @IsNotEmpty()
   title: string;
+  startImmediately?: boolean;
+  totalDays?: number;
 }
 
 export class UpdateHabitDto {

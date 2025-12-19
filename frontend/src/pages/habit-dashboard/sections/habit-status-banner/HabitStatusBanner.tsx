@@ -1,5 +1,5 @@
 import type { HabitStatus } from '@/entities/habit';
-import type { DateType } from '@/shared/types';
+import type { DateValue } from '@/shared/types';
 import { Container } from '@/shared/ui/container';
 import { Typography } from '@/shared/ui/typography';
 import { FaFontAwesomeFlag } from 'react-icons/fa';
@@ -9,7 +9,7 @@ import { getBannerContent } from './helpers/getBannerContent';
 
 interface HabitStatusBannerProps {
   status: HabitStatus;
-  plannedEndDate: DateType;
+  plannedEndDate: DateValue;
 }
 
 export function HabitStatusBanner({
@@ -19,13 +19,10 @@ export function HabitStatusBanner({
   const colorClass = getBannerColorClass(status);
   const { title, subtitle } = getBannerContent(status);
 
-  const formattedDate = new Date(plannedEndDate as string).toLocaleDateString(
-    'en-US',
-    {
-      day: 'numeric',
-      month: 'short',
-    },
-  );
+  const formattedDate = new Date(plannedEndDate).toLocaleDateString('en-US', {
+    day: 'numeric',
+    month: 'short',
+  });
 
   return (
     <Container className={`${styles.banner} ${colorClass}`}>

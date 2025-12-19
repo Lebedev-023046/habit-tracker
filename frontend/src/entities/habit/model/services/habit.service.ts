@@ -1,4 +1,4 @@
-import { getTodayUserDayUTC } from '@/shared/utils/time';
+import { getTodayUTC } from '@/shared/utils/time';
 import { format, isSameDay, subDays } from 'date-fns';
 
 import { HABIT_DAY_STATUS_MAP } from '@/shared/model/habit-day.model';
@@ -74,11 +74,11 @@ export class HabitService {
   }
   protected getLastDaysProgress(habitLogs: HabitDayLog[], period: number) {
     try {
-      const today = getTodayUserDayUTC();
+      const today = getTodayUTC();
 
       const normalizedLogs = habitLogs.map(log => ({
         ...log,
-        date: new Date(log.date as string),
+        date: new Date(log.date),
       }));
 
       const result = [];

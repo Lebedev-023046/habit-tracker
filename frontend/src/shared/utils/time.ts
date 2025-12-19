@@ -36,6 +36,6 @@ export function getUserDayUTC(date: Date): Date {
  * "Сегодня" пользователя, сохранённое как полночь этого дня в UTC.
  * Это то, что нужно писать в HabitDayLog.date
  */
-export function getTodayUserDayUTC(): Date {
+export function getTodayUTC(): Date {
   return getUserDayUTC(new Date());
 }
