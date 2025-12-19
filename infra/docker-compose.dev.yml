@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
 
     env_file:
-      - ../backend/.env.dev
+      - ../backend/.env
 
     ports:
       - "5432:5432"
@@ -21,7 +21,7 @@ services:
     container_name: habit_backend
     restart: unless-stopped
     env_file:
-      - ../backend/.env.dev
+      - ../backend/.env
     ports:
       - "3000:3000"
     depends_on:
@@ -50,16 +50,16 @@ services:
   #   networks:
   #     - habit-net
 
-  # adminer:
-  #   image: adminer
-  #   container_name: habit_adminer
-  #   restart: unless-stopped
-  #   depends_on:
-  #     - postgres
-  #   ports:
-  #     - "8080:8080"
-  #   networks:
-  #     - habit-net
+  adminer:
+    image: adminer
+    container_name: habit_adminer
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    networks:
+      - habit-net
 
 networks:
   habit-net:
