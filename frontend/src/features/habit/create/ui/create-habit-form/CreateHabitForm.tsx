@@ -25,7 +25,7 @@ export function CreateHabitForm({
     defaultValues: {
       title: '',
       startImmediately: false,
-      totalDays: undefined,
+      totalDays: 30,
     },
     mode: 'onSubmit',
   });

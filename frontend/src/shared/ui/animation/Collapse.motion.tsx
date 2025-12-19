@@ -20,7 +20,6 @@ export default function CollapseMotion({
           animate="visible"
           exit="hidden"
           transition={transitions.base}
-          style={{ overflow: 'hidden' }}
         >
           {children}
         </motion.div>
