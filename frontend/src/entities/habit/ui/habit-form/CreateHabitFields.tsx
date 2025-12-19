@@ -6,6 +6,7 @@ import { useFormContext } from 'react-hook-form';
 import { TOTAL_DAYS_VALUES } from '../../model/constants';
 import type { CreateHabitFormValues } from '../../model/form/schema';
 
+import { Collapse } from '@/shared/ui/animation';
 import { Typography } from '@/shared/ui/typography';
 import styles from './HabitForm.module.css';
 
@@ -34,7 +35,7 @@ export function CreateHabitFields() {
         label="Start habit immediately"
       />
 
-      {startImmediately && (
+      <Collapse isOpen={startImmediately}>
         <SelectField
           control={control}
           name="totalDays"
@@ -43,7 +44,7 @@ export function CreateHabitFields() {
           options={totalDaysOptions}
           isClearable={false}
         />
-      )}
+      </Collapse>
 
       <Typography variant="bodyMuted" className={styles.description}>
         {startImmediately
