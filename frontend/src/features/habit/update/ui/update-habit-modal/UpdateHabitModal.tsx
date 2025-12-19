@@ -22,7 +22,7 @@ export function UpdateHabitModal({
     <>
       <div className={styles.header}>
         <Typography variant="cardTitle">{title}</Typography>
-        <Typography variant="subtitleMuted">{subtitle}</Typography>
+        <Typography variant="bodyMuted">{subtitle}</Typography>
       </div>
       <UpdateHabitForm
         onSuccess={close}
