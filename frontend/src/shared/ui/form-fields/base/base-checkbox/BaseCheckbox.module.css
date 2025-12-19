@@ -33,22 +33,3 @@
   opacity: 1;
   background-color: var(--bg-color-secondary);
 }
-
-.error {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.2s ease-in-out;
-  font-weight: 300;
-  font-size: 1.4rem;
-  color: var(--error);
-  margin-left: 0.75rem;
-  margin-top: 0.5rem;
-}
-
-.errorContent {
-  overflow: hidden;
-}
-
-.errorOpen {
-  grid-template-rows: 1fr;
-}

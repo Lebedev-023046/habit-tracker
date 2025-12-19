@@ -1,5 +1,6 @@
 import { type InputHTMLAttributes } from 'react';
 import { FaCheck } from 'react-icons/fa';
+import { ErrorMessage } from '../../error-message';
 import styles from './BaseCheckbox.module.css';
 
 interface BaseCheckboxProps
@@ -22,7 +23,6 @@ export function BaseCheckbox({
   ...rest
 }: BaseCheckboxProps) {
   const hasError = Boolean(errorText);
-  const errorOpenClassName = hasError ? styles.errorOpen : '';
 
   return (
     <div className={`${styles.field} ${wrapperClassName ?? ''}`}>
@@ -34,13 +34,7 @@ export function BaseCheckbox({
         <span className={styles.label}>Start habit immediately</span>
       </label>
 
-      <div
-        className={`${styles.error} ${errorClassName ?? ''} ${errorOpenClassName}`}
-      >
-        <div className={styles.errorContent}>
-          <p>{errorText}</p>
-        </div>
-      </div>
+      <ErrorMessage isError={hasError} message={errorText} />
     </div>
   );
 }

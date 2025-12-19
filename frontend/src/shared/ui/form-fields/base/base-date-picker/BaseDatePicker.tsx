@@ -5,6 +5,7 @@ import { DayPicker, UI } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { CiCalendar } from 'react-icons/ci';
 import { MdClear } from 'react-icons/md';
+import { ErrorMessage } from '../../error-message';
 import styles from './BaseDatePicker.module.css';
 
 interface BaseDatePickerProps {
@@ -32,11 +33,9 @@ export function BaseDatePicker({
   wrapperClassName,
   inputClassName,
   labelClassName,
-  errorClassName,
   disabled,
 }: BaseDatePickerProps) {
   const hasError = Boolean(errorText);
-  const errorOpenClassName = hasError ? styles.errorOpen : '';
 
   const { ref: popoverRef } = useClickOutside<HTMLDivElement>(() =>
     setOpen(false),
@@ -103,13 +102,7 @@ export function BaseDatePicker({
         </div>
       </div>
 
-      <div
-        className={`${styles.error} ${errorClassName ?? ''} ${errorOpenClassName}`}
-      >
-        <div className={styles.errorContent}>
-          <p>{errorText}</p>
-        </div>
-      </div>
+      <ErrorMessage isError={hasError} message={errorText} />
     </div>
   );
 }

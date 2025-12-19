@@ -1,4 +1,5 @@
 import { useId, type InputHTMLAttributes } from 'react';
+import { ErrorMessage } from '../../error-message';
 import styles from './BaseTextInput.module.css';
 
 interface BaseTextInputProps
@@ -23,7 +24,6 @@ export function BaseTextInput({
   const inputId = useId();
 
   const hasError = Boolean(errorText);
-  const errorOpenClassName = hasError ? styles.errorOpen : '';
 
   return (
     <div className={`${styles.field} ${wrapperClassName ?? ''}`}>
@@ -42,13 +42,7 @@ export function BaseTextInput({
         {...rest}
       />
 
-      <div
-        className={`${styles.error} ${errorClassName ?? ''} ${errorOpenClassName}`}
-      >
-        <div className={styles.errorContent}>
-          <p>{errorText}</p>
-        </div>
-      </div>
+      <ErrorMessage isError={hasError} message={errorText} />
     </div>
   );
 }
