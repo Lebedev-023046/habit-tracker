@@ -1,0 +1,58 @@
+/* Styles for HabitActionsMenu */
+
+.sideMenu {
+  position: absolute;
+  z-index: 10;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 25rem;
+  padding: 1.5rem;
+  background: var(--bg-color-primary);
+  box-shadow: -4px 0 12px rgb(0 0 0 / 8%);
+  overflow: auto;
+  transform: translateX(100%);
+  opacity: 0;
+  transition:
+    transform 0.2s ease-in-out,
+    opacity 0.2s ease-in-out;
+}
+
+.menuOpen {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 18%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease-out;
+  z-index: 5;
+}
+
+.overlayOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.btns {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  gap: 1rem;
+}
+
+.btns > button {
+  max-width: 70%;
+}
+
+.dangerBtn {
+  position: relative;
+  color: var(--error);
+}
