@@ -8,10 +8,10 @@ import { ErrorBoundary } from '../../shared/ui/error-boundary';
 import styles from './AppLayout.module.css';
 
 const Header = lazy(() =>
-  import('@/widgets/header/Header').then(m => ({ default: m.Header })),
+  import('@/widgets/layout/header/Header').then(m => ({ default: m.Header })),
 );
 const Footer = lazy(() =>
-  import('@/widgets/footer/Footer').then(m => ({ default: m.Footer })),
+  import('@/widgets/layout/footer/Footer').then(m => ({ default: m.Footer })),
 );
 
 export default function AppLayout() {
