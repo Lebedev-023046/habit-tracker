@@ -1,7 +1,10 @@
 import { BuildHabitButton } from '@/features/habit/change-status/ui/BuildHabitButton';
-import { CancelHabitButton } from '@/features/habit/change-status/ui/CancelHabitButton';
+
+import { CancelHabitModalTrigger } from '@/features/habit/change-status/ui/cancel/modal-trigger';
 import { PauseHabitButton } from '@/features/habit/change-status/ui/PauseHabitButton';
-import { ActivateHabitButton } from '@/features/habit/change-status/ui/ResumeHabitButton';
+import { ResumeHabitButton } from '@/features/habit/change-status/ui/ResumeHabitButton';
+
+import { StartHabitModalTrigger } from '@/features/habit/change-status/ui/start/modal-trigger';
 import { DeleteHabitModalTrigger } from '@/features/habit/delete';
 import { UpdateHabitModalTrigger } from '@/features/habit/update';
 import type { HabitAction, HabitActionRenderer } from './types';
@@ -23,12 +26,19 @@ export const habitRunActionFactory: Record<HabitAction, HabitActionRenderer> = {
       />
     );
   },
-  activate: ({ habit, variant, closeMenu }) => {
+  start: ({ habit, variant, closeMenu }) => {
     return (
-      <ActivateHabitButton
+      <StartHabitModalTrigger
         habitId={habit.id}
-        currentStatus={habit.status}
-        status="active"
+        variant={variant}
+        onClick={closeMenu}
+      />
+    );
+  },
+  resume: ({ habit, variant, closeMenu }) => {
+    return (
+      <ResumeHabitButton
+        habitId={habit.id}
         variant={variant}
         onClick={closeMenu}
       />
@@ -46,9 +56,8 @@ export const habitRunActionFactory: Record<HabitAction, HabitActionRenderer> = {
   },
   cancel: ({ habit, closeMenu }) => {
     return (
-      <CancelHabitButton
+      <CancelHabitModalTrigger
         habitId={habit.id}
-        status="cancelled"
         variant="plain"
         onClick={closeMenu}
       />
@@ -58,7 +67,6 @@ export const habitRunActionFactory: Record<HabitAction, HabitActionRenderer> = {
     return (
       <BuildHabitButton
         habitId={habit.id}
-        status="built"
         onClick={closeMenu}
         variant="plain"
       />
