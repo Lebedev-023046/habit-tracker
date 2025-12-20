@@ -1,4 +1,4 @@
-import type { UpdateHabitFormValues } from '@/entities/habit';
+import type { UpdateHabitFormValues } from '@/features/habit-form/model/schema';
 import { useModal } from '@/shared/modal/modal-context';
 import { preloadModalRoot } from '@/shared/modal/modal-root/preload';
 import { Button } from '@/shared/ui/button';

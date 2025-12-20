@@ -1,9 +1,9 @@
 import {
-  HabitForm,
   updateHabitSchema,
   type UpdateHabitFormValues,
-} from '@/entities/habit';
-import { UpdateHabitFields } from '@/entities/habit/ui/habit-form/UpdateHabitFields';
+} from '@/features/habit-form/model/schema';
+import { HabitForm } from '@/features/habit-form/ui';
+import { UpdateHabitFields } from '@/features/habit-form/ui/UpdateHabitFields';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useUpdateHabit } from '../../model/useUpdateHabit';

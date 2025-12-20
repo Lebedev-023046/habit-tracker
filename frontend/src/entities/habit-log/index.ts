@@ -1,1 +1,1 @@
-export { useUpsertHabitLogBase } from './model/habitLogBaseHooks';
+export { useUpsertHabitLogBase } from './model/query/baseHooks';

@@ -10,14 +10,6 @@ export type HabitStatus = (typeof HABIT_STATUSES)[number];
 export type HabitTotalDays = (typeof TOTAL_DAYS_VALUES)[number];
 export type CreateHabitPayloadStatus = (typeof CREATE_HABIT_STATUS)[number];
 
-export type HabitAction =
-  | 'edit'
-  | 'activate'
-  | 'pause'
-  | 'build'
-  | 'cancel'
-  | 'delete';
-
 export interface Habit {
   id: string;
   title: string;

@@ -1,9 +1,13 @@
 import { useCreateHabitBase } from '@/entities/habit';
 import type { CreateHabitPayload } from '@/entities/habit/api/types';
+import { getHabitOverviewListQueryOptions } from '@/entities/habits-overview/model/queryOptions';
 import { toast } from '@/shared/lib/toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function useCreateHabit() {
   const mutation = useCreateHabitBase();
+  const queryClient = useQueryClient();
+  const habitOverviewQueryOptions = getHabitOverviewListQueryOptions();
 
   return {
     ...mutation,
@@ -12,6 +16,7 @@ export function useCreateHabit() {
         ...options,
         onSuccess: (data, vars, ctx) => {
           toast.success('Habit created');
+          queryClient.invalidateQueries(habitOverviewQueryOptions);
           options?.onSuccess?.(data, vars, ctx);
         },
         onError: (error, vars, ctx) => {

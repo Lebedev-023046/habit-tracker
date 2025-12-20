@@ -1,7 +1,7 @@
 import type { HabitDayLog } from '@/entities/habit';
 
-export type UpsertHabitLogPayload = Partial<Pick<HabitDayLog, 'date'>> &
-  Pick<HabitDayLog, 'status' | 'habitId'>;
+export type UpsertHabitLogPayload = Pick<HabitDayLog, 'status' | 'habitId'> &
+  Partial<Pick<HabitDayLog, 'date'>>;
 
 // export type CreateHabitLogPayload = Pick<
 //   HabitDayLog,
@@ -10,4 +10,4 @@ export type UpsertHabitLogPayload = Partial<Pick<HabitDayLog, 'date'>> &
 
 // export type UpdateHabitLogPayload = Pick<HabitDayLog, 'id' | 'status'>;
 
-export type DeleteHabitLogPayload = Pick<HabitDayLog, 'id'>;
+export type DeleteHabitLogPayload = Pick<HabitDayLog, 'habitId' | 'date'>;

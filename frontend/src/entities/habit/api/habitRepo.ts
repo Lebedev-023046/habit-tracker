@@ -77,18 +77,6 @@ class HabitRepo {
     }
   }
 
-  // async updateHabitStatus(payload: UpdateHabitStatusPayload): Promise<Habit> {
-  //   try {
-  //     const { id, status } = payload;
-
-  //     return this.api
-  //       .patch(ENDPOINTS.updateHabitStatus(id), { status })
-  //       .then(res => unwrapResponse<Habit>(res.data));
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
-
   async deleteHabit(payload: DeleteHabitPayload): Promise<string> {
     try {
       const { id } = payload;
