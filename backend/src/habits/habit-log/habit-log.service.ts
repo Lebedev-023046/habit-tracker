@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { HabitDayStatus } from '@prisma/client';
+import { startOfDay } from 'date-fns';
 import { ResponseUtil } from 'src/common/utils/response';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { getUserDayUTC } from 'src/utils/time';
 
 @Injectable()
 export class HabitLogService {
@@ -26,7 +26,7 @@ export class HabitLogService {
   async upsert(habitId: string, status: HabitDayStatus, date?: Date) {
     const run = await this.getActiveRunOrThrow(habitId);
 
-    const normalizedDate = getUserDayUTC(date ?? new Date());
+    const normalizedDate = startOfDay(date ?? new Date());
 
     const log = await this.prisma.habitDayLog.upsert({
       where: {
@@ -48,7 +48,7 @@ export class HabitLogService {
 
   async remove(habitId: string, date?: Date) {
     const run = await this.getActiveRunOrThrow(habitId);
-    const normalizedDate = getUserDayUTC(date ?? new Date());
+    const normalizedDate = startOfDay(date ?? new Date());
 
     await this.prisma.habitDayLog.delete({
       where: {

@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { startOfDay } from 'date-fns';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { getTodayUTC } from 'src/utils/time';
 
 @Injectable()
 export class HabitRunService {
@@ -31,7 +31,7 @@ export class HabitRunService {
         habitId,
         status: 'active',
         totalDays,
-        startDate: getTodayUTC(),
+        startDate: startOfDay(new Date()),
       },
     });
 
@@ -86,7 +86,7 @@ export class HabitRunService {
       where: { id: run.id },
       data: {
         status: 'built',
-        builtAt: getTodayUTC(),
+        builtAt: startOfDay(new Date()),
       },
     });
 
@@ -108,7 +108,7 @@ export class HabitRunService {
       where: { id: run.id },
       data: {
         status: 'cancelled',
-        cancelledAt: getTodayUTC(),
+        cancelledAt: startOfDay(new Date()),
       },
     });
 
@@ -129,7 +129,7 @@ export class HabitRunService {
         where: { id: activeRun.id },
         data: {
           status: 'cancelled',
-          cancelledAt: getTodayUTC(),
+          cancelledAt: startOfDay(new Date()),
         },
       });
     }
@@ -139,7 +139,7 @@ export class HabitRunService {
         habitId,
         status: 'active',
         totalDays,
-        startDate: getTodayUTC(),
+        startDate: startOfDay(new Date()),
       },
     });
 
