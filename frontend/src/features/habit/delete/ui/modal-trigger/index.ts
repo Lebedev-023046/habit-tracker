@@ -1,0 +1,1 @@
+export { DeleteHabitModalTrigger } from './ModalTrigger';

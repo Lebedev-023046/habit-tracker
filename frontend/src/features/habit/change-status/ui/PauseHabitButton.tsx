@@ -2,7 +2,8 @@ import type { HabitStatus } from '@/entities/habit';
 import { Button } from '@/shared/ui/button';
 import type { ButtonVariant } from '@/shared/ui/button/types';
 import { MdPause } from 'react-icons/md';
-import { useUpdateHabitStatus } from '../model/useUpdateHabitStatus';
+import { usePauseHabit } from '../model/usePauseHabit';
+// import { useUpdateHabitStatus } from '../model/useUpdateHabitStatus';
 
 interface PauseHabitButtonProps {
   onClick?: () => void;
@@ -13,20 +14,20 @@ interface PauseHabitButtonProps {
 
 export function PauseHabitButton({
   habitId,
-  status,
   variant,
   onClick,
 }: PauseHabitButtonProps) {
-  const { mutate: updateHabitStatus, isPending } = useUpdateHabitStatus();
+  const { mutate: pauseHabit, isPending } = usePauseHabit();
 
   const handleClick = () => {
-    const payload = { id: habitId, status };
-
-    updateHabitStatus(payload, {
-      onSuccess: () => {
-        onClick?.();
+    pauseHabit(
+      { habitId },
+      {
+        onSuccess: () => {
+          onClick?.();
+        },
       },
-    });
+    );
   };
 
   return (

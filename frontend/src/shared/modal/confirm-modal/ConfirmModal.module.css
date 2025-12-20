@@ -1,0 +1,22 @@
+/* Styles for ConfirmModal */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.title {
+  font-weight: 600;
+}
+
+.subtitle {
+  font-weight: 300;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
