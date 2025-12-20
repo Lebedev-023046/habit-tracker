@@ -5,7 +5,8 @@ import type { HabitListItem } from '../habitList.service';
 
 export type HabitAction =
   | 'edit'
-  | 'activate'
+  | 'start'
+  | 'resume'
   | 'pause'
   | 'build'
   | 'cancel'
