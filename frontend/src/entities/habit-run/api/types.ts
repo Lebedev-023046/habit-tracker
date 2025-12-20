@@ -10,9 +10,12 @@ export interface HabitRun {
   cancelledAt?: string | null;
 }
 
-export interface StartHabitRunPayload {
+export interface StartHabitRunArgs {
+  habitId: string;
   totalDays: number;
 }
+
+export type StartHabitRunPayload = Pick<StartHabitRunArgs, 'totalDays'>;
 
 export interface ResetHabitRunPayload {
   totalDays: number;

@@ -1,19 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
 import { habitRunRepo } from '../../api/habitRunRepo';
-import type {
-  ResetHabitRunPayload,
-  StartHabitRunPayload,
-} from '../../api/types';
+import type { ResetHabitRunPayload, StartHabitRunArgs } from '../../api/types';
 
 export function useStartHabitRunBase() {
   return useMutation({
-    mutationFn: ({
-      habitId,
-      payload,
-    }: {
-      habitId: string;
-      payload: StartHabitRunPayload;
-    }) => habitRunRepo.start(habitId, payload),
+    mutationFn: ({ habitId, totalDays }: StartHabitRunArgs) =>
+      habitRunRepo.start(habitId, { totalDays }),
   });
 }
 
