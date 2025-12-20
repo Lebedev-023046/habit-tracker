@@ -6,18 +6,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class HabitRunService {
   constructor(private prisma: PrismaService) {}
 
-  // helpers
-  private async getHabitOrThrow(id: string) {
-    const habit = await this.prisma.habit.findUnique({ where: { id } });
-    if (!habit) throw new BadRequestException('Habit not found');
-    return habit;
-  }
-  private async getActiveRun(habitId: string) {
-    return this.prisma.habitRun.findFirst({
-      where: { habitId, status: 'active' },
-    });
-  }
-
   async start(habitId: string, totalDays: number) {
     await this.getHabitOrThrow(habitId);
 
@@ -149,5 +137,17 @@ export class HabitRunService {
     });
 
     return newRun;
+  }
+
+  // helpers
+  private async getHabitOrThrow(id: string) {
+    const habit = await this.prisma.habit.findUnique({ where: { id } });
+    if (!habit) throw new BadRequestException('Habit not found');
+    return habit;
+  }
+  private async getActiveRun(habitId: string) {
+    return this.prisma.habitRun.findFirst({
+      where: { habitId, status: 'active' },
+    });
   }
 }
