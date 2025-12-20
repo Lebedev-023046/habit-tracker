@@ -1,0 +1,41 @@
+/* Styles for Header */
+
+.headerWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background-color: var(--bg-color-primary);
+  box-shadow: var(--shadow-common);
+}
+
+.header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-color-primary);
+  border-radius: var(--rounded-block);
+  padding: 2rem 1.5rem;
+  font-size: 2.5rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.titleContainer {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.controls {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
