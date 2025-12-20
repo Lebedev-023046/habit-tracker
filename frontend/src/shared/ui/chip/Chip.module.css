@@ -26,6 +26,6 @@
 }
 
 .cancelled {
-  color: var(--error-accent);
-  background-color: var(--error);
+  color: var(--text-color-primary);
+  background-color: var(--neutral);
 }

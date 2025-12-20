@@ -82,7 +82,7 @@
 
 .danger {
   background-color: var(--error);
-  color: var(--error-accent);
+  color: var(--bg-color-primary);
 }
 
 .icon {
