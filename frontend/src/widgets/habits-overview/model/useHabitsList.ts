@@ -19,8 +19,6 @@ export function useHabitOverviewList() {
     }
   }
 
-  console.log({ error });
-
   return {
     ...query,
     groupedHabits: grouped,
