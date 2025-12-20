@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { startOfDay } from 'date-fns';
+import { ResponseUtil } from 'src/common/utils/response';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -28,7 +29,7 @@ export class HabitRunService {
       data: { status: 'active' },
     });
 
-    return run;
+    return ResponseUtil.success(run);
   }
 
   async pause(habitId: string) {
@@ -42,7 +43,7 @@ export class HabitRunService {
       data: { status: 'paused' },
     });
 
-    return run;
+    return ResponseUtil.success(run);
   }
 
   async resume(habitId: string) {
@@ -61,7 +62,7 @@ export class HabitRunService {
       data: { status: 'active' },
     });
 
-    return run;
+    return ResponseUtil.success(run);
   }
 
   async build(habitId: string) {
@@ -83,7 +84,7 @@ export class HabitRunService {
       data: { status: 'built' },
     });
 
-    return run;
+    return ResponseUtil.success(run);
   }
 
   async cancel(habitId: string) {
@@ -105,7 +106,7 @@ export class HabitRunService {
       data: { status: 'cancelled' },
     });
 
-    return run;
+    return ResponseUtil.success(run);
   }
 
   async reset(habitId: string, totalDays: number) {
@@ -136,7 +137,7 @@ export class HabitRunService {
       data: { status: 'active' },
     });
 
-    return newRun;
+    return ResponseUtil.success(newRun);
   }
 
   // helpers
