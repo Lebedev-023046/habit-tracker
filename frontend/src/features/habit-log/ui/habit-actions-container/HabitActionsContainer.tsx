@@ -1,11 +1,12 @@
 // features/habit-log/upsert/ui/HabitActionsContainer.tsx
 
-import { HabitActions } from '@/pages/habit-daily/components/habit-actions';
 import type { HabitDayStatus } from '@/shared/model/habit-day.model';
+import { HabitActions } from '@/widgets/daily-habits/ui/components/habit-actions';
 import type { UpsertHabitLogPayload } from '../../model/types';
 import { useUpsertHabit } from '../../model/useUpsertHabitLog';
 
 interface HabitActionsContainerProps {
+  habitId: string;
   habitName: string;
   todayStatus: HabitDayStatus;
   completePayload: UpsertHabitLogPayload;

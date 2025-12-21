@@ -1,0 +1,9 @@
+/* Styles for ErrorMessage */
+
+.errorText {
+  color: var(--error);
+  font-weight: 300;
+  font-size: 1.4rem;
+  margin-left: 0.75rem;
+  margin-top: 0.5rem;
+}

@@ -1,0 +1,8 @@
+/* Styles for NoDataErrorMessage */
+.noItemsContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1 1 auto;
+  margin-left: 1.5rem;
+}

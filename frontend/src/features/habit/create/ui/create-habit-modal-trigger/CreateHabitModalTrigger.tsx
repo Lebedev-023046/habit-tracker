@@ -1,5 +1,5 @@
 import { useModal } from '@/shared/modal/modal-context/ModalContext';
-import { preloadModalRoot } from '@/shared/modal/modal-root/preload';
+
 import { Button } from '@/shared/ui/button';
 import type { ButtonVariant } from '@/shared/ui/button/types';
 
@@ -30,12 +30,7 @@ export function CreateHabitModalTrigger({
 
   return (
     <>
-      <Button
-        onMouseEnter={preloadModalRoot}
-        variant={variant}
-        onClick={handleClick}
-        className={className}
-      >
+      <Button variant={variant} onClick={handleClick} className={className}>
         <GoPlus size="2.5rem" />
         {label}
       </Button>

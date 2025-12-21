@@ -1,1 +1,3 @@
-export type DateType = Date | string | undefined;
+export type DateValue = Date;
+
+export type ISODateString = string;

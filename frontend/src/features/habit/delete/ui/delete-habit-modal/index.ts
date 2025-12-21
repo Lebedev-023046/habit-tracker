@@ -1,1 +1,0 @@
-export { DeleteHabitModal } from './DeleteHabitModal';

@@ -8,6 +8,7 @@
   "scripts": {
     "docker:up:build": "docker-compose -f ../infra/docker-compose.dev.yml up --build",
     "docker:up": "docker-compose -f ../infra/docker-compose.dev.yml up",
+    "docker:down": "docker-compose -f ../infra/docker-compose.dev.yml down",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
@@ -20,10 +21,11 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "db:dev:gen": "dotenv -e .env.dev -- npx prisma generate",
-    "db:dev:migrate": "dotenv -e .env.dev -- npx prisma migrate dev",
-    "db:dev:migrate-reset": "dotenv -e .env.dev -- npx prisma migrate reset",
-    "db:dev:studio": "dotenv -e .env.dev -- npx prisma studio",
+    "db:dev:gen": "npx prisma generate",
+    "db:dev:migrate": "npx prisma migrate dev",
+    "db:dev:migrate-co": "npx prisma migrate dev --name add-habit-run --create-only",
+    "db:dev:migrate-reset": "npx prisma migrate reset",
+    "db:dev:studio": "npx prisma studio",
     "db:prod:gen": "dotenv -e .env.prod -- npx prisma generate",
     "db:prod:migrate": "dotenv -e .env.prod -- npx prisma migrate deploy",
     "seed": "dotenv -e .env.dev -- ts-node prisma/seed.ts"
@@ -31,6 +33,7 @@
   "dependencies": {
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/schedule": "^6.1.0",
     "@prisma/client": "6.17.1",

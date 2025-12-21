@@ -16,6 +16,12 @@ enum HabitStatus {
   cancelled
 }
 
+enum HabitRunStatus {
+  active
+  built
+  cancelled
+}
+
 enum HabitDayStatus {
   completed
   missed
@@ -23,26 +29,49 @@ enum HabitDayStatus {
 }
 
 model Habit {
-  id        String      @id @default(uuid())
-  title     String
-  status    HabitStatus
-  totalDays Int
-  startDate DateTime?
-  endDate   DateTime?
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  id     String      @id @default(uuid())
+  title  String
+  status HabitStatus
 
-  dayLogs HabitDayLog[] @relation("HabitToLogs")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  runs HabitRun[]
+
+  @@index([status])
+}
+
+model HabitRun {
+  id        String @id @default(uuid())
+  habitId  String
+
+  status    HabitRunStatus
+  totalDays Int
+
+  startDate   DateTime
+  builtAt     DateTime?
+  cancelledAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  habit   Habit         @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  dayLogs HabitDayLog[]
+
+  @@index([habitId])
+  @@index([status])
+
+  @@unique([habitId, status], map: "one_active_run_per_habit")
 }
 
 model HabitDayLog {
-  id        String         @id @default(uuid())
-  habitId   String
-  date      DateTime
-  status    HabitDayStatus
-  createdAt DateTime       @default(now())
+  id         String         @id @default(uuid())
+  habitRunId String
+  date       DateTime
+  status     HabitDayStatus
+  createdAt  DateTime       @default(now())
 
-  habit Habit @relation("HabitToLogs", fields: [habitId], references: [id], onDelete: Cascade)
+  habitRun HabitRun @relation(fields: [habitRunId], references: [id], onDelete: Cascade)
 
-  @@unique([habitId, date])
+  @@unique([habitRunId, date])
+  @@index([habitRunId])
 }

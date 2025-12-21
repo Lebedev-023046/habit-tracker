@@ -6,9 +6,11 @@ import { lazy, Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import AppLayout from '../layout/AppLayout';
 
-const HabitDailyPage = lazy(() => import('@/pages/habit-daily/HabitDailyPage'));
-const HabitManagementPage = lazy(
-  () => import('@/pages/habit-management/HabitManagementPage'),
+const DailyHabitsPage = lazy(
+  () => import('@/pages/daily-habits/DailyHabitsPage'),
+);
+const HabitsOverviewPage = lazy(
+  () => import('@/pages/habits-overview/HabitsOverviewPage'),
 );
 const HabitDashboardPage = lazy(
   () => import('@pages/habit-dashboard/HabitDashboardPage'),
@@ -27,18 +29,18 @@ export const router = createBrowserRouter([
         handle: { title: 'Today habits' },
         element: (
           <Suspense fallback={<PageFallback />}>
-            <HabitDailyPage />
+            <DailyHabitsPage />
           </Suspense>
         ),
         hydrateFallbackElement: <PageFallback />,
         errorElement: <RouterErrorBoundary />,
       },
       {
-        path: ROUTES.HabitManagement(),
+        path: ROUTES.habitsOverview(),
         handle: { title: 'My Habits' },
         element: (
           <Suspense fallback={<PageFallback />}>
-            <HabitManagementPage />
+            <HabitsOverviewPage />
           </Suspense>
         ),
         hydrateFallbackElement: <PageFallback />,

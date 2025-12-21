@@ -1,0 +1,31 @@
+/* Styles for Chip */
+
+.chip {
+  padding: 0.5rem 1rem;
+  border-radius: var(--rounded-block);
+}
+
+.active {
+  color: var(--success-accent);
+  background-color: var(--success);
+}
+
+.paused {
+  background-color: var(--paused-accent);
+  color: var(--paused);
+}
+
+.planned {
+  background-color: var(--planned-accent);
+  color: var(--planned);
+}
+
+.built {
+  background-color: var(--built-accent);
+  color: var(--built);
+}
+
+.cancelled {
+  color: var(--text-color-primary);
+  background-color: var(--neutral);
+}

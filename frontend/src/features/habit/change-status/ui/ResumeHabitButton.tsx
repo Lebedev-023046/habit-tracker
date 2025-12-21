@@ -1,48 +1,41 @@
-import type { HabitStatus } from '@/entities/habit';
 import { Button } from '@/shared/ui/button';
 import type { ButtonVariant } from '@/shared/ui/button/types';
 
-import { useUpdateHabitStatus } from '../model/useUpdateHabitStatus';
-
 import { HiPlay } from 'react-icons/hi2';
+import { useResumeHabit } from '../model/useResumeHabit';
 
-interface ActivateHabitButtonProps {
+interface ResumeHabitButtonProps {
   habitId: string;
-  status: HabitStatus;
-  currentStatus: HabitStatus;
   variant: ButtonVariant;
   onClick?: () => void;
 }
 
-export function ActivateHabitButton({
+export function ResumeHabitButton({
   habitId,
-  status,
-  currentStatus,
   variant,
   onClick,
-}: ActivateHabitButtonProps) {
-  const { mutate: updateHabitStatus, isPending } = useUpdateHabitStatus();
-
-  const label = currentStatus === 'planned' ? 'Start habit' : 'Resume habit';
+}: ResumeHabitButtonProps) {
+  const { mutate: resumeHabit } = useResumeHabit();
 
   const handleClick = () => {
-    const payload = { id: habitId, status };
-
-    updateHabitStatus(payload, {
-      onSuccess: () => {
-        onClick?.();
+    resumeHabit(
+      { habitId },
+      {
+        onSuccess: () => {
+          onClick?.();
+        },
       },
-    });
+    );
   };
 
   return (
     <Button
-      disabled={isPending}
+      disabled={false}
       variant={variant}
       textTone="success"
       onClick={handleClick}
     >
-      <HiPlay size={20} /> {label}
+      <HiPlay size={20} /> Resume
     </Button>
   );
 }

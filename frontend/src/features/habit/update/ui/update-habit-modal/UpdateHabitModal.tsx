@@ -1,4 +1,4 @@
-import type { UpdateHabitFormValues } from '@/entities/habit';
+import type { UpdateHabitFormValues } from '@/features/habit-form/model/schema';
 import { UpdateHabitForm } from '@/features/habit/update';
 import type { ModalBaseProps } from '@/shared/modal/types';
 import { Typography } from '@/shared/ui/typography';
@@ -22,7 +22,7 @@ export function UpdateHabitModal({
     <>
       <div className={styles.header}>
         <Typography variant="cardTitle">{title}</Typography>
-        <Typography variant="subtitleMuted">{subtitle}</Typography>
+        <Typography variant="bodyMuted">{subtitle}</Typography>
       </div>
       <UpdateHabitForm
         onSuccess={close}

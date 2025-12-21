@@ -1,4 +1,5 @@
 import { useId, type TextareaHTMLAttributes } from 'react';
+import { ErrorMessage } from '../../error-message';
 import styles from './BaseTextareaInput.module.css';
 
 interface BaseTextareaProps
@@ -21,9 +22,7 @@ export function BaseTextareaInput({
   ...rest
 }: BaseTextareaProps) {
   const textareaId = useId();
-
   const hasError = Boolean(errorText);
-  const errorOpenClassName = hasError ? styles.errorOpen : '';
 
   return (
     <div className={`${styles.field} ${wrapperClassName ?? ''}`}>
@@ -42,13 +41,7 @@ export function BaseTextareaInput({
         {...rest}
       />
 
-      <div
-        className={`${styles.error} ${errorClassName ?? ''} ${errorOpenClassName}`}
-      >
-        <div className={styles.errorContent}>
-          <p>{errorText}</p>
-        </div>
-      </div>
+      <ErrorMessage isError={hasError} message={errorText} />
     </div>
   );
 }

@@ -1,0 +1,14 @@
+/* Styles for SubHeader */
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  padding: 3rem 2.5rem;
+  gap: 1.5rem;
+}
+
+.info {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 1.6rem;
+}
