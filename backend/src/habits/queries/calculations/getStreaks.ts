@@ -1,4 +1,5 @@
 import { HabitDayStatus } from '@prisma/client';
+import { isSameDay } from 'date-fns';
 
 export function calculateStreaks(
   logs: { date: Date; status: HabitDayStatus }[],
@@ -40,12 +41,4 @@ export function calculateStreaks(
   }
 
   return { current, best };
-}
-
-function isSameDay(a: Date, b: Date) {
-  return (
-    a.getUTCFullYear() === b.getUTCFullYear() &&
-    a.getUTCMonth() === b.getUTCMonth() &&
-    a.getUTCDate() === b.getUTCDate()
-  );
 }

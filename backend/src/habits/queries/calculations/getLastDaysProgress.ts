@@ -1,10 +1,6 @@
 import { HabitDayStatus } from '@prisma/client';
 import { format, isSameDay, startOfDay, subDays } from 'date-fns';
-
-export interface DayProgress {
-  weekday: string;
-  status: HabitDayStatus;
-}
+import { DayProgress } from './types';
 
 /**
  * Возвращает прогресс за последние N дней (включая today).

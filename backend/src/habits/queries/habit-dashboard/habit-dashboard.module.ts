@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { HabitDashboardService } from './habit-dashboard.service';
+
 import { HabitDashboardController } from './habit-dashboard.controller';
+import { HabitDashboardOverviewQuery } from './habit-dashboard.service';
 
 @Module({
   controllers: [HabitDashboardController],
-  providers: [HabitDashboardService],
+  providers: [HabitDashboardOverviewQuery],
 })
 export class HabitDashboardModule {}

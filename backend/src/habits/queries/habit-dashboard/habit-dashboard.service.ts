@@ -1,66 +1,140 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { isSameDay, startOfDay } from 'date-fns';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
+import { addDays, startOfDay } from 'date-fns';
+import { ResponseUtil } from 'src/common/utils/response';
 import { PrismaService } from 'src/prisma/prisma.service';
-
+import { getLastDaysProgress } from '../calculations/getLastDaysProgress';
 import { calculateProgress } from '../calculations/getProgress';
 import { calculateDayStats } from '../calculations/getStats';
 import { calculateStreaks } from '../calculations/getStreaks';
+import { DashboardHabitItemDto } from './habit-dashboard.dto';
+
+type HabitWithRuns = Prisma.HabitGetPayload<{
+  include: {
+    runs: {
+      include: {
+        dayLogs: true;
+      };
+    };
+  };
+}>;
 
 @Injectable()
-export class HabitDashboardService {
-  constructor(private prisma: PrismaService) {}
+export class HabitDashboardOverviewQuery {
+  constructor(private readonly prisma: PrismaService) {}
 
-  async getDashboard(habitId: string) {
+  // for one habit
+  async getHabitDashboardOverview(habitId: string) {
     const habit = await this.prisma.habit.findUnique({
       where: { id: habitId },
-    });
-
-    if (!habit) {
-      throw new BadRequestException('Habit not found');
-    }
-
-    const run = await this.prisma.habitRun.findFirst({
-      where: {
-        habitId,
-        status: 'active',
-      },
       include: {
-        dayLogs: {
-          orderBy: { date: 'asc' },
+        runs: {
+          where: { status: 'active' },
+          include: {
+            dayLogs: {
+              orderBy: { date: 'asc' },
+            },
+          },
         },
       },
     });
 
-    if (!run) {
-      return {
-        habit,
-        run: null,
-      };
+    if (!habit) {
+      return new NotFoundException(`Habit with id: ${habitId} not found`);
     }
 
-    const today = startOfDay(new Date());
+    const item = this.mapHabitToDashboardItem(habit);
 
-    const stats = calculateDayStats(run.dayLogs);
-    const progress = calculateProgress(stats.completedDays, run.totalDays);
+    return ResponseUtil.success(item);
+  }
 
-    const streak = calculateStreaks(run.dayLogs, today);
+  // for all habits
+  // async getHabitsOverview() {
+  //   const habits = await this.prisma.habit.findMany({
+  //     include: {
+  //       runs: {
+  //         where: { status: 'active' },
+  //         include: {
+  //           dayLogs: {
+  //             orderBy: { date: 'asc' },
+  //           },
+  //         },
+  //       },
+  //     },
+  //   });
 
-    const todayLog = run.dayLogs.find((log) => isSameDay(log.date, today));
+  //   const items = habits.map((habit) => this.mapHabitToDashboardItem(habit));
+
+  //   return ResponseUtil.success(items);
+  // }
+
+  private mapHabitToDashboardItem(habit: HabitWithRuns): DashboardHabitItemDto {
+    const activeRun = habit.runs[0];
+
+    if (!activeRun) {
+      return this.buildEmptyItem(habit);
+    }
+
+    const { completedDays, missedDays } = calculateDayStats(activeRun.dayLogs);
+    const { remainingDays: restDays, percent: progress } = calculateProgress(
+      completedDays,
+      activeRun.totalDays,
+    );
+
+    const plannedEndDate = addDays(
+      startOfDay(activeRun.startDate),
+      activeRun.totalDays,
+    );
+
+    const lastDaysProgress = getLastDaysProgress(
+      activeRun.dayLogs,
+      14,
+      new Date(),
+    );
+
+    const { best: bestStreak, current: currentStreak } = calculateStreaks(
+      activeRun.dayLogs,
+      new Date(),
+    );
 
     return {
-      habit,
-      run: {
-        id: run.id,
-        startDate: run.startDate,
-        totalDays: run.totalDays,
+      id: habit.id,
+      title: habit.title,
+      status: habit.status,
 
-        stats,
-        progress,
-        streak,
+      completedDays,
+      missedDays,
 
-        todayStatus: todayLog?.status ?? 'unmarked',
-      },
-      logs: run.dayLogs,
+      plannedEndDate,
+      restDays,
+      progress,
+
+      lastDaysProgress,
+
+      currentStreak,
+      bestStreak,
+    };
+  }
+
+  private buildEmptyItem(
+    habit: Pick<HabitWithRuns, 'id' | 'title' | 'status'>,
+  ): DashboardHabitItemDto {
+    return {
+      id: habit.id,
+      title: habit.title,
+      status: habit.status,
+
+      completedDays: 0,
+      missedDays: 0,
+
+      plannedEndDate: new Date(),
+      restDays: 0,
+      progress: 0,
+
+      lastDaysProgress: [],
+
+      currentStreak: 0,
+      bestStreak: 0,
     };
   }
 }
