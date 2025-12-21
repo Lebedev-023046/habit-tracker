@@ -1,0 +1,19 @@
+/* Styles for CtatisticBricks */
+
+.statistics {
+  display: flex;
+  gap: 2rem;
+}
+
+.brick {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1 1 auto;
+}
+
+.progress {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
