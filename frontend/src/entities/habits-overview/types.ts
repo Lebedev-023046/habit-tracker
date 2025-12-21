@@ -1,10 +1,5 @@
 import type { HabitStatus, HabitTotalDays } from '@/entities/habit';
-import type { HabitDayStatus } from '@/shared/model/habit-day.model';
-
-export interface DayProgress {
-  weekday: string;
-  status: HabitDayStatus;
-}
+import type { DayProgress } from '@/shared/model/habit-day.model';
 
 export interface HabitsOverviewListItem {
   id: string;
