@@ -1,9 +1,5 @@
-import { HabitDayStatus, HabitStatus } from '@prisma/client';
-
-interface DayProgress {
-  weekday: string;
-  status: HabitDayStatus;
-}
+import { HabitStatus } from '@prisma/client';
+import { DayProgress } from '../calculations/types';
 
 export class HabitsOverviewListDto {
   id: string;
