@@ -1,5 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { HabitDashboardOverviewQuery } from './habit-dashboard.service';
+import { HabitDashboardOverviewQuery } from './habit-dashboard.query';
 
 @Controller('habits/:habitId/dashboard')
 export class HabitDashboardController {

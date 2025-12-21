@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 
 import { HabitDashboardController } from './habit-dashboard.controller';
-import { HabitDashboardOverviewQuery } from './habit-dashboard.service';
+import { HabitDashboardOverviewQuery } from './habit-dashboard.query';
 
 @Module({
   controllers: [HabitDashboardController],
