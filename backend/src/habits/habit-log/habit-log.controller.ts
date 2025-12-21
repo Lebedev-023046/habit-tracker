@@ -11,12 +11,13 @@ import {
 import { UpsertHabitDayLogDto } from './habit-log.dto';
 import { HabitLogService } from './habit-log.service';
 
-@Controller('habit-logs')
+@Controller('habits/:habitId/day-log')
 export class HabitLogController {
   constructor(private readonly habitLogService: HabitLogService) {}
 
   @Put()
   upsert(@Param('habitId') habitId: string, @Body() dto: UpsertHabitDayLogDto) {
+    console.log({ dto });
     return this.habitLogService.upsert(habitId, dto.status, dto.date);
   }
 

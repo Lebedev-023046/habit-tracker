@@ -3,8 +3,10 @@ export function calculateProgress(completedDays: number, totalDays: number) {
     return { percent: 0, remainingDays: 0 };
   }
 
-  const percent = Math.round((completedDays / totalDays) * 100);
-  const remainingDays = Math.max(totalDays - completedDays, 0);
+  const safeCompleted = Math.min(completedDays, totalDays);
+
+  const percent = Math.round((safeCompleted / totalDays) * 100);
+  const remainingDays = Math.max(totalDays - safeCompleted, 0);
 
   return {
     percent,
