@@ -1,12 +1,19 @@
-import type { DailyHabitItem } from '@/entities/habit';
+import type { DailyHabitItem } from '@/entities/daily-habits/types';
+import { EmptyItemsFallback } from '../../components/empty-items-fallback';
 import { HabitItem } from '../../components/habit-item';
 import styles from './HabitItems.module.css';
 
 interface HabitItemsProps {
   activeHabits: DailyHabitItem[];
   isLoading?: boolean;
+  isEmpty?: boolean;
 }
-export function HabitItems({ activeHabits, isLoading }: HabitItemsProps) {
+
+export function HabitItems({
+  activeHabits,
+  isLoading,
+  isEmpty,
+}: HabitItemsProps) {
   if (isLoading) {
     const skeletons = Array.from({ length: 3 });
 
@@ -17,6 +24,10 @@ export function HabitItems({ activeHabits, isLoading }: HabitItemsProps) {
         ))}
       </section>
     );
+  }
+
+  if (isEmpty) {
+    return <EmptyItemsFallback />;
   }
 
   return (

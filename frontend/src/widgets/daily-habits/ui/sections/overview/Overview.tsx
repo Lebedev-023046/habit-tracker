@@ -9,11 +9,21 @@ interface OverviewProps {
 }
 
 export function Overview({ totalCount, completedCount }: OverviewProps) {
-  const restCount = totalCount - completedCount;
+  const hasHabits = totalCount > 0;
+  // const isAllCompleted = hasHabits && completedCount === totalCount;
+  const remainingCount = Math.max(totalCount - completedCount, 0);
 
-  const barProgress = (completedCount / totalCount) * 100;
+  const barProgress =
+    totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
-  // TODO: create chip component
+  const message = !hasHabits
+    ? 'No habits scheduled for today'
+    : remainingCount > 0
+      ? `Keep going! ${remainingCount} habit${
+          remainingCount > 1 ? 's' : ''
+        } left for today`
+      : 'Great! You completed all your habits today!';
+
   return (
     <Container className={styles.overview}>
       <Typography variant="pageTitle">Today's habits</Typography>
@@ -28,9 +38,7 @@ export function Overview({ totalCount, completedCount }: OverviewProps) {
       <ProgressBar progress={barProgress} />
 
       <Typography variant="body" className={styles.message}>
-        {restCount > 0
-          ? `Nice start! Complete ${restCount} more to close your rings!`
-          : 'Great! You completed all your habits today!'}
+        {message}
       </Typography>
     </Container>
   );

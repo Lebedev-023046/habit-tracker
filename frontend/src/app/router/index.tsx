@@ -6,7 +6,9 @@ import { lazy, Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import AppLayout from '../layout/AppLayout';
 
-const HabitDailyPage = lazy(() => import('@/pages/habit-daily/HabitDailyPage'));
+const DailyHabitsPage = lazy(
+  () => import('@/pages/daily-habits/DailyHabitsPage'),
+);
 const HabitsOverviewPage = lazy(
   () => import('@/pages/habits-overview/HabitsOverviewPage'),
 );
@@ -27,7 +29,7 @@ export const router = createBrowserRouter([
         handle: { title: 'Today habits' },
         element: (
           <Suspense fallback={<PageFallback />}>
-            <HabitDailyPage />
+            <DailyHabitsPage />
           </Suspense>
         ),
         hydrateFallbackElement: <PageFallback />,

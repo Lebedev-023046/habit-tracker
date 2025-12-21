@@ -1,4 +1,4 @@
-import type { DailyHabitItem } from '@/entities/habit';
+import type { DailyHabitItem } from '@/entities/daily-habits/types';
 import { HabitActionsContainer } from '@/features/habit-log';
 import { usePlural } from '@/shared/hooks/usePlural';
 import { HABIT_DAY_STATUS_MAP } from '@/shared/model/habit-day.model';
@@ -68,6 +68,7 @@ export function HabitItem({ isLoading, habit }: HabitItemProps) {
         </Typography>
       </Diagram>
       <HabitActionsContainer
+        habitId={id}
         todayStatus={todayStatus}
         habitName={title}
         completePayload={completedPayload}

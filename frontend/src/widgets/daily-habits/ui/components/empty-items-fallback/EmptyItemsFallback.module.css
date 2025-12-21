@@ -1,0 +1,21 @@
+/* Styles for EmptyItemsFallback */
+
+.fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  flex: 1 1 auto;
+}
+
+.actions {
+  display: flex;
+  gap: 3rem;
+  font-size: 1.6rem;
+  justify-content: flex-end;
+}
+
+.link {
+  display: contents;
+}

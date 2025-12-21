@@ -1,3 +1,6 @@
+import { queryClient } from '@/app/providers/react-query';
+import { getDailyHabitsQueryOptions } from '@/entities/daily-habits/model/queryOptions';
+import type { DailyHabitsInfo } from '@/entities/daily-habits/types';
 import type { HabitDayLog } from '@/entities/habit';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { habitLogRepo } from '../../api/habitLogRepo';
@@ -13,13 +16,49 @@ export function useHabitLogsBase(habitId: string) {
 }
 
 export function useUpsertHabitLogBase() {
+  const dailyHabitsKey = getDailyHabitsQueryOptions().queryKey;
+
   return useMutation<
     HabitDayLog,
     Error,
     UpsertHabitLogPayload,
-    { previousLogs?: HabitDayLog[] }
+    { dailyHabitsInfo?: DailyHabitsInfo }
   >({
     mutationFn: habitLogRepo.upsertHabitLog,
+    onMutate: async vars => {
+      await queryClient.cancelQueries({
+        queryKey: dailyHabitsKey,
+      });
+
+      const dailyHabitsInfo = queryClient.getQueryData(dailyHabitsKey);
+
+      queryClient.setQueryData(dailyHabitsKey, old => {
+        if (!old) return old;
+
+        return {
+          ...old,
+          habits: old.habits.map(habit =>
+            habit.id === vars.habitId
+              ? { ...habit, todayStatus: vars.status }
+              : habit,
+          ),
+        };
+      });
+
+      return { dailyHabitsInfo };
+    },
+
+    onError: (_error, _vars, ctx) => {
+      if (ctx?.dailyHabitsInfo) {
+        queryClient.setQueryData(dailyHabitsKey, ctx.dailyHabitsInfo);
+      }
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: dailyHabitsKey,
+      });
+    },
   });
 }
 
