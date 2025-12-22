@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { addDays, startOfDay } from 'date-fns';
+import { addDays } from 'date-fns';
 import { ResponseUtil } from 'src/common/utils/response';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { getLastDaysProgress } from '../calculations/getLastDaysProgress';
@@ -81,10 +81,7 @@ export class HabitDashboardOverviewQuery {
       activeRun.totalDays,
     );
 
-    const plannedEndDate = addDays(
-      startOfDay(activeRun.startDate),
-      activeRun.totalDays,
-    );
+    const plannedEndDate = addDays(activeRun.startDate, activeRun.totalDays);
 
     const lastDaysProgress = getLastDaysProgress(
       activeRun.dayLogs,

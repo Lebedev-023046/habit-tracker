@@ -1,5 +1,5 @@
 import { HabitDayStatus } from '@prisma/client';
-import { format, isSameDay, startOfDay, subDays } from 'date-fns';
+import { format, isSameDay, subDays } from 'date-fns';
 import { DayProgress } from './types';
 
 /**
@@ -10,15 +10,13 @@ export function getLastDaysProgress(
   period: number,
   today: Date,
 ): DayProgress[] {
-  const normalizedToday = startOfDay(today);
-
   const normalizedLogs = logs.map((log) => ({
-    date: startOfDay(log.date),
+    date: log.date,
     status: log.status,
   }));
 
   return Array.from({ length: period }).map((_, index) => {
-    const day = subDays(normalizedToday, period - 1 - index);
+    const day = subDays(today, period - 1 - index);
 
     const logForDay = normalizedLogs.find((log) => isSameDay(log.date, day));
 

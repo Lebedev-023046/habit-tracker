@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { startOfDay } from 'date-fns';
 import { ResponseUtil } from 'src/common/utils/response';
+import { TimeService } from 'src/common/utils/time/time.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { getCurrentHabitDay } from '../calculations/getCurrentHabitDay';
 import { getLastDaysProgress } from '../calculations/getLastDaysProgress';
@@ -22,7 +22,10 @@ type HabitWithActiveRun = Prisma.HabitGetPayload<{
 
 @Injectable()
 export class HabitsOverviewQuery {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private time: TimeService,
+  ) {}
 
   async getHabitList() {
     const habits = await this.prisma.habit.findMany({
@@ -52,6 +55,7 @@ export class HabitsOverviewQuery {
     }
 
     const logs = activeRun.dayLogs;
+    const today = this.time.today();
 
     const { percent: progress } = calculateProgress(
       logs.length,
@@ -60,13 +64,10 @@ export class HabitsOverviewQuery {
 
     const { current: currentStreak, best: bestStreak } = calculateStreaks(
       logs,
-      startOfDay(new Date()),
+      today,
     );
 
-    const daySinceStart = getCurrentHabitDay(
-      activeRun.startDate,
-      startOfDay(new Date()),
-    );
+    const daySinceStart = getCurrentHabitDay(activeRun.startDate, today);
 
     const lastDaysProgress = getLastDaysProgress(logs, 7, new Date());
 
