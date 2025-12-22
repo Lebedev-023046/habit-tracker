@@ -18,6 +18,7 @@ enum HabitStatus {
 
 enum HabitRunStatus {
   active
+  paused
   built
   cancelled
 }
@@ -42,8 +43,8 @@ model Habit {
 }
 
 model HabitRun {
-  id        String @id @default(uuid())
-  habitId  String
+  id      String @id @default(uuid())
+  habitId String
 
   status    HabitRunStatus
   totalDays Int
@@ -59,8 +60,6 @@ model HabitRun {
 
   @@index([habitId])
   @@index([status])
-
-  @@unique([habitId, status], map: "one_active_run_per_habit")
 }
 
 model HabitDayLog {

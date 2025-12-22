@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { HabitRunService } from './habit-run.service';
+import { TimeService } from 'src/common/utils/time/time.service';
 import { HabitRunController } from './habit-run.controller';
+import { HabitRunService } from './habit-run.service';
 
 @Module({
   controllers: [HabitRunController],
-  providers: [HabitRunService],
+  providers: [HabitRunService, TimeService],
 })
 export class HabitRunModule {}

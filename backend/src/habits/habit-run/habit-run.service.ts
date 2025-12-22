@@ -1,13 +1,21 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { startOfDay } from 'date-fns';
 import { ResponseUtil } from 'src/common/utils/response';
+import { TimeService } from 'src/common/utils/time/time.service';
+
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class HabitRunService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private time: TimeService,
+  ) {}
 
   async start(habitId: string, totalDays: number) {
+    if (totalDays <= 0 || totalDays > 365) {
+      throw new BadRequestException('Invalid totalDays value');
+    }
+
     await this.getHabitOrThrow(habitId);
 
     const existingRun = await this.getActiveRun(habitId);
@@ -15,18 +23,24 @@ export class HabitRunService {
       throw new BadRequestException('Habit already started');
     }
 
-    const run = await this.prisma.habitRun.create({
-      data: {
-        habitId,
-        status: 'active',
-        totalDays,
-        startDate: startOfDay(new Date()),
-      },
-    });
+    const today = this.time.today();
 
-    await this.prisma.habit.update({
-      where: { id: habitId },
-      data: { status: 'active' },
+    const run = await this.prisma.$transaction(async (tx) => {
+      const run = await tx.habitRun.create({
+        data: {
+          habitId,
+          status: 'active',
+          totalDays,
+          startDate: today,
+        },
+      });
+
+      await tx.habit.update({
+        where: { id: habitId },
+        data: { status: 'active' },
+      });
+
+      return run;
     });
 
     return ResponseUtil.success(run);
@@ -38,12 +52,19 @@ export class HabitRunService {
       throw new BadRequestException('No active habit run to pause');
     }
 
-    await this.prisma.habit.update({
-      where: { id: habitId },
-      data: { status: 'paused' },
+    await this.prisma.$transaction(async (tx) => {
+      await tx.habitRun.update({
+        where: { id: run.id },
+        data: { status: 'paused' },
+      });
+
+      await tx.habit.update({
+        where: { id: habitId },
+        data: { status: 'paused' },
+      });
     });
 
-    return ResponseUtil.success(run);
+    return ResponseUtil.success({ ...run, status: 'paused' });
   }
 
   async resume(habitId: string) {
@@ -52,17 +73,28 @@ export class HabitRunService {
       throw new BadRequestException('Habit is not paused');
     }
 
-    const run = await this.getActiveRun(habitId);
+    const run = await this.getPausedRun(habitId);
     if (!run) {
-      throw new BadRequestException('No active habit run');
+      throw new BadRequestException('No paused habit run to resume');
     }
 
-    await this.prisma.habit.update({
-      where: { id: habitId },
-      data: { status: 'active' },
+    await this.prisma.$transaction(async (tx) => {
+      await tx.habitRun.update({
+        where: { id: run.id },
+        data: {
+          status: 'active',
+        },
+      });
+
+      await tx.habit.update({
+        where: { id: habitId },
+        data: {
+          status: 'active',
+        },
+      });
     });
 
-    return ResponseUtil.success(run);
+    return ResponseUtil.success({ ...run, status: 'active' });
   }
 
   async build(habitId: string) {
@@ -71,20 +103,30 @@ export class HabitRunService {
       throw new BadRequestException('No active habit run');
     }
 
-    await this.prisma.habitRun.update({
-      where: { id: run.id },
-      data: {
-        status: 'built',
-        builtAt: startOfDay(new Date()),
-      },
+    const today = this.time.today();
+
+    await this.prisma.$transaction(async (tx) => {
+      await tx.habitRun.update({
+        where: { id: run.id },
+        data: {
+          status: 'built',
+          builtAt: today,
+        },
+      });
+
+      await tx.habit.update({
+        where: { id: habitId },
+        data: {
+          status: 'built',
+        },
+      });
     });
 
-    await this.prisma.habit.update({
-      where: { id: habitId },
-      data: { status: 'built' },
+    return ResponseUtil.success({
+      ...run,
+      status: 'built',
+      builtAt: today,
     });
-
-    return ResponseUtil.success(run);
   }
 
   async cancel(habitId: string) {
@@ -93,48 +135,71 @@ export class HabitRunService {
       throw new BadRequestException('No active habit run');
     }
 
-    await this.prisma.habitRun.update({
-      where: { id: run.id },
-      data: {
-        status: 'cancelled',
-        cancelledAt: startOfDay(new Date()),
-      },
+    const today = this.time.today();
+
+    await this.prisma.$transaction(async (tx) => {
+      await tx.habitRun.update({
+        where: { id: run.id },
+        data: {
+          status: 'cancelled',
+          cancelledAt: today,
+        },
+      });
+
+      await tx.habit.update({
+        where: { id: habitId },
+        data: {
+          status: 'cancelled',
+        },
+      });
     });
 
-    await this.prisma.habit.update({
-      where: { id: habitId },
-      data: { status: 'cancelled' },
+    return ResponseUtil.success({
+      ...run,
+      status: 'cancelled',
+      cancelledAt: today,
     });
-
-    return ResponseUtil.success(run);
   }
 
   async reset(habitId: string, totalDays: number) {
-    await this.getHabitOrThrow(habitId);
-
-    const activeRun = await this.getActiveRun(habitId);
-    if (activeRun) {
-      await this.prisma.habitRun.update({
-        where: { id: activeRun.id },
-        data: {
-          status: 'cancelled',
-          cancelledAt: startOfDay(new Date()),
-        },
-      });
+    if (totalDays <= 0 || totalDays > 365) {
+      throw new BadRequestException('Invalid totalDays value');
     }
 
-    const newRun = await this.prisma.habitRun.create({
-      data: {
-        habitId,
-        status: 'active',
-        totalDays,
-        startDate: startOfDay(new Date()),
-      },
-    });
+    await this.getHabitOrThrow(habitId);
 
-    await this.prisma.habit.update({
-      where: { id: habitId },
-      data: { status: 'active' },
+    const today = this.time.today();
+
+    const newRun = await this.prisma.$transaction(async (tx) => {
+      const activeRun = await this.getActiveRun(habitId);
+
+      if (activeRun) {
+        await tx.habitRun.update({
+          where: { id: activeRun.id },
+          data: {
+            status: 'cancelled',
+            cancelledAt: today,
+          },
+        });
+      }
+
+      const run = await tx.habitRun.create({
+        data: {
+          habitId,
+          status: 'active',
+          totalDays,
+          startDate: today,
+        },
+      });
+
+      await tx.habit.update({
+        where: { id: habitId },
+        data: {
+          status: 'active',
+        },
+      });
+
+      return run;
     });
 
     return ResponseUtil.success(newRun);
@@ -149,6 +214,11 @@ export class HabitRunService {
   private async getActiveRun(habitId: string) {
     return this.prisma.habitRun.findFirst({
       where: { habitId, status: 'active' },
+    });
+  }
+  private async getPausedRun(habitId: string) {
+    return this.prisma.habitRun.findFirst({
+      where: { habitId, status: 'paused' },
     });
   }
 }
