@@ -8,6 +8,7 @@ import { Typography } from '@/shared/ui/typography';
 import { useState } from 'react';
 import { filterValues, groupValues } from '../model/filters';
 
+import { SectionState } from '@/shared/ui/section-state';
 import { useHabitOverviewList } from '../model/useHabitsList';
 import { HabitGroup } from './habit-group';
 import { HabitItem } from './habit-item';
@@ -22,10 +23,6 @@ export function HabitsOverview() {
   const { groupedHabits, isLoading } = useHabitOverviewList();
 
   const updateStatus = (status: string) => setActiveStatus(status);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <Container unstyled className={styles.root}>
@@ -59,28 +56,31 @@ export function HabitsOverview() {
           })}
         </div>
       </div>
-      <div className={styles.body}>
-        {valuesToDisplay.map(status => {
-          const isAllTab = activeStatus === 'all';
-          const isEmptyGroup = groupedHabits[status].length === 0;
 
-          if (isEmptyGroup) {
-            if (isAllTab) return null;
+      <div className={styles.body}>
+        <SectionState isLoading={isLoading}>
+          {valuesToDisplay.map(status => {
+            const isAllTab = activeStatus === 'all';
+            const isEmptyGroup = groupedHabits[status].length === 0;
+
+            if (isEmptyGroup) {
+              if (isAllTab) return null;
+              return (
+                <HabitGroup key={status} label={status}>
+                  <NoDataMessage status={status} />
+                </HabitGroup>
+              );
+            }
+
             return (
               <HabitGroup key={status} label={status}>
-                <NoDataMessage status={status} />
+                {groupedHabits[status].map(habit => (
+                  <HabitItem key={habit.id} item={habit} />
+                ))}
               </HabitGroup>
             );
-          }
-
-          return (
-            <HabitGroup key={status} label={status}>
-              {groupedHabits[status].map(habit => (
-                <HabitItem key={habit.id} item={habit} />
-              ))}
-            </HabitGroup>
-          );
-        })}
+          })}
+        </SectionState>
       </div>
     </Container>
   );
