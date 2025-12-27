@@ -1,4 +1,6 @@
+import { getDailyHabitsQueryOptions } from '@/entities/daily-habits/model/queryOptions';
 import { getHabitOverviewListQueryOptions } from '@/entities/habits-overview/model/queryOptions';
+import { getApiErrorMessage } from '@/shared/api/getErrorMessage';
 import { toast } from '@/shared/lib/toast';
 import { useQueryClient, type UseMutationResult } from '@tanstack/react-query';
 
@@ -15,6 +17,7 @@ export function withToastMutation<TData, TVariables, TContext = unknown>({
 }: WithToastOptions<TData, TVariables, TContext>) {
   const queryClient = useQueryClient();
   const habitOverviewQueryOptions = getHabitOverviewListQueryOptions();
+  const dailyHabitsQueryOptions = getDailyHabitsQueryOptions();
 
   return {
     ...mutation,
@@ -24,10 +27,16 @@ export function withToastMutation<TData, TVariables, TContext = unknown>({
         onSuccess: (data, vars, ctx) => {
           toast.success(successMessage);
           queryClient.invalidateQueries(habitOverviewQueryOptions);
+          queryClient.invalidateQueries(dailyHabitsQueryOptions);
           options?.onSuccess?.(data, vars, ctx);
         },
         onError: (error, vars, ctx) => {
-          toast.error(error.message || errorMessage || 'Something went wrong');
+          const apiErrorMessage = getApiErrorMessage(error);
+
+          const message =
+            apiErrorMessage ?? errorMessage ?? 'Something went wrong';
+
+          toast.error(message);
           options?.onError?.(error, vars, ctx);
         },
       });

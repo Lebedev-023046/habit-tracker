@@ -17,7 +17,6 @@ export class HabitLogController {
 
   @Put()
   upsert(@Param('habitId') habitId: string, @Body() dto: UpsertHabitDayLogDto) {
-    console.log({ dto });
     return this.habitLogService.upsert(habitId, dto.status, dto.date);
   }
 

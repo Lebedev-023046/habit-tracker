@@ -90,12 +90,19 @@ export class DailyHabitsQuery {
       activeRun.totalDays,
     );
 
+    const goalReached = completedDays >= activeRun.totalDays;
+
     const { current: currentStreak, best: bestStreak } = calculateStreaks(
       logs,
       today,
     );
 
-    const daySinceStart = getCurrentHabitDay(activeRun.startDate, today);
+    const daySinceStart = getCurrentHabitDay({
+      startDate: activeRun.startDate,
+      today,
+      totalDays: activeRun.totalDays,
+      isBuilt: habit.status === 'built',
+    });
 
     const lastDaysProgress = getLastDaysProgress(logs, 7, today);
 
@@ -104,11 +111,12 @@ export class DailyHabitsQuery {
       title: habit.title,
 
       todayStatus: todayLog?.status ?? HabitDayStatus.unmarked,
-      canUndo: Boolean(todayLog),
 
       daySinceStart,
       totalDays: activeRun.totalDays,
       progress,
+
+      goalReached,
 
       currentStreak,
       bestStreak,

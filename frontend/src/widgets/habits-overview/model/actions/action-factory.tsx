@@ -1,4 +1,4 @@
-import { BuildHabitButton } from '@/features/habit/change-status/ui/BuildHabitButton';
+import { BuildHabitButton } from '@/features/habit/change-status/ui/build/modal-trigger/ModalTrigger';
 
 import { CancelHabitModalTrigger } from '@/features/habit/change-status/ui/cancel/modal-trigger';
 import { PauseHabitButton } from '@/features/habit/change-status/ui/PauseHabitButton';
@@ -67,6 +67,7 @@ export const habitRunActionFactory: Record<HabitAction, HabitActionRenderer> = {
     return (
       <BuildHabitButton
         habitId={habit.id}
+        habitTitle={habit.title}
         onClick={closeMenu}
         variant="plain"
       />

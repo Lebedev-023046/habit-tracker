@@ -8,7 +8,6 @@ export class DailyHabitsController {
   @Get()
   async getList() {
     const data = await this.habitOverviewQuery.getDailyHabits();
-    console.log({ data });
     return data;
   }
 }

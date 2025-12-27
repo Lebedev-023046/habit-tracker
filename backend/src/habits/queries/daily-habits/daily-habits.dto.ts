@@ -5,11 +5,11 @@ export class DailyHabitItemDTO {
   id: string;
   title: string;
 
-  canUndo: boolean;
-
   daySinceStart: number;
   progress: number;
   totalDays: number;
+
+  goalReached: boolean;
 
   currentStreak: number;
   bestStreak: number;

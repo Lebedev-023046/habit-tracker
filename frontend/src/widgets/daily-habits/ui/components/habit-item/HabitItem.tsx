@@ -69,6 +69,7 @@ export function HabitItem({ isLoading, habit }: HabitItemProps) {
       </Diagram>
       <HabitActionsContainer
         habitId={id}
+        goalReached={habit.goalReached}
         todayStatus={todayStatus}
         habitName={title}
         completePayload={completedPayload}

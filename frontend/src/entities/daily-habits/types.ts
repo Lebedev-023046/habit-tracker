@@ -13,6 +13,8 @@ export interface DailyHabitItem {
   progress: number;
   totalDays: number;
 
+  goalReached: boolean;
+
   currentStreak: number;
   bestStreak: number;
   todayStatus: HabitDayStatus;

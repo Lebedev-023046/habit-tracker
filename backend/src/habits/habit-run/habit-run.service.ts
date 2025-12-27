@@ -103,6 +103,17 @@ export class HabitRunService {
       throw new BadRequestException('No active habit run');
     }
 
+    const completedDays = await this.prisma.habitDayLog.count({
+      where: {
+        habitRunId: run.id,
+        status: 'completed',
+      },
+    });
+
+    if (completedDays < run.totalDays) {
+      throw new BadRequestException('Goal is not reached yet');
+    }
+
     const today = this.time.today();
 
     await this.prisma.$transaction(async (tx) => {

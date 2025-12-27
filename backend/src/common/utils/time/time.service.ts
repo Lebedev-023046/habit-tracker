@@ -7,7 +7,7 @@ import { fromZonedTime } from 'date-fns-tz';
 @Injectable()
 export class TimeService {
   // ПОКА: без пользователей
-  private readonly timezone = 'UTC+3';
+  private readonly timezone = 'UTC';
 
   today(date = new Date()): Date {
     return fromZonedTime(startOfDay(date), this.timezone);
