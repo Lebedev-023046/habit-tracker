@@ -1,10 +1,10 @@
 import { ConfirmModal } from '@/shared/modal/confirm-modal';
+import type { ModalBaseProps } from '@/shared/modal/types';
 import { useDeleteHabit } from '../../model/useDeleteHabit';
 
-interface DeleteHabitModalProps {
+interface DeleteHabitModalProps extends ModalBaseProps {
   habitId: string;
   habitTitle: string;
-  close: () => void;
 }
 
 export function DeleteHabitModal({

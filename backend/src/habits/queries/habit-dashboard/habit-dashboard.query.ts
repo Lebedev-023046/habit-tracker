@@ -116,6 +116,8 @@ export class HabitDashboardOverviewQuery {
   private buildEmptyItem(
     habit: Pick<HabitWithRuns, 'id' | 'title' | 'status'>,
   ): DashboardHabitItemDto {
+    const lastDaysProgress = getLastDaysProgress([], 14, new Date());
+
     return {
       id: habit.id,
       title: habit.title,
@@ -128,7 +130,7 @@ export class HabitDashboardOverviewQuery {
       restDays: 0,
       progress: 0,
 
-      lastDaysProgress: [],
+      lastDaysProgress,
 
       currentStreak: 0,
       bestStreak: 0,

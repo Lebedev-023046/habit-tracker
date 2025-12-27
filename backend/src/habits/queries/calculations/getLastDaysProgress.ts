@@ -10,15 +10,23 @@ export function getLastDaysProgress(
   period: number,
   today: Date,
 ): DayProgress[] {
-  const normalizedLogs = logs.map((log) => ({
-    date: log.date,
-    status: log.status,
-  }));
+  console.log({ logs });
+
+  if (logs.length === 0) {
+    return Array.from({ length: period }).map((_, index) => {
+      const day = subDays(today, period - 1 - index);
+
+      return {
+        weekday: format(day, 'EEE'),
+        status: HabitDayStatus.unmarked,
+      };
+    });
+  }
 
   return Array.from({ length: period }).map((_, index) => {
     const day = subDays(today, period - 1 - index);
 
-    const logForDay = normalizedLogs.find((log) => isSameDay(log.date, day));
+    const logForDay = logs.find((log) => isSameDay(log.date, day));
 
     return {
       weekday: format(day, 'EEE'),

@@ -67,7 +67,12 @@ export class HabitsOverviewQuery {
       today,
     );
 
-    const daySinceStart = getCurrentHabitDay(activeRun.startDate, today);
+    const daySinceStart = getCurrentHabitDay({
+      startDate: activeRun.startDate,
+      today,
+      totalDays: activeRun.totalDays,
+      isBuilt: habit.status === 'built',
+    });
 
     const lastDaysProgress = getLastDaysProgress(logs, 7, new Date());
 

@@ -66,7 +66,7 @@
 }
 
 .outlined {
-  border: 1px solid currentcolor;
+  border: 1px solid var(--text-color-secondary);
 }
 
 .plain {
