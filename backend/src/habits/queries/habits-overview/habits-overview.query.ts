@@ -31,6 +31,8 @@ export class HabitsOverviewQuery {
     const habits = await this.prisma.habit.findMany({
       include: {
         runs: {
+          orderBy: { startDate: 'desc' },
+          take: 1,
           include: {
             dayLogs: {
               orderBy: { date: 'asc' },
@@ -48,19 +50,17 @@ export class HabitsOverviewQuery {
   }
 
   private mapHabitToListItem(habit: HabitWithActiveRun): HabitsOverviewListDto {
-    const activeRun = habit.runs[0];
+    // get relevant run
+    const run = habit.runs[0];
 
-    if (!activeRun) {
+    if (!run) {
       return this.buildEmptyItem(habit);
     }
 
-    const logs = activeRun.dayLogs;
+    const logs = run.dayLogs;
     const today = this.time.today();
 
-    const { percent: progress } = calculateProgress(
-      logs.length,
-      activeRun.totalDays,
-    );
+    const { percent: progress } = calculateProgress(logs.length, run.totalDays);
 
     const { current: currentStreak, best: bestStreak } = calculateStreaks(
       logs,
@@ -68,19 +68,23 @@ export class HabitsOverviewQuery {
     );
 
     const daySinceStart = getCurrentHabitDay({
-      startDate: activeRun.startDate,
+      startDate: run.startDate,
       today,
-      totalDays: activeRun.totalDays,
+      totalDays: run.totalDays,
       isBuilt: habit.status === 'built',
     });
 
-    const lastDaysProgress = getLastDaysProgress(logs, 7, new Date());
+    const lastDaysProgress = getLastDaysProgress({
+      logs,
+      period: 7,
+      anchorDate: run.builtAt ?? new Date(),
+    });
 
     return {
       id: habit.id,
       title: habit.title,
       status: habit.status,
-      totalDays: activeRun.totalDays,
+      totalDays: run.totalDays,
       daySinceStart,
       progress,
       currentStreak,

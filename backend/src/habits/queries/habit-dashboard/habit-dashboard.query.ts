@@ -29,7 +29,8 @@ export class HabitDashboardOverviewQuery {
       where: { id: habitId },
       include: {
         runs: {
-          where: { status: 'active' },
+          orderBy: { startDate: 'desc' },
+          take: 1,
           include: {
             dayLogs: {
               orderBy: { date: 'asc' },
@@ -69,28 +70,31 @@ export class HabitDashboardOverviewQuery {
   // }
 
   private mapHabitToDashboardItem(habit: HabitWithRuns): DashboardHabitItemDto {
-    const activeRun = habit.runs[0];
+    // get relevant run
+    const run = habit.runs[0];
 
-    if (!activeRun) {
+    if (!run) {
       return this.buildEmptyItem(habit);
     }
 
-    const { completedDays, missedDays } = calculateDayStats(activeRun.dayLogs);
+    const logs = run.dayLogs;
+
+    const { completedDays, missedDays } = calculateDayStats(logs);
     const { remainingDays: restDays, percent: progress } = calculateProgress(
       completedDays,
-      activeRun.totalDays,
+      run.totalDays,
     );
 
-    const plannedEndDate = addDays(activeRun.startDate, activeRun.totalDays);
+    const plannedEndDate = addDays(run.startDate, run.totalDays);
 
-    const lastDaysProgress = getLastDaysProgress(
-      activeRun.dayLogs,
-      14,
-      new Date(),
-    );
+    const lastDaysProgress = getLastDaysProgress({
+      logs,
+      period: 14,
+      anchorDate: run.builtAt ?? new Date(),
+    });
 
     const { best: bestStreak, current: currentStreak } = calculateStreaks(
-      activeRun.dayLogs,
+      run.dayLogs,
       new Date(),
     );
 
@@ -116,7 +120,11 @@ export class HabitDashboardOverviewQuery {
   private buildEmptyItem(
     habit: Pick<HabitWithRuns, 'id' | 'title' | 'status'>,
   ): DashboardHabitItemDto {
-    const lastDaysProgress = getLastDaysProgress([], 14, new Date());
+    const lastDaysProgress = getLastDaysProgress({
+      logs: [],
+      period: 14,
+      anchorDate: new Date(),
+    });
 
     return {
       id: habit.id,

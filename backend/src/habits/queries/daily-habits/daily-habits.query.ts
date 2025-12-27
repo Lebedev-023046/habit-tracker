@@ -104,7 +104,11 @@ export class DailyHabitsQuery {
       isBuilt: habit.status === 'built',
     });
 
-    const lastDaysProgress = getLastDaysProgress(logs, 7, today);
+    const lastDaysProgress = getLastDaysProgress({
+      logs,
+      period: 7,
+      anchorDate: new Date(),
+    });
 
     return {
       id: habit.id,
