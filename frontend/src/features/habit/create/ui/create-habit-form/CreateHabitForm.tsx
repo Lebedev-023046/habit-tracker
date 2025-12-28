@@ -24,7 +24,7 @@ export function CreateHabitForm({
     resolver: zodResolver(createHabitSchema),
     defaultValues: {
       title: '',
-      startImmediately: false,
+      startImmediately: true,
       totalDays: 30,
     },
     mode: 'onSubmit',
