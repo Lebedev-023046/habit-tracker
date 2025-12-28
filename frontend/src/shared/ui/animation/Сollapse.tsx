@@ -15,7 +15,7 @@ export function Collapse(props: CollapseProps) {
   }
 
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={props.isOpen ? <div>{props.children}</div> : null}>
       <MotionCollapse {...props} />
     </Suspense>
   );
