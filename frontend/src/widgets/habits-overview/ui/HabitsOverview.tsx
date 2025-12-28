@@ -24,15 +24,16 @@ export function HabitsOverview() {
 
   const updateStatus = (status: string) => setActiveStatus(status);
 
-  const isEmptyValuesToDisplay = valuesToDisplay.every(
-    status => groupedHabits[status as HabitStatus].length === 0,
-  );
+  const isEmptyValuesToDisplay =
+    valuesToDisplay.every(
+      status => groupedHabits[status as HabitStatus].length === 0,
+    ) && activeStatus === 'all';
 
   return (
     <Container unstyled className={styles.root}>
       <div className={styles.header}>
         <div className={styles.headerContent}>
-          <div>
+          <div className={styles.headerText}>
             <Typography variant="pageTitle">My Habits</Typography>
             <Typography variant="subtitleMuted">
               Manage and track all the routines you're building

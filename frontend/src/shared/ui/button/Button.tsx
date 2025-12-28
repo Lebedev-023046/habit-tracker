@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import styles from './Button.module.css';
 import {
+  alignClassMap,
   animationClassMap,
   textToneClassMap,
   variantClassMap,
@@ -11,6 +12,7 @@ import { resolveVariantStateClass } from './utils';
 function BaseButton({
   children,
   active = false,
+  align = 'left',
   variant = 'primary',
   animation = 'light-sweep',
   textTone = 'default',
@@ -22,6 +24,7 @@ function BaseButton({
   const variantClass = variantClassMap[variant];
   const textToneClass = textToneClassMap[textTone];
   const animationClass = animationClassMap[animation];
+  const alignClass = alignClassMap[align];
 
   const stateClass = resolveVariantStateClass({
     variant: variant as StatefulVariant,
@@ -35,6 +38,7 @@ function BaseButton({
         variantClass,
         textToneClass,
         animationClass,
+        alignClass,
         stateClass,
         className,
       ]

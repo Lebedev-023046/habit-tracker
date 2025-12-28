@@ -32,3 +32,9 @@ export const animationClassMap = {
   'light-sweep': styles.lightSweep,
   none: '',
 };
+
+export const alignClassMap = {
+  left: styles.left,
+  center: styles.center,
+  right: styles.right,
+};

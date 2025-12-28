@@ -30,6 +30,8 @@
 .button {
   display: flex;
   align-items: center;
+  justify-content: center;
+  white-space: nowrap;
   gap: 0.5rem;
   padding: 1rem 2rem;
   border-radius: var(--border-radius, var(--rounded-md));
@@ -141,4 +143,16 @@
 
 .textNeutral {
   color: var(--text-color-secondary);
+}
+
+.left {
+  justify-content: flex-start;
+}
+
+.center {
+  justify-content: center;
+}
+
+.right {
+  justify-content: flex-end;
 }

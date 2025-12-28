@@ -62,7 +62,11 @@ export function HabitItem({ item }: HabitItemProps) {
           <Typography variant="subtitleMuted">
             Current streak: {pluralize(item.currentStreak)}
           </Typography>
-          <TbPointFilled size={15} color="var(--text-color-secondary)" />
+          <TbPointFilled
+            size={15}
+            color="var(--text-color-secondary)"
+            className={styles.dot}
+          />
           <Typography variant="subtitleMuted">
             {item.bestStreak === item.currentStreak
               ? "It's your longest streak!"

@@ -30,7 +30,12 @@ export function CreateHabitModalTrigger({
 
   return (
     <>
-      <Button variant={variant} onClick={handleClick} className={className}>
+      <Button
+        variant={variant}
+        onClick={handleClick}
+        className={className}
+        align="center"
+      >
         <GoPlus size="2.5rem" />
         {label}
       </Button>
