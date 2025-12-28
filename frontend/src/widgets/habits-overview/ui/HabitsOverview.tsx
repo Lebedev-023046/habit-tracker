@@ -24,6 +24,10 @@ export function HabitsOverview() {
 
   const updateStatus = (status: string) => setActiveStatus(status);
 
+  const isEmptyValuesToDisplay = valuesToDisplay.every(
+    status => groupedHabits[status as HabitStatus].length === 0,
+  );
+
   return (
     <Container unstyled className={styles.root}>
       <div className={styles.header}>
@@ -59,6 +63,7 @@ export function HabitsOverview() {
 
       <div className={styles.body}>
         <SectionState isLoading={isLoading}>
+          {isEmptyValuesToDisplay && <NoDataMessage status="all" />}
           {valuesToDisplay.map(status => {
             const isAllTab = activeStatus === 'all';
             const isEmptyGroup = groupedHabits[status].length === 0;
