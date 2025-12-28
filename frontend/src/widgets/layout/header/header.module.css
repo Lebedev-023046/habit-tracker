@@ -28,9 +28,7 @@
 }
 
 .titleContainer {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  display: none;
 }
 
 .controls {
@@ -38,4 +36,13 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+@media (width >= 768px) {
+  .titleContainer {
+    display: block;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }

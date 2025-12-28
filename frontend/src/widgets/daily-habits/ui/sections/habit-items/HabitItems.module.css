@@ -1,8 +1,18 @@
 /* Styles for HabitItems */
 
 .habitCards {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   gap: 2.5rem;
-  margin-top: 2.5rem 0;
+  margin-top: 2.5rem 0; */
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+@media (width >= 768px) {
+  .habitCards {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

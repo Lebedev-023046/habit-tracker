@@ -7,8 +7,7 @@
 }
 
 .progressDiagram {
-  margin-left: 3rem;
-  margin-bottom: 1.5rem;
+  margin: 0 auto 1rem;
 }
 
 .percentage {
@@ -31,4 +30,10 @@
 .activityHeader {
   display: flex;
   justify-content: space-between;
+}
+
+@media (width >= 768px) {
+  .activityHeader {
+    display: none;
+  }
 }
