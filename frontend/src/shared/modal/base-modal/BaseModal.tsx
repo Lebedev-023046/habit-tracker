@@ -2,8 +2,16 @@ import { Container } from '@/shared/ui/container';
 import styles from './BaseModal.module.css';
 
 // src/shared/modal/BaseModal.tsx
-import { useEffect, type ReactNode } from 'react';
+import { useEsc } from '@/shared/hooks/useEsc';
+import { motion } from 'motion/react';
+import { type ReactNode } from 'react';
 import ReactDOM from 'react-dom';
+import {
+  backdropVariants,
+  modalTransition,
+  modalVariants,
+} from '../animations/modal.animations';
+import { modalBackdropTransition } from '../animations/modal.transitions';
 
 interface BaseModalProps {
   children: ReactNode;
@@ -12,38 +20,35 @@ interface BaseModalProps {
 
 export const BaseModal = ({ children, onClose }: BaseModalProps) => {
   const modalRoot = document.getElementById('modal-root');
-
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    document.addEventListener('keydown', onKeyDown);
-
-    return () => {
-      document.removeEventListener('keydown', onKeyDown);
-    };
-  }, [onClose]);
+  useEsc({ callback: onClose });
 
   if (!modalRoot) return null;
 
   return ReactDOM.createPortal(
-    <div
-      aria-modal="true"
-      role="dialog"
+    <motion.div
       className={styles.backdrop}
+      role="dialog"
+      aria-modal="true"
       onClick={onClose}
+      variants={backdropVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      transition={modalBackdropTransition}
     >
-      <Container
-        as="div"
-        className={styles.modal}
+      <motion.div
+        variants={modalVariants}
+        transition={modalTransition}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
         onClick={e => e.stopPropagation()}
       >
-        {children}
-      </Container>
-    </div>,
+        <Container as="div" className={styles.modal}>
+          {children}
+        </Container>
+      </motion.div>
+    </motion.div>,
 
     modalRoot,
   );
