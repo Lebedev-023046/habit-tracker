@@ -39,6 +39,7 @@ export function InputField<TFieldValues extends FieldValues>({
 
   return (
     <BaseTextInput
+      autoFocus
       {...field}
       type={type}
       label={label}

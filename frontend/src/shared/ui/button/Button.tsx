@@ -40,7 +40,6 @@ function BaseButton({
       ]
         .filter(Boolean)
         .join(' ')}
-      {...rest}
       style={
         {
           '--border-radius': borderRadius,
