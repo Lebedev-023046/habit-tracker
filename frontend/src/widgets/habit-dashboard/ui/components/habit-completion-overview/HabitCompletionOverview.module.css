@@ -3,18 +3,21 @@
 .overview {
   display: flex;
   flex-direction: column;
+  text-align: center;
   gap: 2rem;
   flex: 1 0 auto;
   font-size: 2rem;
-  max-width: 55%;
+  max-width: 100%;
   width: 100%;
 }
 
 .content {
   display: flex;
+  flex-direction: column-reverse;
   align-items: center;
+  justify-content: center;
   height: 100%;
-  gap: 4%;
+  gap: 2rem;
 }
 
 .percentage {
@@ -52,4 +55,18 @@
 
 .neutral {
   background-color: var(--neutral);
+}
+
+@media (width >= 480px) {
+  .content {
+    justify-content: center;
+    flex-direction: row;
+  }
+}
+
+@media (width >= 768px) {
+  .overview {
+    max-width: 50%;
+    text-align: left;
+  }
 }

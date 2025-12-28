@@ -1,7 +1,9 @@
 /* Styles for CtatisticBricks */
 
 .statistics {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
   gap: 2rem;
 }
 
@@ -9,11 +11,32 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  flex: 1 1 auto;
+
+  /* flex: 1 1 auto; */
 }
 
 .progress {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+@media (width >= 480px) {
+  .statistics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .statistics > :last-child:nth-child(odd) {
+    grid-column: span 2;
+  }
+}
+
+@media (width >= 768px) {
+  .statistics {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .statistics > :last-child:nth-child(odd) {
+    grid-column: unset;
+  }
 }
