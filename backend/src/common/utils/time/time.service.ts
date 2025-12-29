@@ -2,7 +2,7 @@
 
 import { Injectable } from '@nestjs/common';
 import { startOfDay } from 'date-fns';
-import { fromZonedTime } from 'date-fns-tz';
+import { toZonedTime } from 'date-fns-tz';
 
 @Injectable()
 export class TimeService {
@@ -10,6 +10,7 @@ export class TimeService {
   private readonly timezone = 'UTC';
 
   today(date = new Date()): Date {
-    return fromZonedTime(startOfDay(date), this.timezone);
+    const utcDate = toZonedTime(date, this.timezone);
+    return startOfDay(utcDate);
   }
 }

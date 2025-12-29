@@ -6,6 +6,11 @@ import { HabitDayStatus, Prisma } from '@prisma/client';
 import { addDays } from 'date-fns';
 import { TimeService } from 'src/common/utils/time/time.service';
 
+//?? NOTE:
+// Currently system works in single timezone (UTC).
+// User-specific timezones will be handled later
+// via business logic, not cron scheduling.
+
 @Injectable()
 export class HabitsCronService {
   private readonly logger = new Logger(HabitsCronService.name);
@@ -15,7 +20,9 @@ export class HabitsCronService {
     private readonly time: TimeService,
   ) {}
 
-  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT, {
+    timeZone: 'UTC',
+  })
   async backfillActiveRuns() {
     this.logger.log('Starting daily habit backfill');
 
