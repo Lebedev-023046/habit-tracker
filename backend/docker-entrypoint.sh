@@ -1,16 +1,6 @@
 #!/bin/sh
-set -e
-
-echo "⏳ Waiting for database..."
-
-until npx prisma db pull >/dev/null 2>&1; do
-  sleep 2
-done
-
-echo "✅ Database is ready"
-
-echo "🚀 Running Prisma migrations..."
-npx prisma migrate deploy
+echo "🚀 Running Prisma migrations (non-blocking)..."
+npx prisma migrate deploy || echo "⚠️ Migrations failed, continuing..."
 
 echo "🔥 Starting backend..."
 exec node dist/src/main.js

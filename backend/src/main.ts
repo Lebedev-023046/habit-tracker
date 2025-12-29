@@ -22,7 +22,7 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
-  await app.listen(PORT);
+  await app.listen(PORT, '0.0.0.0');
 
   console.log(`✅ SERVER STARTED ON PORT: ${PORT}`);
 
