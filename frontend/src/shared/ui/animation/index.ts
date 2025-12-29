@@ -1,1 +1,1 @@
-export { Collapse } from './сollapse';
+export { Collapse } from './Сollapse';
