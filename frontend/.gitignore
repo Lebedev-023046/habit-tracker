@@ -16,8 +16,6 @@ dist-ssr
 .env*
 !.env.example
 
-Dockerfile.prod
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

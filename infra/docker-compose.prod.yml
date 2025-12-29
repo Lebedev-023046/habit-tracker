@@ -1,0 +1,48 @@
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: habit_postgres_prod
+    restart: unless-stopped
+    env_file:
+      - ../backend/.env.prod
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - habit-net
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile.prod
+    container_name: habit_backend_prod
+    restart: unless-stopped
+    env_file:
+      - ../backend/.env.prod
+    depends_on:
+      - postgres
+    expose:
+      - "3000"
+    networks:
+      - habit-net
+
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile.prod
+    container_name: habit_frontend_prod
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - habit-net
+
+
+networks:
+  habit-net:
+
+volumes:
+  postgres_data:
