@@ -10,6 +10,11 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - habit-net
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "habit_admin", "-d", "habit_db"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
   backend:
     build:
@@ -25,6 +30,12 @@ services:
       - "3000"
     networks:
       - habit-net
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
 
 
   frontend:

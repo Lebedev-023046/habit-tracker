@@ -1,0 +1,25 @@
+{
+	"name": "habit-tracker",
+	"private": true,
+	"scripts": {
+		"dev": "docker compose -f docker-compose.dev.yml up",
+		"dev:build": "docker compose -f docker-compose.dev.yml up --build",
+		"dev:down": "docker compose -f docker-compose.dev.yml down",
+		"dev:clean": "docker compose -f docker-compose.dev.yml down --remove-orphans",
+		"prod": "docker compose -f docker-compose.prod.yml up",
+		"prod:build": "docker compose -f docker-compose.prod.yml up --build",
+		"prod:down": "docker compose -f docker-compose.prod.yml down",
+		"prod:clean": "docker compose -f docker-compose.prod.yml down --remove-orphans",
+		"docker:ps": "docker ps",
+		"docker:logs:backend": "docker logs -f habit_backend_prod",
+		"docker:logs:frontend": "docker logs -f habit_frontend_prod",
+		"docker:logs:db": "docker logs -f habit_postgres_prod",
+		"docker:exec:backend": "docker exec -it habit_backend_prod sh",
+		"docker:exec:db": "docker exec -it habit_postgres_prod psql -U habit_admin -d habit_db",
+		"docker:prune": "docker system prune -f",
+		"prisma:dev": "docker exec -it habit_backend npx prisma migrate dev",
+		"prisma:deploy": "docker exec -it habit_backend_prod npx prisma migrate deploy",
+		"health:backend": "curl -f http://localhost/api/health",
+		"health:prod": "curl -f http://localhost/api/health"
+	}
+}
