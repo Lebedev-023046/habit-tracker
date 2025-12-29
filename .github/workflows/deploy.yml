@@ -21,6 +21,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no \
           ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} << 'EOF'
+            set -e
             cd /opt/habit-tracker/infra
             git pull origin main
             docker compose -f docker-compose.prod.yml build
