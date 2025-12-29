@@ -3,7 +3,7 @@ import type { IconType } from 'react-icons';
 import { PiStarFour } from 'react-icons/pi';
 import { TfiList } from 'react-icons/tfi';
 import { NavLink } from 'react-router-dom';
-import styles from './Footer.module.css';
+import styles from './footer.module.css';
 
 const navItems = [
   { to: ROUTES.home, label: 'Daily', Icon: PiStarFour },

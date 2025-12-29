@@ -4,7 +4,7 @@ import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { GiProgression } from 'react-icons/gi';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import styles from './Header.module.css';
+import styles from './header.module.css';
 
 export function Header() {
   const title = usePageTitle();
