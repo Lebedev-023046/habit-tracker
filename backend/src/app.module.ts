@@ -13,9 +13,11 @@ import { HabitModule } from './habits/habit/habit.module';
 import { DailyHabitsModule } from './habits/queries/daily-habits/daily-habits.module';
 import { HabitDashboardModule } from './habits/queries/habit-dashboard/habit-dashboard.module';
 import { HabitOverviewModule } from './habits/queries/habits-overview/habits-overview.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
+    HealthModule,
     ScheduleModule.forRoot(),
 
     PrismaModule,

@@ -7,6 +7,8 @@ const PORT = process.env.PORT ?? 3000;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableShutdownHooks();
+
   const server = app.getHttpAdapter().getInstance();
   server.set('trust proxy', 1);
 
@@ -23,5 +25,11 @@ async function bootstrap() {
   await app.listen(PORT);
 
   console.log(`✅ SERVER STARTED ON PORT: ${PORT}`);
+
+  process.on('SIGTERM', async () => {
+    console.log('🛑 SIGTERM received');
+    await app.close();
+    process.exit(0);
+  });
 }
 bootstrap();
