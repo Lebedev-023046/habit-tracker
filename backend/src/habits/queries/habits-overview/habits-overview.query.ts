@@ -29,6 +29,7 @@ export class HabitsOverviewQuery {
 
   async getHabitList() {
     const habits = await this.prisma.habit.findMany({
+      orderBy: [{ updatedAt: 'desc' }],
       include: {
         runs: {
           orderBy: { startDate: 'desc' },
