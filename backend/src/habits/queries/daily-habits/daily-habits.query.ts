@@ -29,11 +29,12 @@ export class DailyHabitsQuery {
     private time: TimeService,
   ) {}
 
-  async getDailyHabits() {
-    const today = this.time.today();
+  async getDailyHabits(userId: string, timezone: string) {
+    const today = this.time.today(timezone);
 
     const habits = await this.prisma.habit.findMany({
       where: {
+        userId,
         status: 'active',
         runs: {
           some: { status: 'active' },

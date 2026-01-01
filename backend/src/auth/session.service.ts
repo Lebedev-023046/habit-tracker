@@ -16,6 +16,7 @@ export class SessionService {
       sub: user.id,
       email: user.email,
       role: user.role,
+      timezone: user.timezone,
     };
 
     const [accessToken, refreshToken] = await Promise.all([
