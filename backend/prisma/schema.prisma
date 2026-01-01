@@ -119,6 +119,8 @@ model HabitRun {
   habit   Habit         @relation(fields: [habitId], references: [id], onDelete: Cascade)
   dayLogs HabitDayLog[]
 
+  lastProcessedDay DateTime? // for cron job optimization
+
   @@index([habitId])
   @@index([status])
 }
