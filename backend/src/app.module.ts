@@ -10,10 +10,12 @@ import { HabitLogModule } from './habits/habit-log/habit-log.module';
 import { HabitRunModule } from './habits/habit-run/habit-run.module';
 import { HabitModule } from './habits/habit/habit.module';
 
+import { AuthModule } from './auth/auth.module';
 import { DailyHabitsModule } from './habits/queries/daily-habits/daily-habits.module';
 import { HabitDashboardModule } from './habits/queries/habit-dashboard/habit-dashboard.module';
 import { HabitOverviewModule } from './habits/queries/habits-overview/habits-overview.module';
 import { HealthModule } from './health/health.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -22,7 +24,12 @@ import { HealthModule } from './health/health.module';
 
     PrismaModule,
 
+    // auth
+    AuthModule,
+    UserModule,
+
     // COMMAND side
+
     HabitModule,
     HabitLogModule,
     HabitRunModule,
