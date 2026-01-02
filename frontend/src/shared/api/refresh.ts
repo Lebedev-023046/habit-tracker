@@ -1,9 +1,11 @@
-// shared/api/refresh.ts
-import { api } from './instance';
-import { tokenStore } from './token.store';
+import { refreshClient } from './refresh.client';
 
 export async function refreshAccessToken(): Promise<string> {
-  const { data } = await api.post('/auth/refresh');
-  tokenStore.set(data.accessToken);
+  const { data } = await refreshClient.post('/auth/refresh');
+
+  if (!data?.accessToken) {
+    throw new Error('Refresh failed');
+  }
+
   return data.accessToken;
 }

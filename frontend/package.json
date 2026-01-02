@@ -27,7 +27,8 @@
     "react-router-dom": "^7.9.6",
     "react-select": "^5.10.2",
     "sonner": "^2.0.7",
-    "zod": "^4.1.13"
+    "zod": "^4.1.13",
+    "zustand": "^5.0.9"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",

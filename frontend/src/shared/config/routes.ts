@@ -1,4 +1,8 @@
 export const ROUTES = {
+  auth: {
+    login: () => '/auth/login',
+    register: () => '/auth/register',
+  },
   home: () => '/',
   habitsOverview: () => '/habits-overview',
   habitBoard: () => '/habits/board',

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { authEvents } from '../auth/auth-events';
 import { refreshAccessToken } from './refresh';
 import { tokenStore } from './token.store';
 
@@ -51,7 +52,11 @@ api.interceptors.response.use(
     isRefreshing = true;
 
     try {
+      console.log('try');
       const token = await refreshAccessToken();
+
+      console.log({ token });
+
       tokenStore.set(token);
 
       queue.forEach(cb => cb(token));
@@ -59,6 +64,11 @@ api.interceptors.response.use(
 
       original.headers.Authorization = `Bearer ${token}`;
       return api(original);
+    } catch {
+      console.log('CATCH interceptors');
+      tokenStore.clear();
+      authEvents.emitUnauthorized();
+      throw error;
     } finally {
       isRefreshing = false;
     }

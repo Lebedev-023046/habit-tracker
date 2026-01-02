@@ -3,10 +3,5 @@ import type { ApiErrorResponse, ApiResponse } from './types';
 
 export function getApiErrorMessage(error: unknown): string | null {
   const axiosError = error as AxiosError<ApiResponse<ApiErrorResponse>>;
-
-  return (
-    axiosError?.response?.data?.error?.message ??
-    (error as Error)?.message ??
-    null
-  );
+  return axiosError?.response?.data?.error ?? (error as Error)?.message ?? null;
 }
