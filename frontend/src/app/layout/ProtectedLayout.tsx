@@ -1,4 +1,4 @@
-import { useAuthStore } from '@/features/auth/model/auth.store';
+import { useAuthStore } from '@/features/auth/session/model/auth.store';
 import { PageLoader } from '@/shared/ui/page-loader';
 import { Navigate, Outlet } from 'react-router-dom';
 

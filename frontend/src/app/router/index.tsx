@@ -17,7 +17,9 @@ const HabitsOverviewPage = lazy(
 const HabitDashboardPage = lazy(
   () => import('@/pages/habit-dashboard/HabitDashboardPage'),
 );
-const LoginPage = lazy(() => import('@/pages/auth/LoginPage'));
+const LoginPage = lazy(() => import('@/pages/auth/login/LoginPage'));
+const RegisterPage = lazy(() => import('@/pages/auth/register/RegisterPage'));
+
 const NotFound = lazy(() => import('@/pages/not-found/NotFound'));
 
 const PageFallback = () => <PageLoader />;
@@ -79,6 +81,14 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<PageFallback />}>
             <LoginPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: ROUTES.auth.register(),
+        element: (
+          <Suspense fallback={<PageFallback />}>
+            <RegisterPage />
           </Suspense>
         ),
       },

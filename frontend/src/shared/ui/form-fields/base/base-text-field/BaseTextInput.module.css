@@ -11,15 +11,27 @@
   text-transform: capitalize;
 }
 
-.input {
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   padding: 1rem;
-  outline: none;
-  border: none;
   box-shadow: var(--shadow-common);
   border-radius: var(--rounded-sm);
-  font-size: 1.6rem;
+}
 
-  /* transition: outline 0.2s ease-in-out; */
+.input {
+  flex: 1 1 auto;
+  padding: 0;
+  outline: none;
+  border: none;
+  font-size: 1.6rem;
+}
+
+.leftIcon,
+.rightIcon {
+  display: flex;
+  align-items: center;
 }
 
 .input::placeholder {

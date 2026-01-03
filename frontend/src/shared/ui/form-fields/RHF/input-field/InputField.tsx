@@ -10,6 +10,12 @@ interface FormTextFieldProps<TFieldValues extends FieldValues> {
   type?: React.HTMLInputTypeAttribute;
   disabled?: boolean;
 
+  // icons
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+
+  autoComplete?: string;
+
   // проброс стилей при желании
   wrapperClassName?: string;
   inputClassName?: string;
@@ -24,6 +30,12 @@ export function InputField<TFieldValues extends FieldValues>({
   placeholder,
   type = 'text',
   disabled,
+
+  leftIcon,
+  rightIcon,
+
+  autoComplete,
+
   wrapperClassName,
   inputClassName,
   labelClassName,
@@ -45,11 +57,14 @@ export function InputField<TFieldValues extends FieldValues>({
       label={label}
       placeholder={placeholder}
       disabled={disabled}
+      leftIcon={leftIcon}
+      rightIcon={rightIcon}
       wrapperClassName={wrapperClassName}
       inputClassName={inputClassName}
       labelClassName={labelClassName}
       errorClassName={errorClassName}
       errorText={error?.message}
+      autoComplete={autoComplete}
     />
   );
 }
