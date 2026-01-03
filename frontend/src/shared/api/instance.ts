@@ -52,10 +52,7 @@ api.interceptors.response.use(
     isRefreshing = true;
 
     try {
-      console.log('try');
       const token = await refreshAccessToken();
-
-      console.log({ token });
 
       tokenStore.set(token);
 
@@ -65,7 +62,6 @@ api.interceptors.response.use(
       original.headers.Authorization = `Bearer ${token}`;
       return api(original);
     } catch {
-      console.log('CATCH interceptors');
       tokenStore.clear();
       authEvents.emitUnauthorized();
       throw error;
