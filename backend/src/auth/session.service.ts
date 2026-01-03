@@ -49,7 +49,7 @@ export class SessionService {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      path: '/auth/refresh',
+      path: '/',
     });
   }
 }
