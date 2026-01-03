@@ -1,3 +1,4 @@
+import { Optional } from '@nestjs/common';
 import { IsEmail, IsString, MinLength } from 'class-validator';
 
 export class LoginDto {
@@ -7,6 +8,10 @@ export class LoginDto {
   @IsString()
   @MinLength(6)
   password: string;
+
+  @Optional()
+  @IsString()
+  timezone?: string;
 }
 
 export class RegisterDto {
@@ -16,4 +21,8 @@ export class RegisterDto {
   @IsString()
   @MinLength(6)
   password: string;
+
+  @Optional()
+  @IsString()
+  timezone?: string;
 }

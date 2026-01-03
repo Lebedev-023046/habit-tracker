@@ -31,11 +31,16 @@ export class UserService {
     });
   }
 
-  async createLocalUser(email: string, passwordHash: string) {
+  async createLocalUser(
+    email: string,
+    passwordHash: string,
+    timezone?: string,
+  ) {
     return this.prisma.user.create({
       data: {
         email,
         role: UserRole.MEMBER,
+        timezone: timezone ?? 'UTC',
         authAccounts: {
           create: {
             provider: AuthProvider.LOCAL,

@@ -12,7 +12,7 @@ import { IdentityProvider } from './auth-provider.interface';
 export class RegisterAuthProvider implements IdentityProvider<RegisterDto> {
   constructor(private readonly userService: UserService) {}
 
-  async validate({ email, password }: RegisterDto): Promise<User> {
+  async validate({ email, password, timezone }: RegisterDto): Promise<User> {
     const existingAccount = await this.userService.findAuthAccount(
       AuthProvider.LOCAL,
       email,
@@ -24,7 +24,11 @@ export class RegisterAuthProvider implements IdentityProvider<RegisterDto> {
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    const user = await this.userService.createLocalUser(email, passwordHash);
+    const user = await this.userService.createLocalUser(
+      email,
+      passwordHash,
+      timezone,
+    );
 
     return user;
   }
