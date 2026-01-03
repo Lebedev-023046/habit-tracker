@@ -4,7 +4,7 @@ let sonnerPromise: Promise<SonnerModule> | null = null;
 
 function loadSonner() {
   if (!sonnerPromise) {
-    sonnerPromise = import('sonner'); // отдельный chunk
+    sonnerPromise = import('sonner');
   }
   return sonnerPromise;
 }
