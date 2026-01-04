@@ -108,7 +108,7 @@ export class DailyHabitsQuery {
     const lastDaysProgress = getLastDaysProgress({
       logs,
       period: 7,
-      anchorDate: new Date(),
+      anchorDate: activeRun.builtAt ?? today,
     });
 
     return {
