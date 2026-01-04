@@ -20,10 +20,12 @@ class AuthRepo {
   }
 
   async register(payload: RegisterPayload): Promise<{ accessToken: string }> {
-    return this.api.post(ENDPOINTS.register, {
-      ...payload,
-      timezone: getClientTimezone(),
-    });
+    return this.api
+      .post(ENDPOINTS.register, {
+        ...payload,
+        timezone: getClientTimezone(),
+      })
+      .then(res => unwrapResponse(res.data));
   }
 
   async login(payload: LoginPayload): Promise<{ accessToken: string }> {
@@ -33,7 +35,9 @@ class AuthRepo {
   }
 
   async logout() {
-    return this.api.post(ENDPOINTS.logout);
+    return this.api
+      .post(ENDPOINTS.logout)
+      .then(res => unwrapResponse(res.data));
   }
 }
 
