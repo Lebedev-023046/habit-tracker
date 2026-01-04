@@ -1,13 +1,21 @@
-export interface ApiSuccessResponse<T> {
+export interface ApiResponse<T> {
   success: true;
   data: T;
-  error: undefined;
+  meta?: ApiMeta;
 }
 
 export interface ApiErrorResponse {
   success: false;
-  data: undefined;
-  error: string;
+  error: {
+    message: string;
+    code?: string;
+    details?: any;
+  };
+  meta?: ApiMeta;
 }
 
-export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
+export type ApiResult<T> = ApiResponse<T> | ApiErrorResponse;
+
+export interface ApiMeta {
+  timestamp: string;
+}

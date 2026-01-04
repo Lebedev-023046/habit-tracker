@@ -8,10 +8,6 @@ export class LoginDto {
   @IsString()
   @MinLength(6)
   password: string;
-
-  @Optional()
-  @IsString()
-  timezone?: string;
 }
 
 export class RegisterDto {

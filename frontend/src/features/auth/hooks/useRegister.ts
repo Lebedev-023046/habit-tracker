@@ -15,7 +15,11 @@ export function useRegister() {
     mutate: register,
     isPending,
     error,
-  } = useMutation<{ accessToken: string }, Error, RegisterFormValues>({
+  } = useMutation<
+    { accessToken: string },
+    Error,
+    RegisterFormValues & { timezone?: string }
+  >({
     mutationFn: authRepo.register,
     onSuccess: ({ accessToken }) => {
       authenticate(accessToken);

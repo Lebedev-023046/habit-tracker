@@ -120,7 +120,7 @@ export class UserService {
   }
 
   async revokeRefreshSession(sessionId: string) {
-    return this.prisma.refreshSession.delete({
+    return this.prisma.refreshSession.deleteMany({
       where: { id: sessionId },
     });
   }

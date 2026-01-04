@@ -1,4 +1,5 @@
 import { api as AxiosApiInstance } from '@/shared/api/instance';
+import { unwrapResponse } from '@/shared/api/unwrapResponse';
 import { getClientTimezone } from '@/shared/lib/timezone';
 import type { AxiosInstance } from 'axios';
 import type { LoginPayload, RegisterPayload } from './types';
@@ -21,12 +22,14 @@ class AuthRepo {
   async register(payload: RegisterPayload): Promise<{ accessToken: string }> {
     return this.api.post(ENDPOINTS.register, {
       ...payload,
-      timesone: getClientTimezone(),
+      timezone: getClientTimezone(),
     });
   }
 
   async login(payload: LoginPayload): Promise<{ accessToken: string }> {
-    return this.api.post(ENDPOINTS.login, payload);
+    return this.api
+      .post(ENDPOINTS.login, payload)
+      .then(res => unwrapResponse(res.data));
   }
 
   async logout() {

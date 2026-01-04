@@ -1,11 +1,14 @@
 import { refreshClient } from './refresh.client';
+import { unwrapResponse } from './unwrapResponse';
 
-export async function refreshAccessToken(): Promise<string> {
-  const { data } = await refreshClient.post('/auth/refresh');
+export async function refreshAccessToken(): Promise<{ accessToken: string }> {
+  const accessToken = await refreshClient
+    .post('/auth/refresh')
+    .then(res => unwrapResponse<{ accessToken: string }>(res.data));
 
-  if (!data?.accessToken) {
+  if (!accessToken) {
     throw new Error('Refresh failed');
   }
 
-  return data.accessToken;
+  return accessToken;
 }

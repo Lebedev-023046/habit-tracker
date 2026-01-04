@@ -1,4 +1,5 @@
 import { useAuthStore } from '@/features/auth/session/model/auth.store';
+import { ROUTES } from '@/shared/config/routes';
 import { PageLoader } from '@/shared/ui/page-loader';
 import { Navigate, Outlet } from 'react-router-dom';
 
@@ -10,7 +11,7 @@ export function ProtectedLayout() {
   }
 
   if (status === 'unauthenticated') {
-    return <Navigate to="/auth/login" replace />;
+    return <Navigate to={ROUTES.auth.login()} replace />;
   }
 
   return <Outlet />;

@@ -14,17 +14,23 @@ import { User } from '@prisma/client';
 import { addDays } from 'date-fns';
 import { LoginDto, RegisterDto } from './types/auth.dto';
 
+type Payload = {
+  email: string;
+  password: string;
+  timezone?: string;
+};
+
 interface AuthenticateProps {
   provider: AuthProvider;
   flow: AuthFlow;
-  payload: any;
+  payload: Payload;
   res: Response;
 }
 
 interface ResolveIdentityProps {
   provider: AuthProvider;
   flow: AuthFlow;
-  payload: any;
+  payload: Payload;
 }
 
 type AuthPayloadMap = {
@@ -70,10 +76,10 @@ export class AuthService {
 
     const user = session.user;
 
-    await this.userService.revokeRefreshSession(session.id);
-
     const { accessToken, refreshTokenHash, refreshTokenExpiresIn } =
       await this.sessionService.issueSession(user, res);
+
+    await this.userService.revokeRefreshSession(session.id);
 
     await this.userService.createRefreshSession(
       user.id,

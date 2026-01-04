@@ -1,3 +1,4 @@
+// features/auth/model/auth.store.ts
 import { tokenStore } from '@/shared/api/token.store';
 import { create } from 'zustand';
 
@@ -17,8 +18,5 @@ export const useAuthStore = create<AuthState>(set => ({
     set({ status: 'authenticated' });
   },
 
-  unauthenticate: () => {
-    tokenStore.clear();
-    set({ status: 'unauthenticated' });
-  },
+  unauthenticate: () => set({ status: 'unauthenticated' }),
 }));
