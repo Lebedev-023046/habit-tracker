@@ -4,7 +4,7 @@ import { useRegister } from '../../hooks/useRegister';
 import { registerSchema, type RegisterFormValues } from './register.schema';
 
 export function useRegisterForm() {
-  const { register, isPending } = useRegister();
+  const { register, error, isError, isPending } = useRegister();
 
   const { control, handleSubmit } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -23,6 +23,8 @@ export function useRegisterForm() {
   return {
     control,
     isPending,
+    error,
+    isError,
     onSubmit,
   };
 }

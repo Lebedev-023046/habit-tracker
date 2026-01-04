@@ -1,7 +1,9 @@
 import { PasswordField } from '@/features/auth/fields/PasswordField';
+import { getApiErrorMessage } from '@/shared/api/getErrorMessage';
 import { ROUTES } from '@/shared/config/routes';
 import { AuthFormShell } from '@/shared/ui/auth-form-shell';
 import { Button } from '@/shared/ui/button';
+import { ErrorMessage } from '@/shared/ui/form-fields/error-message';
 import { InputField } from '@/shared/ui/form-fields/RHF/input-field';
 import { Typography } from '@/shared/ui/typography';
 import { LuUserPlus } from 'react-icons/lu';
@@ -10,7 +12,10 @@ import { Link } from 'react-router-dom';
 import { useRegisterForm } from '../model/useRegisterForm';
 
 export function RegisterForm() {
-  const { control, onSubmit, isPending } = useRegisterForm();
+  const { control, onSubmit, isPending, isError, error } = useRegisterForm();
+
+  const hasError = isError;
+  const errorText = getApiErrorMessage(error);
 
   return (
     <AuthFormShell
@@ -46,6 +51,8 @@ export function RegisterForm() {
         name="confirmPassword"
         placeholder="confirm password"
       />
+
+      <ErrorMessage isError={hasError} message={errorText} />
     </AuthFormShell>
   );
 }

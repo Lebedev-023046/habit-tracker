@@ -1,6 +1,4 @@
-import { getApiErrorMessage } from '@/shared/api/getErrorMessage';
 import { ROUTES } from '@/shared/config/routes';
-import { toast } from '@/shared/lib/toast';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { authRepo } from '../api/authRepo';
@@ -14,6 +12,7 @@ export function useRegister() {
   const {
     mutate: register,
     isPending,
+    isError,
     error,
   } = useMutation<
     { accessToken: string },
@@ -25,15 +24,12 @@ export function useRegister() {
       authenticate(accessToken);
       navigate(ROUTES.habitDaily());
     },
-    onError: error => {
-      const errorMessage = getApiErrorMessage(error);
-      toast.error(errorMessage);
-    },
   });
 
   return {
     register,
     error,
+    isError,
     isPending,
   };
 }
