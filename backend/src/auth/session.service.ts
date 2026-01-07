@@ -47,7 +47,8 @@ export class SessionService {
   private setRefreshCookie(res: Response, refreshToken: string) {
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      // secure: process.env.NODE_ENV === 'production',
+      secure: false,
       sameSite: 'strict',
       path: '/',
     });
