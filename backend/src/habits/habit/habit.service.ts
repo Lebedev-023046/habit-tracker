@@ -12,22 +12,25 @@ export class HabitService {
     private habitRunService: HabitRunService,
   ) {}
 
-  async getAllHabits(params?: { status?: HabitStatus }) {
+  async getAllHabits(userId: string, params?: { status?: HabitStatus }) {
     const habits = await this.prisma.habit.findMany({
-      where: params?.status ? { status: params.status } : undefined,
+      where: {
+        userId,
+        ...(params?.status && { status: params.status }),
+      },
       orderBy: { updatedAt: 'desc' },
     });
 
     return ResponseUtil.success(habits);
   }
 
-  async getHabitById(id: string) {
+  async getHabitById(userId: string, id: string) {
     if (!id) {
       throw new BadRequestException('Habit ID is required');
     }
 
     const habit = await this.prisma.habit.findUnique({
-      where: { id },
+      where: { userId, id },
     });
 
     if (!habit) {
@@ -37,11 +40,16 @@ export class HabitService {
     return ResponseUtil.success(habit);
   }
 
-  async createHabitWithOptionalStart(data: CreateHabitDto) {
+  async createHabitWithOptionalStart(
+    userId: string,
+    timezone: string,
+    data: CreateHabitDto,
+  ) {
     const habit = await this.prisma.habit.create({
       data: {
         title: data.title,
         status: 'planned',
+        userId,
       },
     });
 
@@ -50,23 +58,28 @@ export class HabitService {
         throw new BadRequestException('totalDays required to start habit');
       }
 
-      await this.habitRunService.start(habit.id, data.totalDays);
+      await this.habitRunService.start(
+        userId,
+        timezone,
+        habit.id,
+        data.totalDays,
+      );
     }
 
     return ResponseUtil.success(habit);
   }
 
-  async updateHabit(id: string, data: UpdateHabitDto) {
+  async updateHabit(userId: string, id: string, data: UpdateHabitDto) {
     const habit = await this.prisma.habit.update({
-      where: { id },
+      where: { id, userId },
       data,
     });
 
     return ResponseUtil.success(habit);
   }
 
-  async deleteHabit(id: string) {
-    await this.prisma.habit.delete({ where: { id } });
+  async deleteHabit(userId: string, id: string) {
+    await this.prisma.habit.delete({ where: { id, userId } });
     return ResponseUtil.success(id);
   }
 }

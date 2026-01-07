@@ -11,25 +11,16 @@ export class HabitLogService {
     private readonly time: TimeService,
   ) {}
 
-  private async getActiveRunOrThrow(habitId: string) {
-    const run = await this.prisma.habitRun.findFirst({
-      where: {
-        habitId,
-        status: 'active',
-      },
-    });
+  async upsert(
+    userId: string,
+    timezone: string,
+    habitId: string,
+    status: HabitDayStatus,
+    date?: Date,
+  ) {
+    const run = await this.getActiveRunOrThrow(userId, habitId);
 
-    if (!run) {
-      throw new BadRequestException('No active habit run');
-    }
-
-    return run;
-  }
-
-  async upsert(habitId: string, status: HabitDayStatus, date?: Date) {
-    const run = await this.getActiveRunOrThrow(habitId);
-
-    const today = this.time.today(date);
+    const today = this.time.today(timezone, date);
 
     const log = await this.prisma.habitDayLog.upsert({
       where: {
@@ -49,9 +40,9 @@ export class HabitLogService {
     return ResponseUtil.success(log);
   }
 
-  async remove(habitId: string, date?: Date) {
-    const run = await this.getActiveRunOrThrow(habitId);
-    const today = this.time.today(date);
+  async remove(userId: string, timezone: string, habitId: string, date?: Date) {
+    const run = await this.getActiveRunOrThrow(userId, habitId);
+    const today = this.time.today(timezone, date);
 
     await this.prisma.habitDayLog.delete({
       where: {
@@ -65,8 +56,8 @@ export class HabitLogService {
     return ResponseUtil.success(true);
   }
 
-  async getCurrentRunLogs(habitId: string) {
-    const run = await this.getActiveRunOrThrow(habitId);
+  async getCurrentRunLogs(userId: string, habitId: string) {
+    const run = await this.getActiveRunOrThrow(userId, habitId);
 
     const logs = await this.prisma.habitDayLog.findMany({
       where: {
@@ -76,5 +67,21 @@ export class HabitLogService {
     });
 
     return ResponseUtil.success(logs);
+  }
+
+  private async getActiveRunOrThrow(userId: string, habitId: string) {
+    const run = await this.prisma.habitRun.findFirst({
+      where: {
+        habitId,
+        status: 'active',
+        habit: { userId },
+      },
+    });
+
+    if (!run) {
+      throw new BadRequestException('No active habit run');
+    }
+
+    return run;
   }
 }

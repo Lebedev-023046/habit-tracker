@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { addDays } from 'date-fns';
 import { ResponseUtil } from 'src/common/utils/response';
+import { TimeService } from 'src/common/utils/time/time.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { getLastDaysProgress } from '../calculations/getLastDaysProgress';
 import { calculateProgress } from '../calculations/getProgress';
@@ -21,10 +22,15 @@ type HabitWithRuns = Prisma.HabitGetPayload<{
 
 @Injectable()
 export class HabitDashboardOverviewQuery {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private time: TimeService,
+  ) {}
 
   // for one habit
-  async getHabitDashboardOverview(habitId: string) {
+  async getHabitDashboardOverview(habitId: string, timezone: string) {
+    const today = this.time.today(timezone);
+
     const habit = await this.prisma.habit.findUnique({
       where: { id: habitId },
       include: {
@@ -44,7 +50,7 @@ export class HabitDashboardOverviewQuery {
       return new NotFoundException(`Habit with id: ${habitId} not found`);
     }
 
-    const item = this.mapHabitToDashboardItem(habit);
+    const item = this.mapHabitToDashboardItem(habit, today);
 
     return ResponseUtil.success(item);
   }
@@ -69,7 +75,10 @@ export class HabitDashboardOverviewQuery {
   //   return ResponseUtil.success(items);
   // }
 
-  private mapHabitToDashboardItem(habit: HabitWithRuns): DashboardHabitItemDto {
+  private mapHabitToDashboardItem(
+    habit: HabitWithRuns,
+    today: Date,
+  ): DashboardHabitItemDto {
     // get relevant run
     const run = habit.runs[0];
 
@@ -90,7 +99,7 @@ export class HabitDashboardOverviewQuery {
     const lastDaysProgress = getLastDaysProgress({
       logs,
       period: 14,
-      anchorDate: run.builtAt ?? new Date(),
+      anchorDate: run.builtAt ?? today,
     });
 
     const { best: bestStreak, current: currentStreak } = calculateStreaks(

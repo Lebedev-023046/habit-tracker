@@ -6,11 +6,14 @@ import { toZonedTime } from 'date-fns-tz';
 
 @Injectable()
 export class TimeService {
-  // ПОКА: без пользователей
-  private readonly timezone = 'UTC';
+  private readonly fallbackTimezone = 'UTC';
 
-  today(date = new Date()): Date {
-    const utcDate = toZonedTime(date, this.timezone);
+  now(timezone?: string, date = new Date()): Date {
+    return toZonedTime(date, timezone ?? this.fallbackTimezone);
+  }
+
+  today(timezone: string, date = new Date()): Date {
+    const utcDate = toZonedTime(date, timezone ?? this.fallbackTimezone);
     return startOfDay(utcDate);
   }
 }
