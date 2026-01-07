@@ -29,10 +29,70 @@ enum HabitDayStatus {
   unmarked
 }
 
+enum AuthProvider {
+  LOCAL
+  GOOGLE
+}
+
+enum UserRole {
+  OWNER
+  MEMBER
+}
+
+model User {
+  id    String   @id @default(uuid())
+  email String   @unique
+  role  UserRole @default(MEMBER)
+
+  timezone String @default("UTC")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  authAccounts    AuthAccount[]
+  habits          Habit[]
+  refreshSessions RefreshSession[]
+
+  @@index([email])
+}
+
+model AuthAccount {
+  id         String       @id @default(uuid())
+  userId     String
+  provider   AuthProvider
+  providerId String
+  password   String?
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerId])
+  @@index([userId])
+}
+
+model RefreshSession {
+  id        String  @id @default(uuid())
+  userId    String
+  tokenHash String
+  userAgent String?
+  ip        String?
+
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
 model Habit {
   id     String      @id @default(uuid())
   title  String
   status HabitStatus
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -40,6 +100,7 @@ model Habit {
   runs HabitRun[]
 
   @@index([status])
+  @@index([userId])
 }
 
 model HabitRun {
@@ -57,6 +118,8 @@ model HabitRun {
 
   habit   Habit         @relation(fields: [habitId], references: [id], onDelete: Cascade)
   dayLogs HabitDayLog[]
+
+  lastProcessedDay DateTime? // for cron job optimization
 
   @@index([habitId])
   @@index([status])

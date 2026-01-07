@@ -1,10 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { Cron } from '@nestjs/schedule';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 import { HabitDayStatus, Prisma } from '@prisma/client';
-import { addDays } from 'date-fns';
+import { startOfDay, subDays } from 'date-fns';
 import { TimeService } from 'src/common/utils/time/time.service';
+
+//?? NOTE:
+// Currently system works in single timezone (UTC).
+// User-specific timezones will be handled later
+// via business logic, not cron scheduling.
 
 @Injectable()
 export class HabitsCronService {
@@ -15,15 +20,44 @@ export class HabitsCronService {
     private readonly time: TimeService,
   ) {}
 
-  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
-  async backfillActiveRuns() {
-    this.logger.log('Starting daily habit backfill');
+  @Cron('*/15 * * * *') // каждые 15 минут
+  async processHabits() {
+    this.logger.log('Running habit cron tick');
+    await this.processUsers();
+  }
 
-    const today = this.time.today();
-    const yesterday = addDays(today, -1);
+  private async processUsers() {
+    const users = await this.prisma.user.findMany({
+      where: {
+        habits: {
+          some: {
+            runs: {
+              some: { status: 'active' },
+            },
+          },
+        },
+      },
+      select: {
+        id: true,
+        timezone: true,
+      },
+    });
+
+    for (const user of users) {
+      await this.processUserHabits(user.id, user.timezone);
+    }
+  }
+
+  private async processUserHabits(userId: string, timezone: string) {
+    const now = this.time.now(timezone);
+    const today = startOfDay(now);
+    const yesterday = subDays(today, 1);
 
     const activeRuns = await this.prisma.habitRun.findMany({
-      where: { status: 'active' },
+      where: {
+        status: 'active',
+        habit: { userId },
+      },
       include: {
         dayLogs: {
           where: {
@@ -36,10 +70,19 @@ export class HabitsCronService {
     });
 
     for (const run of activeRuns) {
-      await this.backfillRun(run, today, yesterday);
-    }
+      if (run.lastProcessedDay && run.lastProcessedDay >= yesterday) {
+        continue;
+      }
 
-    this.logger.log('Finished daily habit backfill');
+      await this.backfillRun(run, yesterday, today);
+
+      await this.prisma.habitRun.update({
+        where: { id: run.id },
+        data: {
+          lastProcessedDay: yesterday,
+        },
+      });
+    }
   }
 
   private async backfillRun(
@@ -47,8 +90,8 @@ export class HabitsCronService {
       id: string;
       dayLogs: { date: Date; status: HabitDayStatus }[];
     },
-    today: Date,
     yesterday: Date,
+    today: Date,
   ) {
     const hasYesterday = run.dayLogs.some(
       (log) => log.date.getTime() === yesterday.getTime(),
@@ -58,10 +101,10 @@ export class HabitsCronService {
       (log) => log.date.getTime() === today.getTime(),
     );
 
-    const logsToCreate: Prisma.HabitDayLogCreateManyInput[] = [];
+    const logs: Prisma.HabitDayLogCreateManyInput[] = [];
 
     if (!hasYesterday) {
-      logsToCreate.push({
+      logs.push({
         habitRunId: run.id,
         date: yesterday,
         status: HabitDayStatus.missed,
@@ -69,17 +112,17 @@ export class HabitsCronService {
     }
 
     if (!hasToday) {
-      logsToCreate.push({
+      logs.push({
         habitRunId: run.id,
         date: today,
         status: HabitDayStatus.unmarked,
       });
     }
 
-    if (logsToCreate.length === 0) return;
+    if (!logs.length) return;
 
     await this.prisma.habitDayLog.createMany({
-      data: logsToCreate,
+      data: logs,
       skipDuplicates: true,
     });
   }

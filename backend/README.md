@@ -1,70 +1,166 @@
-# Backend — Habit Tracker API
+## 🔐 Auth module — how it works
 
-This is the backend service for the Habit Tracker application.
-It provides API for authentication, habits, daily check-ins, and progress analytics.
+This project uses a **clean, scalable authentication architecture** designed to support:
 
-## 🚀 Tech Stack
+- local auth (email + password)
+- refresh tokens with rotation
+- multiple devices
+- OAuth providers (Google, Apple, etc.)
 
-- NestJS — modular server architecture
-- Prisma — ORM
-- PostgreSQL — main database
-- JWT Auth — access & refresh tokens
-- Docker — containerized runtime
+The auth module is split into **clear responsibility layers**.
 
-## 🔧 Environment Variables
+---
 
-Create .env from .env.example:
+### 🔄 High-level auth flow
 
-```bash
-cp .env.example .env
+```text
+Controller
+  ↓
+AuthService.authenticate(provider, flow, payload)
+  ↓
+resolveIdentity(provider, flow)
+  ↓
+IdentityProvider.validate()
+  ↓
+SessionService.issueSession()
+  ↓
+UserService.createRefreshSession()
 ```
 
-Required variables:
+### 🧠 Core concepts
 
-```ini
-DATABASE_URL=postgresql://user:password@localhost:5432/habits
-JWT_SECRET=your-secret
-JWT_REFRESH_SECRET=your-refresh-secret
-PORT=3000
+#### AuthProvider
+
+Defines **where identity comes from**.
+
+- `LOCAL`
+- `GOOGLE` (future)
+- `APPLE` (future)
+
+Answers: **“Who are you?”**
+
+---
+
+#### AuthFlow
+
+Defines **what the user is doing**.
+
+- `LOGIN`
+- `REGISTER`
+
+Answers: **“What action is happening?”**
+
+---
+
+#### IdentityProvider
+
+Provider-specific identity resolution.
+
+Responsibilities:
+
+- validate credentials **or** create a user
+- return a `User` entity
+
+Does **not**:
+
+- issue tokens
+- work with cookies
+- access refresh sessions
+
+Examples:
+
+- `LocalAuthProvider`
+- `RegisterAuthProvider`
+- `GoogleAuthProvider` (future)
+
+---
+
+### 🧩 AuthService — orchestration layer
+
+Single entry point for all auth operations.
+
+Responsibilities:
+
+- resolve identity (`AuthProvider + AuthFlow`)
+- issue access & refresh tokens
+- persist refresh sessions
+- handle refresh & logout flows
+
+Does **not**:
+
+- hash passwords
+- sign JWTs directly
+- access the database directly
+
+---
+
+### 🔑 SessionService — tokens & cookies
+
+Stateless session mechanics only.
+
+Responsibilities:
+
+- sign JWT access tokens
+- sign JWT refresh tokens
+- hash refresh tokens
+- set / clear httpOnly cookies
+
+Does **not**:
+
+- store sessions
+- read from DB
+- decide expiration policies
+
+---
+
+### 🗄 UserService — persistence layer
+
+Owns all auth-related database state.
+
+Responsibilities:
+
+- create users
+- manage auth accounts
+- store refresh sessions
+- revoke refresh sessions
+- support multi-device logout
+
+Does **not**:
+
+- issue JWTs
+- access cookies
+- know about HTTP
+
+---
+
+### 🔁 Refresh token flow (rotation)
+
+```text
+Client → POST /auth/refresh
+  ↓
+Read refreshToken from httpOnly cookie
+  ↓
+Hash refresh token
+  ↓
+Find active refresh session in DB
+  ↓
+Revoke old refresh session
+  ↓
+Issue new access + refresh tokens
+  ↓
+Store new refresh session
 ```
 
-## ▶️ Running in Development
+### 🔁 Logout flow
 
-1. Install dependencies
-
-```bash
-	npm install
-```
-
-2. Run migrations
-
-```bash
-	npx prisma migrate dev
-```
-
-3. Start dev server
-
-```bash
-	npm run start:dev
-```
-
-API will be available at:
-
-```arduino
-	http://localhost:3000
-```
-
-## 🐳 Running via Docker
-
-Build & run backend container:
-
-```bash
-	docker build -t habit-backend .
-	docker run -p 4000:4000 habit-backend
-```
-
-Or using project's docker-compose:
-
-```bash
-	docker compose -f ../infra/docker-compose.dev.yml up
+```text
+Client → POST /auth/logout
+  ↓
+Read refreshToken from cookie
+  ↓
+Hash token
+  ↓
+Revoke refresh session
+  ↓
+Clear refresh cookie
 ```

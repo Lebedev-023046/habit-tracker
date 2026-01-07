@@ -1,4 +1,6 @@
 import { Body, Controller, Param, Post } from '@nestjs/common';
+import { JwtPayload } from 'src/auth/types/jwt-payload.type';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { ResetHabitRunDto, StartHabitRunDto } from './habit-run.dto';
 import { HabitRunService } from './habit-run.service';
 
@@ -7,32 +9,50 @@ export class HabitRunController {
   constructor(private readonly habitRunService: HabitRunService) {}
 
   @Post('start')
-  start(@Param('habitId') habitId: string, @Body() dto: StartHabitRunDto) {
-    return this.habitRunService.start(habitId, dto.totalDays);
+  start(
+    @Param('habitId') habitId: string,
+    @CurrentUser() user: JwtPayload,
+    @Body() dto: StartHabitRunDto,
+  ) {
+    return this.habitRunService.start(
+      user.sub,
+      user.timezone,
+      habitId,
+      dto.totalDays,
+    );
   }
 
   @Post('pause')
-  pause(@Param('habitId') habitId: string) {
-    return this.habitRunService.pause(habitId);
+  pause(@Param('habitId') habitId: string, @CurrentUser() user: JwtPayload) {
+    return this.habitRunService.pause(user.sub, habitId);
   }
 
   @Post('resume')
-  resume(@Param('habitId') habitId: string) {
-    return this.habitRunService.resume(habitId);
+  resume(@Param('habitId') habitId: string, @CurrentUser() user: JwtPayload) {
+    return this.habitRunService.resume(user.sub, habitId);
   }
 
   @Post('build')
-  build(@Param('habitId') habitId: string) {
-    return this.habitRunService.build(habitId);
+  build(@Param('habitId') habitId: string, @CurrentUser() user: JwtPayload) {
+    return this.habitRunService.build(user.sub, user.timezone, habitId);
   }
 
   @Post('cancel')
-  cancel(@Param('habitId') habitId: string) {
-    return this.habitRunService.cancel(habitId);
+  cancel(@Param('habitId') habitId: string, @CurrentUser() user: JwtPayload) {
+    return this.habitRunService.cancel(user.sub, user.timezone, habitId);
   }
 
   @Post('reset')
-  reset(@Param('habitId') habitId: string, @Body() dto: ResetHabitRunDto) {
-    return this.habitRunService.reset(habitId, dto.totalDays);
+  reset(
+    @Param('habitId') habitId: string,
+    @CurrentUser() user: JwtPayload,
+    @Body() dto: ResetHabitRunDto,
+  ) {
+    return this.habitRunService.reset(
+      user.sub,
+      user.timezone,
+      habitId,
+      dto.totalDays,
+    );
   }
 }

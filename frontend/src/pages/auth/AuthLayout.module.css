@@ -1,0 +1,19 @@
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100dvh;
+  background-image: url('/auth-bg.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  /* filter: blur(2px); */
+  opacity: 0.9;
+}
+
+@media (width <= 50em) {
+  .root {
+    background-image: url('/auth-bg-mobile.jpg');
+  }
+}

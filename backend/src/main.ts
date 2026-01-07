@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './common/filters/http-exception';
 
@@ -14,6 +15,8 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
   app.useGlobalFilters(new AllExceptionsFilter());
+
+  app.use(cookieParser());
 
   app.enableCors({
     origin: process.env.CLIENT_URL,

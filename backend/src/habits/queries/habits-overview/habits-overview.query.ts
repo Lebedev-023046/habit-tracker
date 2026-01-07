@@ -27,8 +27,12 @@ export class HabitsOverviewQuery {
     private time: TimeService,
   ) {}
 
-  async getHabitList() {
+  async getHabitList(userId: string, timezone: string) {
+    const today = this.time.today(timezone);
+
     const habits = await this.prisma.habit.findMany({
+      where: { userId },
+      orderBy: [{ updatedAt: 'desc' }],
       include: {
         runs: {
           orderBy: { startDate: 'desc' },
@@ -43,13 +47,16 @@ export class HabitsOverviewQuery {
     });
 
     const habitOverviewList = habits.map((habit) =>
-      this.mapHabitToListItem(habit),
+      this.mapHabitToListItem(habit, today),
     );
 
     return ResponseUtil.success(habitOverviewList);
   }
 
-  private mapHabitToListItem(habit: HabitWithActiveRun): HabitsOverviewListDto {
+  private mapHabitToListItem(
+    habit: HabitWithActiveRun,
+    today: Date,
+  ): HabitsOverviewListDto {
     // get relevant run
     const run = habit.runs[0];
 
@@ -58,7 +65,6 @@ export class HabitsOverviewQuery {
     }
 
     const logs = run.dayLogs;
-    const today = this.time.today();
 
     const { percent: progress } = calculateProgress(logs.length, run.totalDays);
 
@@ -77,7 +83,7 @@ export class HabitsOverviewQuery {
     const lastDaysProgress = getLastDaysProgress({
       logs,
       period: 7,
-      anchorDate: run.builtAt ?? new Date(),
+      anchorDate: run.builtAt ?? today,
     });
 
     return {
