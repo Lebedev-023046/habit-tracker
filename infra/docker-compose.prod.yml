@@ -44,6 +44,8 @@ services:
       dockerfile: Dockerfile.prod
     container_name: habit_frontend_prod
     restart: unless-stopped
+    env_file:
+      - ../frontend/.env.prod
     ports:
       - "80:80"
     depends_on:

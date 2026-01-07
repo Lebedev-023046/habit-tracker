@@ -3,12 +3,10 @@ import { authEvents } from '../auth/auth-events';
 import { refreshAccessToken } from './refresh';
 import { tokenStore } from './token.store';
 
-const prodBaseURL = '/api';
-const devBaseURL = `${import.meta.env.VITE_API_URL}/api`;
-
-const baseURL = import.meta.env.PROD ? prodBaseURL : devBaseURL;
-
-export const api = axios.create({ baseURL, withCredentials: true });
+export const api = axios.create({
+  baseURL: `${import.meta.env.VITE_API_URL}/api`,
+  withCredentials: true,
+});
 
 // =====================
 // REQUEST
@@ -52,14 +50,14 @@ api.interceptors.response.use(
     isRefreshing = true;
 
     try {
-      const token = await refreshAccessToken();
+      const { accessToken } = await refreshAccessToken();
 
-      tokenStore.set(token);
+      tokenStore.set(accessToken);
 
-      queue.forEach(cb => cb(token));
+      queue.forEach(cb => cb(accessToken));
       queue = [];
 
-      original.headers.Authorization = `Bearer ${token}`;
+      original.headers.Authorization = `Bearer ${accessToken}`;
       return api(original);
     } catch {
       tokenStore.clear();
