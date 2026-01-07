@@ -6,7 +6,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 export function GuestLayout() {
   const status = useAuthStore(s => s.status);
 
-  if (status === 'unknown') {
+  if (status === 'unknown' || status === 'authenticating') {
     return <PageLoader />;
   }
 

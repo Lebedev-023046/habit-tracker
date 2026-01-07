@@ -3,12 +3,22 @@
 import { refreshAccessToken } from '@/shared/api/refresh';
 import { useAuthStore } from './auth.store';
 
+let bootstrapped = false;
+
 export async function bootstrapAuth() {
+  if (bootstrapped) return;
+  bootstrapped = true;
+
+  const { startAuthenticating, authenticate, markUnauthenticated } =
+    useAuthStore.getState();
+
   try {
+    startAuthenticating();
+
     const { accessToken } = await refreshAccessToken();
 
-    useAuthStore.getState().authenticate(accessToken);
+    authenticate(accessToken);
   } catch {
-    useAuthStore.getState().unauthenticate();
+    markUnauthenticated();
   }
 }

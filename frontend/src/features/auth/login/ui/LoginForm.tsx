@@ -3,14 +3,15 @@ import { ROUTES } from '@/shared/config/routes';
 import { AuthFormShell } from '@/shared/ui/auth-form-shell';
 import { InputField } from '@/shared/ui/form-fields/RHF/input-field';
 import { Typography } from '@/shared/ui/typography';
-import { IoIosLogIn } from 'react-icons/io';
 import { MdOutlineEmail } from 'react-icons/md';
 import { useLoginForm } from '../model/useLoginForm';
 
 import { getApiErrorMessage } from '@/shared/api/getErrorMessage';
-import { Button } from '@/shared/ui/button';
 import { ErrorMessage } from '@/shared/ui/form-fields/error-message';
 import { Link } from 'react-router-dom';
+
+import { GoogleAuthButton } from '../../controls/GoogleAuthButton';
+import { LoginButton } from '../../controls/LoginButton';
 
 export function LoginForm() {
   const { control, isPending, error, isError, onSubmit } = useLoginForm();
@@ -23,14 +24,10 @@ export function LoginForm() {
       title="Sign in"
       onSubmit={onSubmit}
       controls={
-        <Button
-          disabled={isPending}
-          type="submit"
-          align="center"
-          borderRadius="0.5rem"
-        >
-          <IoIosLogIn size="2rem" /> Log In
-        </Button>
+        <>
+          <LoginButton isPending={isPending} />
+          <GoogleAuthButton />
+        </>
       }
       footer={<Footer />}
     >
