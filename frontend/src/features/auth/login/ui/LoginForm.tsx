@@ -10,7 +10,6 @@ import { getApiErrorMessage } from '@/shared/api/getErrorMessage';
 import { ErrorMessage } from '@/shared/ui/form-fields/error-message';
 import { Link } from 'react-router-dom';
 
-import { GoogleAuthButton } from '../../controls/GoogleAuthButton';
 import { LoginButton } from '../../controls/LoginButton';
 
 export function LoginForm() {
@@ -26,7 +25,7 @@ export function LoginForm() {
       controls={
         <>
           <LoginButton isPending={isPending} />
-          <GoogleAuthButton />
+          {/* <GoogleAuthButton /> */}
         </>
       }
       footer={<Footer />}

@@ -8,7 +8,6 @@ import { Typography } from '@/shared/ui/typography';
 import { MdOutlineEmail } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
-import { GoogleAuthButton } from '../../controls/GoogleAuthButton';
 import { RegisterButton } from '../../controls/RegisterButton';
 import { useRegisterForm } from '../model/useRegisterForm';
 
@@ -25,7 +24,7 @@ export function RegisterForm() {
       controls={
         <>
           <RegisterButton isPending={isPending} />
-          <GoogleAuthButton />,
+          {/* <GoogleAuthButton />, */}
         </>
       }
       footer={<Footer />}
