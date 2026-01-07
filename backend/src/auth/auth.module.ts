@@ -6,6 +6,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { JwtStrategy } from './jwt.strategy';
+import { GoogleAuthProvider } from './providers/google-auth.provider';
 import { LocalAuthProvider } from './providers/local-auth.provider';
 import { RegisterAuthProvider } from './providers/register-auth.provider';
 import { SessionService } from './session.service';
@@ -19,6 +20,7 @@ import { SessionService } from './session.service';
     SessionService,
     LocalAuthProvider,
     RegisterAuthProvider,
+    GoogleAuthProvider,
     JwtStrategy,
     JwtAuthGuard,
   ],

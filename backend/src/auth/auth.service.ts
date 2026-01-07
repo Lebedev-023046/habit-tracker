@@ -5,38 +5,21 @@ import { SessionService } from './session.service';
 
 import { LocalAuthProvider } from './providers/local-auth.provider';
 import { RegisterAuthProvider } from './providers/register-auth.provider';
-// import { GoogleAuthProvider } from './providers/google-auth.provider';
 
 import { UserService } from 'src/user/user.service';
 import { AuthFlow, AuthProvider } from './types/auth-provider.type';
 
 import { User } from '@prisma/client';
 import { addDays } from 'date-fns';
-import { LoginDto, RegisterDto } from './types/auth.dto';
+import { GoogleAuthProvider } from './providers/google-auth.provider';
+import { AuthPayloadByProvider } from './types/auth-payload.types';
 
-type Payload = {
-  email: string;
-  password: string;
-  timezone?: string;
-};
-
-interface AuthenticateProps {
-  provider: AuthProvider;
-  flow: AuthFlow;
-  payload: Payload;
+interface AuthenticateProps<P extends AuthProvider, F extends AuthFlow> {
+  provider: P;
+  flow: F;
+  payload: AuthPayloadByProvider[P][F];
   res: Response;
 }
-
-interface ResolveIdentityProps {
-  provider: AuthProvider;
-  flow: AuthFlow;
-  payload: Payload;
-}
-
-type AuthPayloadMap = {
-  [AuthFlow.LOGIN]: LoginDto;
-  [AuthFlow.REGISTER]: RegisterDto;
-};
 
 @Injectable()
 export class AuthService {
@@ -46,10 +29,15 @@ export class AuthService {
 
     private readonly localProvider: LocalAuthProvider,
     private readonly registerProvider: RegisterAuthProvider,
-    // private readonly googleProvider: GoogleAuthProvider,
+    private readonly googleProvider: GoogleAuthProvider,
   ) {}
 
-  async authenticate({ payload, provider, flow, res }: AuthenticateProps) {
+  async authenticate<P extends AuthProvider, F extends AuthFlow>({
+    payload,
+    provider,
+    flow,
+    res,
+  }: AuthenticateProps<P, F>) {
     const user = await this.resolveIdentity({ payload, provider, flow });
 
     const { accessToken, refreshTokenHash, refreshTokenExpiresIn } =
@@ -108,11 +96,15 @@ export class AuthService {
     });
   }
 
-  private async resolveIdentity({
+  private async resolveIdentity<P extends AuthProvider, F extends AuthFlow>({
     payload,
     provider,
     flow,
-  }: ResolveIdentityProps) {
+  }: {
+    provider: P;
+    flow: F;
+    payload: AuthPayloadByProvider[P][F];
+  }) {
     const resolver = this.identityResolvers[provider]?.[flow];
 
     if (!resolver) {
@@ -122,21 +114,19 @@ export class AuthService {
     return resolver(payload);
   }
 
-  private readonly identityResolvers: Record<
-    AuthProvider,
-    Partial<
-      Record<AuthFlow, (payload: AuthPayloadMap[AuthFlow]) => Promise<User>>
-    >
-  > = {
+  private readonly identityResolvers: {
+    [P in AuthProvider]?: {
+      [F in AuthFlow]?: (payload: AuthPayloadByProvider[P][F]) => Promise<User>;
+    };
+  } = {
     [AuthProvider.LOCAL]: {
       [AuthFlow.LOGIN]: (payload) => this.localProvider.validate(payload),
       [AuthFlow.REGISTER]: (payload) => this.registerProvider.validate(payload),
     },
 
-    // GOOGLE не зависит от flow
     [AuthProvider.GOOGLE]: {
-      // [AuthFlow.LOGIN]: payload => this.googleProvider.validate(payload),
-      // [AuthFlow.REGISTER]: payload => this.googleProvider.validate(payload),
+      [AuthFlow.LOGIN]: (payload) => this.googleProvider.validate(payload),
+      [AuthFlow.REGISTER]: (payload) => this.googleProvider.validate(payload),
     },
   };
   private calculateRefreshExpiresAt(expiresIn: string): Date {

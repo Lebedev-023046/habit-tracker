@@ -11,7 +11,7 @@ import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { AuthFlow } from './types/auth-flow.type';
 import { AuthProvider } from './types/auth-provider.type';
-import { LoginDto, RegisterDto } from './types/auth.dto';
+import { GoogleAuthDto, LoginDto, RegisterDto } from './types/auth.dto';
 
 import { Public } from 'src/common/decorators/public.decorator';
 import { ResponseUtil } from 'src/common/utils/response';
@@ -19,6 +19,27 @@ import { ResponseUtil } from 'src/common/utils/response';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  // =========================
+  // GOOGLE OAuth
+  // =========================
+  @Public()
+  @Post('google')
+  async googleAuth(
+    @Body() dto: GoogleAuthDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const { accessToken } = await this.authService.authenticate({
+      provider: AuthProvider.GOOGLE,
+      flow: AuthFlow.LOGIN,
+      payload: dto,
+      res,
+    });
+
+    return ResponseUtil.success<{ accessToken: string }>({
+      accessToken,
+    });
+  }
 
   // =========================
   // LOGIN

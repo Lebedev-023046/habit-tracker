@@ -13,23 +13,29 @@ export class RegisterAuthProvider implements IdentityProvider<RegisterDto> {
   constructor(private readonly userService: UserService) {}
 
   async validate({ email, password, timezone }: RegisterDto): Promise<User> {
-    const existingAccount = await this.userService.findAuthAccount(
-      AuthProvider.LOCAL,
-      email,
-    );
-
-    if (existingAccount) {
-      throw new ConflictException('User already exists');
-    }
-
+    const existingUser = await this.userService.findByEmail(email);
     const passwordHash = await bcrypt.hash(password, 10);
 
-    const user = await this.userService.createLocalUser(
-      email,
-      passwordHash,
-      timezone,
-    );
+    if (existingUser) {
+      const hasLocalAuth = await this.userService.hasAuthAccount(
+        existingUser.id,
+        AuthProvider.LOCAL,
+      );
+      if (hasLocalAuth) {
+        throw new ConflictException(
+          'This email is already registered. Try signing in instead.',
+        );
+      }
 
-    return user;
+      await this.userService.attachLocalAuth(
+        existingUser.id,
+        passwordHash,
+        email,
+      );
+
+      return existingUser;
+    }
+
+    return this.userService.createLocalUser(email, passwordHash, timezone);
   }
 }

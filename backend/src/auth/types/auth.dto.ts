@@ -22,3 +22,11 @@ export class RegisterDto {
   @IsString()
   timezone?: string;
 }
+
+export class GoogleAuthDto {
+  @IsString()
+  accessToken: string;
+
+  @IsString()
+  timezone?: string;
+}

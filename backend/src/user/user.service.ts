@@ -3,6 +3,15 @@ import { Injectable } from '@nestjs/common';
 import { AuthProvider, UserRole } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 
+type OAuthUserPayload = {
+  provider: AuthProvider;
+  providerId: string;
+  email: string;
+  name?: string;
+  avatarUrl?: string;
+  timezone?: string;
+};
+
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
@@ -31,6 +40,31 @@ export class UserService {
     });
   }
 
+  async attachLocalAuth(userId: string, passwordHash: string, email: string) {
+    return this.prisma.authAccount.create({
+      data: {
+        userId,
+        provider: AuthProvider.LOCAL,
+        providerId: email,
+        password: passwordHash,
+      },
+    });
+  }
+
+  async hasAuthAccount(
+    userId: string,
+    provider: AuthProvider,
+  ): Promise<boolean> {
+    const count = await this.prisma.authAccount.count({
+      where: {
+        userId,
+        provider,
+      },
+    });
+
+    return count > 0;
+  }
+
   async createLocalUser(
     email: string,
     passwordHash: string,
@@ -52,22 +86,61 @@ export class UserService {
     });
   }
 
-  async createOAuthUser(
-    email: string,
-    provider: AuthProvider,
-    providerId: string,
-  ) {
-    return this.prisma.user.create({
-      data: {
-        email,
-        role: UserRole.MEMBER,
-        authAccounts: {
-          create: {
+  async findOrCreateOAuthUser({
+    provider,
+    providerId,
+    email,
+    timezone,
+  }: OAuthUserPayload) {
+    return this.prisma.$transaction(async (tx) => {
+      // 1️⃣ Ищем OAuth-аккаунт
+      const oauthAccount = await tx.authAccount.findUnique({
+        where: {
+          provider_providerId: {
             provider,
             providerId,
           },
         },
-      },
+        include: {
+          user: true,
+        },
+      });
+
+      if (oauthAccount) {
+        return oauthAccount.user;
+      }
+
+      // 2️⃣ Ищем пользователя по email
+      const existingUser = await tx.user.findUnique({
+        where: { email },
+      });
+
+      if (existingUser) {
+        // 3️⃣ Привязываем OAuth к существующему пользователю
+        await tx.authAccount.create({
+          data: {
+            provider,
+            providerId,
+            userId: existingUser.id,
+          },
+        });
+
+        return existingUser;
+      }
+
+      // 4️⃣ Создаём нового пользователя + OAuth
+      return tx.user.create({
+        data: {
+          email,
+          timezone: timezone ?? 'UTC',
+          authAccounts: {
+            create: {
+              provider,
+              providerId,
+            },
+          },
+        },
+      });
     });
   }
 
