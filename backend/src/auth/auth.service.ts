@@ -91,7 +91,10 @@ export class AuthService {
     res.clearCookie('refreshToken', {
       path: '/',
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      // if prod use https
+      // secure: process.env.NODE_ENV === 'production',
+      // if prod use http
+      secure: false,
       sameSite: 'strict',
     });
   }
